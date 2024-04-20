@@ -11,6 +11,9 @@
 
 
 import express, { Request, Response, NextFunction } from "express";
+import { UserAdapters } from "./injectons/userInjection";
+import { validationMiddleware } from "../middleware/requestValidationMiddleware";
+
 
 const router = express.Router();
 
@@ -21,8 +24,9 @@ const router = express.Router();
  */
 router.post(
     '/signup',
+    validationMiddleware,
     ( req:Request, res:Response, next:NextFunction) => {
-        
+        UserAdapters.createUser(req,res,next)
     }) 
 
 
@@ -34,7 +38,7 @@ router.post(
 router.post(
     '/sendEmail',
     ( req:Request, res:Response, next:NextFunction) => {
-
+       
     })
 
 export default router

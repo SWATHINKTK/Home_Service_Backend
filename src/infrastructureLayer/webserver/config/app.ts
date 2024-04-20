@@ -4,6 +4,7 @@ import cors from "cors";
 import http from "http";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import userRouter from "../routers/userRouter";
 
 dotenv.config();
 const app:Express = express();
@@ -29,6 +30,6 @@ const httpServer = http.createServer(app);
 
 
 // Router
-// app.use('/api/user')
+app.use('/api/user',userRouter)
 
 export { httpServer }
