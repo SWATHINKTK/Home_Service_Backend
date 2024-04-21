@@ -3,8 +3,8 @@
  * 
  * Routes:
  * - POST  /api/user/signup     Create New User.
- * - POST  /api/user/signin     Existing User Login.
- * - POST  /api/user/sendEmail  Sending Email For OTP Verification.
+ * - POST  /api/user/sendOTP    Sending Email For OTP Verification.Sending Email For OTP Verification.
+ * - POST  /api/user/login      Existing User Login.
  */
 
 
@@ -26,7 +26,6 @@ router.post(
     '/signup',
     validationMiddleware,
     ( req:Request, res:Response, next:NextFunction) => {
-        console.log(req.body)
         UserAdapters.createUser(req,res,next)
     }) 
 
@@ -40,6 +39,18 @@ router.post(
     '/sendOTP',
     ( req:Request, res:Response, next:NextFunction) => {
        UserAdapters.sendOTP(req,res,next)
+    })
+
+
+/**
+ * @route POST api/user/login
+ * @desc User Credential to Login
+ * @access Public
+ */
+router.post(
+    '/login',
+    ( req:Request, res:Response, next:NextFunction) => {
+       UserAdapters.loginUser( req, res, next );
     })
 
 export default router

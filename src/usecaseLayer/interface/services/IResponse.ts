@@ -4,6 +4,7 @@ export interface IServerResponse<T = any> {
     statusCode: number;
     success: boolean;
     message?: string;
+    token?:string;
     data?: T | T[];
 }
 

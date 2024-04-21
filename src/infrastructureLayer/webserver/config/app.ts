@@ -5,6 +5,7 @@ import http from "http";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import userRouter from "../routers/userRouter";
+import adminRouter from '../routers/adminRouter';
 import { errorHandler } from "../middleware/errorHandlerMiddleware";
 
 dotenv.config();
@@ -32,6 +33,7 @@ const httpServer = http.createServer(app);
 
 // Router
 app.use('/api/user',userRouter)
+app.use('/api/admin',adminRouter)
 
 
 // Error handler

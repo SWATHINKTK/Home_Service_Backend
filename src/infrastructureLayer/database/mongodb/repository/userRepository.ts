@@ -1,3 +1,4 @@
+import { Document } from "mongoose";
 import { IUser } from "../../../../domainLayer/user";
 import { IUserRepository } from "../../../../usecaseLayer/interface/repository/IUserRepository";
 import { PublicUserInfo } from "../../../../usecaseLayer/interface/services/IResponse";
@@ -31,7 +32,7 @@ export class userRepository implements IUserRepository{
         return createUser(newUser,this.userModel)
     }
 
-    async findUser(email: string): Promise<IUser | null> {
+    async findUser(email: string): Promise<IUser & Document | null> {
         return findUser(email)
     }
     
