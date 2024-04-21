@@ -22,4 +22,10 @@ router.post(
         adminAdapter.loginAdmin(req, res, next);
     });
 
+
+router.post(
+    "/users",
+    (req:Request, res:Response, next:NextFunction)=>{
+        adminAdapter.retrieveAllUsers( req, res, next);
+    });
 export default router;

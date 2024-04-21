@@ -31,4 +31,17 @@ export class AdminAdapter{
             next(error)
         }
     }
+
+    async retrieveAllUsers( req:Req, res:Res, next:Next){
+        try {
+            const users = await this.adminUsecase.findAllUsers();
+            res.status(users.statusCode).json({
+                success: users.success,
+                message: users.message,
+                data: users.data,
+            });
+        } catch (error) {
+            
+        }
+    }
 }
