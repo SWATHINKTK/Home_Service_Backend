@@ -5,13 +5,14 @@ import http from "http";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import userRouter from "../routers/userRouter";
+import { errorHandler } from "../middleware/errorHandlerMiddleware";
 
 dotenv.config();
 const app:Express = express();
 
 // CORS setup
 const corsOptions = {
-    origin: ["https://digital-campus.vercel.app","http://localhost:3000"],
+    origin: ["http://localhost:3000"],
     methods: ["GET", "PATCH", "PUT", "POST"],
     optionsSuccessStatus: 204,
 };
@@ -31,5 +32,9 @@ const httpServer = http.createServer(app);
 
 // Router
 app.use('/api/user',userRouter)
+
+
+// Error handler
+app.use(errorHandler)
 
 export { httpServer }

@@ -26,19 +26,20 @@ router.post(
     '/signup',
     validationMiddleware,
     ( req:Request, res:Response, next:NextFunction) => {
+        console.log(req.body)
         UserAdapters.createUser(req,res,next)
     }) 
 
 
 /**
- * @route POST api/user/sendEmail
+ * @route POST api/user/sendOTP
  * @desc Sending Email for OTP Verification
  * @access Public
  */
 router.post(
-    '/sendEmail',
+    '/sendOTP',
     ( req:Request, res:Response, next:NextFunction) => {
-       
+       UserAdapters.sendOTP(req,res,next)
     })
 
 export default router

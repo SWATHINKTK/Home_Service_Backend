@@ -3,6 +3,7 @@ import { PublicUserInfo } from "../../../../../usecaseLayer/interface/services/I
 import { userModel } from "../../models/userModel";
 
 export const createUser = async(newUser:IUser, userModels: typeof userModel):Promise<PublicUserInfo> => {
+        console.log("REpo",newUser)
         const user = await userModels.create(newUser);
         await user.save();
 

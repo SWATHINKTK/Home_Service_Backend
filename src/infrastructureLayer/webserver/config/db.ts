@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { DBConnectionError } from "../../../usecaseLayer/handler/databaseConnectionError";
 
 
 export const connectDB = async() => {
@@ -9,6 +10,7 @@ export const connectDB = async() => {
             console.log(`Database Connection Established ${data.connection.host}`)
         }
     } catch (error) {
-        console.log(error)
+        console.log('Database Connection EstablishmentError',error);
+        throw new DBConnectionError();
     }
 }

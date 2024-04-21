@@ -3,6 +3,7 @@ import { IUserRepository } from "../../../../usecaseLayer/interface/repository/I
 import { PublicUserInfo } from "../../../../usecaseLayer/interface/services/IResponse";
 import { userModel } from "../models/userModel";
 import { createUser } from "./user/createUser";
+import { findUser } from "./user/findUser";
 
 
 /**
@@ -21,7 +22,6 @@ export class userRepository implements IUserRepository{
     }
 
 
-
      /**
      * Create a new user in the database.
      * @param {IUser} newUser An object containing the data of the user to be created.
@@ -30,9 +30,9 @@ export class userRepository implements IUserRepository{
     async createUser(newUser: IUser): Promise<PublicUserInfo> {
         return createUser(newUser,this.userModel)
     }
-    
 
-    findUser(email: string): Promise<IUser | undefined> {
-        throw new Error("Method not implemented.");
+    async findUser(email: string): Promise<IUser | null> {
+        return findUser(email)
     }
+    
 }

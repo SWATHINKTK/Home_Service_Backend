@@ -37,12 +37,27 @@ export class UserAdapter{
     async createUser( req:Req, res:Res, next:Next){
         try {
             const newUser = await this.userUsecase.createUser(req.body);
-            res.json('success')
+            res.json(newUser)
         } catch (error) {
             next(error)
         }
     }
 
+
+    async sendOTP( req:Req, res:Res, next:Next){
+        try {
+            const otpSend = await this.userUsecase.sendOTP(req.body);
+            otpSend &&
+                res.status(otpSend.statusCode).json({
+                    success:otpSend.success,
+                    message:otpSend.message,
+                    data:otpSend.data
+                })
+        } catch (error) {
+            next(error)
+        }
+    }
+    
 
     //  /**
     //  * Registers a new user.

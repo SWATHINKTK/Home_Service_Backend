@@ -1,5 +1,6 @@
 import { body, validationResult } from "express-validator";
 import { Next, Req, Res } from "../../types/expressTypes";
+import { RequestValidationError } from "../../../usecaseLayer/handler/requestValidatorError";
 
 // validation middleWare function 
 // checking all req.body incoming fields
@@ -29,18 +30,12 @@ export const validationMiddleware = [
     // middleware for check the request data
     (req: Req, res: Res, next: Next) => {
 
-        console.log('middleware')
-        // validation rule for each field in the request body
-
-
         // running the validation rules
         const errors = validationResult(req);
-        console.log(errors.array(), req.body);
-
 
         // Check if there are validation errors
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            throw new RequestValidationError(errors.array())
         }
 
         // if there are no validation errors, proceed to the next middleware
