@@ -8,10 +8,10 @@ export class AdminAdapter{
     }
 
       /**
-     * Registers a new user
-     * @desc POST  /api/user/register
-     * @desc Body: { username: 'newUser', password: 'newPass123' }
-     * @desc Response: 201 Created with new user data or appropriate error code
+     * Admin Credential is used to login.
+     * @desc POST  /api/admin/login
+     * @desc Body: { username: 'admin email', password: 'admin password' }
+     * @desc Response: 200 Admin Login Successful or appropriate error code
      */
     async loginAdmin( req:Req, res:Res, next:Next){
         try {
@@ -32,6 +32,11 @@ export class AdminAdapter{
         }
     }
 
+    /**
+     * All User Data Retrieval.
+     * @desc GET  /api/admin/user
+     * @desc Response: 200 Return all User Data or appropriate error code
+     */
     async retrieveAllUsers( req:Req, res:Res, next:Next){
         try {
             const users = await this.adminUsecase.findAllUsers();
@@ -43,5 +48,19 @@ export class AdminAdapter{
         } catch (error) {
             
         }
+    }
+
+    /**
+     * Blocking the userId mentioned user.
+     * @desc PATCH  /api/admin/users/:userId/block
+     * @desc Response: 200  or appropriate error code
+     */
+    async blockUser( req:Req, res:Res, next:Next ){
+        const userId: string = req.params.userId;
+        const userBlock = await this.adminUsecase.blockUser(userId)
+        res.status(userBlock.statusCode).json({
+            success:userBlock.success,
+            message:userBlock.message
+        })
     }
 }

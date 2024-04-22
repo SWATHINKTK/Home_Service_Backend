@@ -1,5 +1,7 @@
-import mongoose, { Model, Schema, model } from "mongoose";
+import mongoose, { Document, Model, Schema, model } from "mongoose";
 import { IUser } from "../../../../domainLayer/user";
+
+
 
 const userSchema: Schema = new Schema<IUser & Document>(
     {

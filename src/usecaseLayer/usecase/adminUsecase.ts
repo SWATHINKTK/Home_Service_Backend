@@ -4,6 +4,7 @@ import { IUserRepository } from "../interface/repository/IUserRepository";
 import { ISecretHasher } from "../interface/services/ISecretHasher";
 import { IJWT } from "../interface/services/Ijwt";
 import { adminLogin } from "./admin/adminLogin";
+import { blockUser } from "./user/blockUser";
 import { findAllUsers } from "./user/findAllUser";
 
 
@@ -34,6 +35,13 @@ export class AdminUseCase{
 
     async findAllUsers(){
         return findAllUsers(this.userRepository);
+    }
+
+    async blockUser(userId:string){
+        return blockUser(
+            this.userRepository,
+            userId
+        )
     }
 
     

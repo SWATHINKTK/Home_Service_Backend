@@ -22,10 +22,29 @@ router.post(
         adminAdapter.loginAdmin(req, res, next);
     });
 
-
-router.post(
+/**
+ * @route POST api/admin/user
+ * @desc  Retrieve all users data
+ * @access Public
+ */
+router.get(
     "/users",
     (req:Request, res:Response, next:NextFunction)=>{
         adminAdapter.retrieveAllUsers( req, res, next);
     });
+
+
+    /**
+ * @route POST api/admin/user
+ * @desc  Retrieve all users data
+ * @access Public
+ */
+router.patch(
+    "/:userId/block",
+    (req:Request, res:Response, next:NextFunction)=>{
+        console.log(req.params)
+        adminAdapter.blockUser( req, res, next);
+    });
+
+
 export default router;

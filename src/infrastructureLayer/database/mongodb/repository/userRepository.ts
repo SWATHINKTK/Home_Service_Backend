@@ -6,6 +6,7 @@ import { userModel } from "../models/userModel";
 import { createUser } from "./user/createUser";
 import { findUser } from "./user/findUser";
 import { findAllUsers } from "./user/findAllUser";
+import { updateUserBlockStatus } from "./user/changeUserBlockStatus";
 
 
 /**
@@ -22,6 +23,7 @@ export class UserRepository implements IUserRepository{
     constructor(userModelInstance: typeof userModel){
         this.userModel = userModelInstance
     }
+   
     
 
 
@@ -55,5 +57,15 @@ export class UserRepository implements IUserRepository{
         return findAllUsers(this.userModel);
     }
     
+
+
+    /**
+     * Finding That User and Change Status of Block.
+     * @param {userId} userId UserId is used to update the status.
+     * @returns {Promise<IUser & Document | null>} A Promise that resolves with the return all users.
+     */
+    updateUserBlockStatus(userId: string): Promise<string> {
+        return updateUserBlockStatus(userId,this.userModel)
+    }
     
 }

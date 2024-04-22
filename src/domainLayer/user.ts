@@ -7,4 +7,6 @@ export interface IUser{
     district:string;
     password:string;
     _isBlocked?:boolean;
+    createdAt?:Date;
+    updatedAt?:Date;
 }
