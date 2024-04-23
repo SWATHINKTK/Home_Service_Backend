@@ -71,6 +71,18 @@ export class UserAdapter {
         }
     }
 
+    async logoutUser(req:Req, res:Res, next:Next){
+        try {
+            const logout = await this.userUsecase.logoutUser();
+            res.status(logout.statusCode).clearCookie('userJWT').json({
+                success:logout.success,
+                message:logout.message
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
+
     //  /**
     //  * Registers a new user.
     //  *

@@ -22,6 +22,18 @@ router.post(
         adminAdapter.loginAdmin(req, res, next);
     });
 
+
+    /**
+ * @route POST api/admin/logout
+ * @desc Register New User
+ * @access Public
+ */
+router.post(
+    "/logout", 
+    (req: Request, res: Response, next: NextFunction) => {
+        adminAdapter.adminLogout(req, res, next);
+    });
+
 /**
  * @route POST api/admin/user
  * @desc  Retrieve all users data

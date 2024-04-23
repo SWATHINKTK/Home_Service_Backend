@@ -53,4 +53,16 @@ router.post(
        UserAdapters.loginUser( req, res, next );
     })
 
+    
+/**
+ * @route POST api/user/logout
+ * @desc User Credential to Login
+ * @access Public
+ */
+router.post(
+    '/logout',
+    ( req:Request, res:Response, next:NextFunction) => {
+       UserAdapters.logoutUser( req, res, next );
+    })
+
 export default router

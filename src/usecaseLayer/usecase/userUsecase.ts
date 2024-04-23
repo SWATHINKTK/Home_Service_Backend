@@ -6,6 +6,7 @@ import { ISecretHasher } from "../interface/services/ISecretHasher";
 import { IJWT } from "../interface/services/Ijwt";
 import { createUser } from "./user/createUser";
 import { loginUser } from "./user/loginUser";
+import { logout } from "./user/logout";
 import { sendOTP } from "./user/sendOTP";
 
 
@@ -62,6 +63,10 @@ export class UserUseCase{
             username,
             password
         )
+    }
+
+    async logoutUser(){
+        return logout()
     }
     
 

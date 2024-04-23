@@ -32,6 +32,21 @@ export class AdminAdapter{
         }
     }
 
+     /**(
+     * Admin logging out.
+     * @desc POST  /api/admin/login
+     * @desc Response: 200 Admin Logout Successful or appropriate error code
+     */
+    async adminLogout(req:Req, res:Res, next:Next){
+        try {
+            return this.adminUsecase.adminLogout();
+        } catch (error) {
+            next(error)
+        }
+    }
+
+
+
     /**
      * All User Data Retrieval.
      * @desc GET  /api/admin/user

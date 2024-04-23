@@ -4,6 +4,7 @@ import { IUserRepository } from "../interface/repository/IUserRepository";
 import { ISecretHasher } from "../interface/services/ISecretHasher";
 import { IJWT } from "../interface/services/Ijwt";
 import { adminLogin } from "./admin/adminLogin";
+import { adminLogout } from "./admin/adminLogout";
 import { blockUser } from "./user/blockUser";
 import { findAllUsers } from "./user/findAllUser";
 
@@ -30,6 +31,10 @@ export class AdminUseCase{
             username,
             password,
         )
+    }
+
+    async adminLogout(){
+        return adminLogout();
     }
 
 
