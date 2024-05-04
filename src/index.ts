@@ -1,5 +1,5 @@
-import { httpServer } from "./infrastructureLayer/webserver/config/app";
-import { connectDB } from "./infrastructureLayer/webserver/config/db";
+import { httpServer } from "./infrastructure/webserver/config/app";
+import { connectDB } from "./infrastructure/webserver/config/db";
 
 const startServer = () => {
     const PORT = process.env.PORT;
