@@ -71,6 +71,24 @@ export class ServiceAdapter{
             next(error)
         }
     }
+
+    /**
+     ** Block/UnBlock Services.
+     * @Request PUT  /api/admin/service/block
+     * @Response Response: 200  Return Edited Service Data or appropriate error code
+     */
+    async blockService(req: Req, res: Res, next: Next) {
+        try {
+            const serviceId:string = req.params.serviceId
+            const services = await this._serviceUseCase.blockService(serviceId);
+            res.status(services.statusCode).json({
+                success: services.success,
+                message: services.message,
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 

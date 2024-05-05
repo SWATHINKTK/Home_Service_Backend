@@ -52,7 +52,7 @@ router.get(
 
 /**
  * @route PATCH api/admin/user
- * @desc  Retrieve all users data
+ * @desc  Blocking Users.
  * @access Public
  */
 router.patch(
@@ -94,4 +94,16 @@ router.put(
     (req: Request, res: Response, next: NextFunction) => {
         serviceAdapter.editService(req, res, next);
     });
+
+/**
+* @route Patch api/admin/service/block
+* @desc  Modifying The Existing Service Data.
+* @access Public
+*/
+router.patch(
+    "/service/:serviceId/blockService",
+    (req: Request, res: Response, next: NextFunction) => {
+        serviceAdapter.blockService(req, res, next);
+    });
+
 export default router;

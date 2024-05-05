@@ -1,6 +1,7 @@
 import { IService } from "../../domain/service";
 import { BadRequestError } from "../handler/badRequestError";
 import { IServiceRepository } from "../interface/repository/IServiceRepository";
+import { blockService } from "./service/blockService";
 import { createService } from "./service/createService";
 import { editService } from "./service/editService";
 import { findAllServices } from "./service/findAllService";
@@ -50,5 +51,16 @@ export class ServiceUseCase {
      */
     async editService({ _id, serviceName, minimumAmount, hourlyAmount, serviceDescription }: IService & { _id:string}) {
        return editService(_id, serviceName, minimumAmount, hourlyAmount, serviceDescription, this._serviceRepository);
+    }
+
+
+    /**
+     ** Block/UnBlock Services.
+     * 
+     * @returns A promise resolving to Modifying the service data.
+     */
+    async blockService(serviceId: string ) {
+        console.log("id",serviceId)
+        return blockService(serviceId, this._serviceRepository)
     }
 }

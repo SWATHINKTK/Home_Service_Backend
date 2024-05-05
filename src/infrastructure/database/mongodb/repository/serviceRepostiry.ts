@@ -6,6 +6,7 @@ import { createService } from "./service/createService";
 import { findService } from "./service/findService";
 import { findAllServices } from "./service/findAllService";
 import { editService } from "./service/editService";
+import { blockService } from "./service/blockService";
 
 export class ServiceRepository implements IServiceRepository{
 
@@ -13,6 +14,7 @@ export class ServiceRepository implements IServiceRepository{
     constructor(_serviceModelInstance: typeof serviceModel){
         this._serviceModelInstance = _serviceModelInstance;
     }
+   
 
     
     createService(serviceData: IService): Promise<string> {
@@ -29,5 +31,9 @@ export class ServiceRepository implements IServiceRepository{
 
     editService(serviceId: string, editServiceData: IService):Promise<boolean> {
         return editService(serviceId, editServiceData,this._serviceModelInstance)
+    }
+
+    blockService(serviceId: string): Promise<boolean> {
+        return blockService(serviceId,this._serviceModelInstance)
     }
 }
