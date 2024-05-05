@@ -39,7 +39,7 @@ router.post(
     });
 
 /**
- * @route POST api/admin/user
+ * @route GET api/admin/user
  * @desc  Retrieve all users data
  * @access Public
  */
@@ -51,7 +51,7 @@ router.get(
 
 
 /**
- * @route POST api/admin/user
+ * @route PATCH api/admin/user
  * @desc  Retrieve all users data
  * @access Public
  */
@@ -71,4 +71,27 @@ router.post('/service/add', upload.fields([{name:'icon',maxCount:1},{name:'image
     serviceAdapter.createService(req, res, next)
 });
 
+
+/**
+ * @route GET api/admin/service
+ * @desc  Retrieve all Service data
+ * @access Public
+ */
+router.get(
+    "/service",
+    (req: Request, res: Response, next: NextFunction) => {
+        serviceAdapter.findAllServices(req, res, next);
+    });
+
+
+/**
+ * @route PUT api/admin/service/edit
+ * @desc  Modifying The Existing Service Data.
+ * @access Public
+ */
+router.put(
+    "/service/edit",
+    (req: Request, res: Response, next: NextFunction) => {
+        serviceAdapter.editService(req, res, next);
+    });
 export default router;

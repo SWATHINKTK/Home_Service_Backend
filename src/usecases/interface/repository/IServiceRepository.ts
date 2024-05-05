@@ -3,5 +3,7 @@ import { IService } from "../../../domain/service";
 
 export interface IServiceRepository{
     createService(serviceData:IService):Promise<string>;
-    findService(serviceName:string):Promise<IService & Document | null>;
+    findService(query: { [key: string]: any }):Promise<IService & Document | null>;
+    findAllServices():Promise<(IService & Document)[] | null>;
+    editService(serviceId: string, editServiceData: IService): Promise<boolean>;
 }

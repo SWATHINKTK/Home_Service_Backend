@@ -8,8 +8,11 @@ export const createService = async(
   serviceRepository: IServiceRepository
 ):Promise<IServerResponse> => {
     try {
-        console.log('serviceData', serviceData)
-        const existingService = await serviceRepository.findService(serviceData.serviceName);
+        console.log('serviceData', serviceData);
+
+        const regex = new RegExp(`^${serviceData.serviceName}$`, 'i');
+        const query = { serviceName: { $regex: regex } }
+        const existingService = await serviceRepository.findService(query);
         if(existingService){
             throw new BadRequestError('service is already exist.')
         }

@@ -16,11 +16,11 @@ export class ServiceAdapter{
 
 
     /**
-     * Service Data to Create New Service.
-     * @desc POST  /api/admin/service/add
-     * @desc Body: { serviceName, minimumAmount, HourlyAmount, serviceDescription}
-     * @desc File: { icon, image }
-     * @desc Response: 200  New Service Creation Successful or appropriate error code
+     ** Service Data to Create New Service.
+     * @Request POST  /api/admin/service/add
+     * @Data Body: { serviceName, minimumAmount, HourlyAmount, serviceDescription}
+     * @Data File: { icon, image }
+     * @Response Response: 200  New Service Creation Successful or appropriate error code
      */
     async createService( req:Req, res:Res, next:Next){
         try {
@@ -34,9 +34,43 @@ export class ServiceAdapter{
             next(error);
         }
     }
+
+
+    /**
+     ** Retrieve All Services
+     * @Request GET  /api/admin/service
+     * @Response Response: 200  Return all Service Data or appropriate error code
+     */
+    async findAllServices( req:Req, res:Res, next:Next){
+        try {
+            const services = await this._serviceUseCase.findAllServices();
+            res.status(services.statusCode).json({
+                success: services.success,
+                message: services.message,
+                data: services.data
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+
+    /**
+     ** Modifying The Existing Service.
+     * @Request PUT  /api/admin/service/edit
+     * @Response Response: 200  Return Edited Service Data or appropriate error code
+     */
+    async editService(req: Req, res: Res, next: Next) {
+        try {
+            const services = await this._serviceUseCase.editService(req.body);
+            res.status(services.statusCode).json({
+                success: services.success,
+                message: services.message,
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 
-// const icon = files['icon'] ? files['icon'][0] : null;
-// const image = files['image'] ? files['image'][0] : null;
-// Now icon and image are correctly inferred
