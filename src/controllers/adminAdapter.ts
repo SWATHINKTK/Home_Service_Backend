@@ -26,7 +26,7 @@ export class AdminAdapter {
             res.status(admin.statusCode).json({
                 success: admin.success,
                 message: admin.message,
-                data: admin.data,
+                data: admin.token,
             });
         } catch (error) {
             next(error);

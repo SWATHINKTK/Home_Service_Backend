@@ -4,7 +4,7 @@ import { serviceModel } from "../../models/serviceModel";
 
 export const findAllServices = async(serviceModelInstance:typeof serviceModel): Promise<any[] | null> => {
     try {
-        const services = await serviceModelInstance.find({});
+        const services = await serviceModelInstance.find({}).sort({_id:-1});
         return services;
     } catch (error) {
         throw new DBConnectionError();
