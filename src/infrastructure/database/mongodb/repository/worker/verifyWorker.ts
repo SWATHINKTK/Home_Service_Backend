@@ -7,7 +7,7 @@ export const verifyWorker = async(workerId:string, workerModelInstance:typeof wo
         if (!updateWorker.matchedCount){
            throw new BadRequestError('Invalid WorkerId.Please Check it.')
         }
-        return true
+        return updateWorker.modifiedCount ? true : false;
     } catch (error) {
         throw error
     }

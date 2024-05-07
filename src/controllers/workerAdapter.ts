@@ -76,7 +76,7 @@ export class WorkerAdapter {
     * @Data params: { workerId }
     * @Response Response: 200  Success true & proper message or appropriate error code
     */
-    async blocWorker(req: Req, res: Res, next: Next) {
+    async blockWorker(req: Req, res: Res, next: Next) {
         try {
             const workerId: string = req.params.workerId;
             const worker = await this._workerUseCase.blockWorker(workerId);

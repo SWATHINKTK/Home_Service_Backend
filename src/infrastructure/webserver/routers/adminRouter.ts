@@ -138,7 +138,7 @@ router.patch(
 router.patch(
     "/worker/:workerId/block",
     (req: Request, res: Response, next: NextFunction) => {
-        workerAdapter.blocWorker(req, res, next);
+        workerAdapter.blockWorker(req, res, next);
     });
 
 

@@ -7,8 +7,9 @@ export const blockWorker = async(workerId:string, workerModelInstance:typeof wor
         if(!worker){
             throw new BadRequestError('Invalid WorkerId.Please Check it.')
         }
-        const updateWorker = await workerModelInstance.updateOne({_id:workerId},{$set:{_isBlocked:worker._isBlocked}});
-        return true
+        const updateWorker = await workerModelInstance.updateOne({_id:workerId},{$set:{_isBlocked:!worker._isBlocked}});
+        return updateWorker.modifiedCount ? true : false;
+        
     } catch (error) {
         throw error
     }

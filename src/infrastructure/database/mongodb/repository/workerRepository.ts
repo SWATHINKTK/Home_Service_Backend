@@ -8,6 +8,7 @@ import { workerRegister } from "./worker/registerWorker";
 import { findWorker } from "./worker/findWorker";
 import { retrieveAllWorkers } from "./worker/findAllService";
 import { verifyWorker } from "./worker/verifyWorker";
+import { blockWorker } from "./worker/blockWorker";
 
 export class WorkerRepository implements IWorkerRepository {
 
@@ -36,7 +37,7 @@ export class WorkerRepository implements IWorkerRepository {
     }
 
     blockWorker(workerId: string): Promise<boolean> {
-        return verifyWorker(workerId, this._workerModelInstance)
+        return blockWorker(workerId, this._workerModelInstance)
     }
 
 }

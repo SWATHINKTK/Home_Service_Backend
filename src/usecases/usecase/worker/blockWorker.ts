@@ -4,7 +4,7 @@ import { IServerResponse } from "../../interface/services/IResponse";
 
 export const blockWorker = async (workerId: string, workerRepository: IWorkerRepository): Promise<IServerResponse> => {
     try {
-        const block = await workerRepository.verifyWorker(workerId);
+        const block = await workerRepository.blockWorker(workerId);
         if(block)
             return {
                 statusCode: 200,
