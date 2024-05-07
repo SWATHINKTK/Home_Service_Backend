@@ -1,5 +1,5 @@
 import { AdminAdapter } from "../../../../controllers/adminAdapter";
-import { AdminUseCase } from "../../../../usecases/usecase/adminUsecase";
+import { AdminUseCase } from "../../../../usecases/usecase/adminUseCase";
 import { adminModel } from "../../../database/mongodb/models/adminModel";
 import { userModel } from "../../../database/mongodb/models/userModel";
 import { AdminRepository } from "../../../database/mongodb/repository/adminRepository";

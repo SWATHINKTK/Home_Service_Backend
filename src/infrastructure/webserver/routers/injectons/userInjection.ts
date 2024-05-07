@@ -1,5 +1,5 @@
 import { UserAdapter } from "../../../../controllers/userAdapter";
-import { UserUseCase } from "../../../../usecases/usecase/userUsecase";
+import { UserUseCase } from "../../../../usecases/usecase/userUseCase";
 import { userModel } from "../../../database/mongodb/models/userModel";
 import { UserRepository } from "../../../database/mongodb/repository/userRepository";
 import { EmailService } from "../../../services/emailService";

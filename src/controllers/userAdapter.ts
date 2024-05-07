@@ -8,7 +8,7 @@
  */
 
 import { Req, Res, Next } from "../infrastructure/types/expressTypes";
-import { UserUseCase } from "../usecases/usecase/userUsecase";
+import { UserUseCase } from "../usecases/usecase/userUseCase";
 
 export class UserAdapter {
     
@@ -69,7 +69,7 @@ export class UserAdapter {
                 data: user.data,
             });
         } catch (error) {
-            throw error
+            next(error)
         }
     }
 

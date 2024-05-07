@@ -10,7 +10,7 @@ export class SecretHasher implements ISecretHasher{
             const salt = bcrypt.genSaltSync(10);
             return bcrypt.hashSync(secret,salt);
         } catch (error) {
-            throw new BadRequestError('Server Error')
+            throw new BadRequestError('Data is not Found')
         }
     }
     async checkSecretMatch(plainSecret: string, hashSecret: string): Promise<boolean> {
