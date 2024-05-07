@@ -9,6 +9,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { adminAdapter } from "./injectons/adminInjection";
 import { upload } from "../middleware/multerConfig";
 import { serviceAdapter } from "./injectons/serviceInjection";
+import { workerAdapter } from "./injectons/workerInjection";
 
 
 
@@ -105,5 +106,19 @@ router.patch(
     (req: Request, res: Response, next: NextFunction) => {
         serviceAdapter.blockService(req, res, next);
     });
+
+
+/**
+* @route GET api/admin/worker
+* @desc  Retrieve all Worker data
+* @access Public
+*/
+router.get(
+    "/worker",
+    (req: Request, res: Response, next: NextFunction) => {
+        workerAdapter.retrieveAllWorker(req, res, next);
+    });
+
+
 
 export default router;

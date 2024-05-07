@@ -1,6 +1,7 @@
 import { IWorker } from "../../domain/worker";
 import { IWorkerRepository } from "../interface/repository/IWorkerRepository";
 import { ISecretHasher } from "../interface/services/ISecretHasher";
+import { retrieveAllWorker } from "./worker/findAllWorker";
 import { registerWorker } from "./worker/registerWorker";
 
 export class WorkerUseCase{
@@ -13,5 +14,9 @@ export class WorkerUseCase{
 
     async registerWorker(workerData: IWorker, workerImages: { [fieldname: string]: Express.Multer.File[]; }){
         return registerWorker(workerData, workerImages, this._workerRepository, this._secretHashService)
+    }
+
+    async retrieveAllWorker(){
+        return retrieveAllWorker(this._workerRepository)
     }
 }

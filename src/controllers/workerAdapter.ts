@@ -26,4 +26,26 @@ export class WorkerAdapter{
             next(error);
         }
     }
+
+
+    /**
+     ** Retrieve All Worker Data.
+     * @Request POST  /api/admin/service/add
+     * @Data Body: { serviceName, minimumAmount, HourlyAmount, serviceDescription}
+     * @Data File: { icon, image }
+     * @Response Response: 200  New Service Creation Successful or appropriate error code
+     */
+    async retrieveAllWorker(req: Req, res: Res, next: Next) {
+        try {
+            const worker = await this._workerUseCase.retrieveAllWorker();
+            worker && 
+                  res.status(worker.statusCode).json({
+                    success:worker.success,
+                    message:worker.message,
+                    data:worker.data
+                  })
+        } catch (error) {
+            next(error);
+        }
+    }
 }

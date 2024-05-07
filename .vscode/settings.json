@@ -11,6 +11,7 @@
         "secrect",
         "signin",
         "Usecase",
-        "usecases"
+        "usecases",
+        "workerextrainfos"
     ]
 }
