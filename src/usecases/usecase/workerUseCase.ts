@@ -3,6 +3,7 @@ import { IWorkerRepository } from "../interface/repository/IWorkerRepository";
 import { ISecretHasher } from "../interface/services/ISecretHasher";
 import { retrieveAllWorker } from "./worker/findAllWorker";
 import { registerWorker } from "./worker/registerWorker";
+import { verifyWorker } from "./worker/verifyWorker";
 
 export class WorkerUseCase{
     private readonly _workerRepository:IWorkerRepository;
@@ -18,5 +19,9 @@ export class WorkerUseCase{
 
     async retrieveAllWorker(){
         return retrieveAllWorker(this._workerRepository)
+    }
+
+    async verifyWorker(workerId:string){
+        return verifyWorker(workerId, this._workerRepository);
     }
 }

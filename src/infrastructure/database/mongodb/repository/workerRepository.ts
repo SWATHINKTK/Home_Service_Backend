@@ -7,6 +7,7 @@ import { workerModel } from "../models/workerModel";
 import { workerRegister } from "./worker/registerWorker";
 import { findWorker } from "./worker/findWorker";
 import { retrieveAllWorkers } from "./worker/findAllService";
+import { verifyWorker } from "./worker/verifyWorker";
 
 export class WorkerRepository implements IWorkerRepository {
 
@@ -16,8 +17,7 @@ export class WorkerRepository implements IWorkerRepository {
         this._workerModelInstance = workerModelInstance;
         this._workerExtraInfoModelInstance = workerExtraInfoModel;
     }
-    
-    
+
 
     registerWorker(workerData: IWorker, workerExtraInfo: IWorkerExtraInfo): Promise<boolean> {
         return workerRegister(workerData, workerExtraInfo, this._workerModelInstance, this._workerExtraInfoModelInstance)
@@ -29,6 +29,10 @@ export class WorkerRepository implements IWorkerRepository {
 
     retrieveAllWorkers(): Promise<(IWorker & Document)[] | []> {
         return retrieveAllWorkers(this._workerModelInstance);
+    }
+
+    verifyWorker(workerId:string): Promise<boolean> {
+        return verifyWorker(workerId, this._workerModelInstance)
     }
 
 }

@@ -119,6 +119,17 @@ router.get(
         workerAdapter.retrieveAllWorker(req, res, next);
     });
 
+/**
+* @route Patch api/admin/worker/verify
+* @desc  Modifying The Existing Service Data.
+* @access Public
+*/
+router.patch(
+    "/worker/:workerId/verify",
+    (req: Request, res: Response, next: NextFunction) => {
+        workerAdapter.verifyWorker(req, res, next);
+    });
+
 
 
 export default router;

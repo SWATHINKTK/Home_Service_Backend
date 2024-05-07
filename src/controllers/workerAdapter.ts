@@ -48,4 +48,27 @@ export class WorkerAdapter{
             next(error);
         }
     }
+
+
+    /**
+    ** Verify Worker.
+      * @Request POST  /api/admin/service/add
+     * @Data Body: { serviceName, minimumAmount, HourlyAmount, serviceDescription}
+ * @Data File: { icon, image }
+ * @Response Response: 200  New Service Creation Successful or appropriate error code
+ */
+    async verifyWorker(req: Req, res: Res, next: Next) {
+        try {
+            const workerId:string = req.params.workerId;
+            const worker = await this._workerUseCase.verifyWorker(workerId);
+            res.status(worker.statusCode).json({
+                success:worker.success,
+                message:worker.message
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
+
+
 }
