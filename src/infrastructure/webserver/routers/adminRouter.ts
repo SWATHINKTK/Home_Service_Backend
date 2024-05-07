@@ -120,8 +120,8 @@ router.get(
     });
 
 /**
-* @route Patch api/admin/worker/verify
-* @desc  Modifying The Existing Service Data.
+* @route Patch api/admin/worker/:workerId/verify
+* @desc  Verifying New Registered Worker.
 * @access Public
 */
 router.patch(
@@ -130,6 +130,16 @@ router.patch(
         workerAdapter.verifyWorker(req, res, next);
     });
 
+/**
+* @route Patch api/admin/worker/:workerId/block
+* @desc  Block Registered Worker.
+* @access Public
+*/
+router.patch(
+    "/worker/:workerId/block",
+    (req: Request, res: Response, next: NextFunction) => {
+        workerAdapter.blocWorker(req, res, next);
+    });
 
 
 export default router;

@@ -1,6 +1,7 @@
 import { IWorker } from "../../domain/worker";
 import { IWorkerRepository } from "../interface/repository/IWorkerRepository";
 import { ISecretHasher } from "../interface/services/ISecretHasher";
+import { blockWorker } from "./worker/blockWorker";
 import { retrieveAllWorker } from "./worker/findAllWorker";
 import { registerWorker } from "./worker/registerWorker";
 import { verifyWorker } from "./worker/verifyWorker";
@@ -23,5 +24,9 @@ export class WorkerUseCase{
 
     async verifyWorker(workerId:string){
         return verifyWorker(workerId, this._workerRepository);
+    }
+
+    async blockWorker(workerId: string) {
+        return blockWorker(workerId, this._workerRepository);
     }
 }

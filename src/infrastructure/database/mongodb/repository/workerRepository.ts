@@ -35,4 +35,8 @@ export class WorkerRepository implements IWorkerRepository {
         return verifyWorker(workerId, this._workerModelInstance)
     }
 
+    blockWorker(workerId: string): Promise<boolean> {
+        return verifyWorker(workerId, this._workerModelInstance)
+    }
+
 }

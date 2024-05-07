@@ -7,4 +7,5 @@ export interface IWorkerRepository{
     findWorker(query: { [key: string]: any }): Promise<IWorker & Document | null>;
     retrieveAllWorkers(): Promise<(IWorker & Document)[] | []>;
     verifyWorker(workerId: string): Promise<boolean>;
+    blockWorker(workerId: string): Promise<boolean>;
 }

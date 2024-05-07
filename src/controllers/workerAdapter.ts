@@ -1,9 +1,9 @@
-import { Req , Res, Next} from "../infrastructure/types/expressTypes";
+import { Req, Res, Next } from "../infrastructure/types/expressTypes";
 import { WorkerUseCase } from "../usecases/usecase/workerUseCase";
 
-export class WorkerAdapter{
-    private readonly _workerUseCase:WorkerUseCase;
-    constructor(workerUseCase:WorkerUseCase){
+export class WorkerAdapter {
+    private readonly _workerUseCase: WorkerUseCase;
+    constructor(workerUseCase: WorkerUseCase) {
         this._workerUseCase = workerUseCase;
     }
 
@@ -38,12 +38,12 @@ export class WorkerAdapter{
     async retrieveAllWorker(req: Req, res: Res, next: Next) {
         try {
             const worker = await this._workerUseCase.retrieveAllWorker();
-            worker && 
-                  res.status(worker.statusCode).json({
-                    success:worker.success,
-                    message:worker.message,
-                    data:worker.data
-                  })
+            worker &&
+                res.status(worker.statusCode).json({
+                    success: worker.success,
+                    message: worker.message,
+                    data: worker.data
+                })
         } catch (error) {
             next(error);
         }
@@ -51,24 +51,42 @@ export class WorkerAdapter{
 
 
     /**
-    ** Verify Worker.
-      * @Request POST  /api/admin/service/add
-     * @Data Body: { serviceName, minimumAmount, HourlyAmount, serviceDescription}
- * @Data File: { icon, image }
- * @Response Response: 200  New Service Creation Successful or appropriate error code
- */
+    ** Verify New Registered Worker.
+    * @Request POST  /api/admin/worker/:workerId/verify
+    * @Data params: { workerId }
+    * @Response Response: 200  Success true & proper message or appropriate error code
+    */
     async verifyWorker(req: Req, res: Res, next: Next) {
         try {
-            const workerId:string = req.params.workerId;
+            const workerId: string = req.params.workerId;
             const worker = await this._workerUseCase.verifyWorker(workerId);
             res.status(worker.statusCode).json({
-                success:worker.success,
-                message:worker.message
+                success: worker.success,
+                message: worker.message
             })
         } catch (error) {
             next(error);
         }
     }
 
+
+    /**
+    ** Block Verified Worker.
+    * @Request POST  /api/admin/worker/:workerId/block
+    * @Data params: { workerId }
+    * @Response Response: 200  Success true & proper message or appropriate error code
+    */
+    async blocWorker(req: Req, res: Res, next: Next) {
+        try {
+            const workerId: string = req.params.workerId;
+            const worker = await this._workerUseCase.blockWorker(workerId);
+            res.status(worker.statusCode).json({
+                success: worker.success,
+                message: worker.message
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
 
 }

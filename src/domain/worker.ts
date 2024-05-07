@@ -12,4 +12,6 @@ export interface IWorker {
     confirmPassword?: string;
     certificate?: string;
     idProof?: string;
+    _isBlocked?:boolean,
+    _isVerified:boolean
 }
