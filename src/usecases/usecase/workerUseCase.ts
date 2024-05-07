@@ -18,8 +18,8 @@ export class WorkerUseCase{
         return registerWorker(workerData, workerImages, this._workerRepository, this._secretHashService)
     }
 
-    async retrieveAllWorker(){
-        return retrieveAllWorker(this._workerRepository)
+    async retrieveAllWorker(status:boolean){
+        return retrieveAllWorker(status, this._workerRepository)
     }
 
     async verifyWorker(workerId:string){

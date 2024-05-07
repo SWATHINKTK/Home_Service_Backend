@@ -114,7 +114,7 @@ router.patch(
 * @access Public
 */
 router.get(
-    "/worker",
+    "/worker/:status",
     (req: Request, res: Response, next: NextFunction) => {
         workerAdapter.retrieveAllWorker(req, res, next);
     });

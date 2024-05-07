@@ -6,9 +6,9 @@ import { workerExtraInfoModel } from "../models/workerExtraInfoModel";
 import { workerModel } from "../models/workerModel";
 import { workerRegister } from "./worker/registerWorker";
 import { findWorker } from "./worker/findWorker";
-import { retrieveAllWorkers } from "./worker/findAllService";
 import { verifyWorker } from "./worker/verifyWorker";
 import { blockWorker } from "./worker/blockWorker";
+import { retrieveAllWorkers } from "./worker/findAllWorkers";
 
 export class WorkerRepository implements IWorkerRepository {
 
@@ -28,8 +28,8 @@ export class WorkerRepository implements IWorkerRepository {
         return findWorker(query, this._workerModelInstance);
     }
 
-    retrieveAllWorkers(): Promise<(IWorker & Document)[] | []> {
-        return retrieveAllWorkers(this._workerModelInstance);
+    retrieveAllWorkers(status:boolean): Promise<(IWorker & Document)[] | []> {
+        return retrieveAllWorkers(status,this._workerModelInstance);
     }
 
     verifyWorker(workerId:string): Promise<boolean> {
