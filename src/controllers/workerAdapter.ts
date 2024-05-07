@@ -7,12 +7,32 @@ export class WorkerAdapter {
         this._workerUseCase = workerUseCase;
     }
 
+    async loginWorker(req: Req, res: Res, next: Next) {
+        try {
+            const worker = await this._workerUseCase.loginWorker(req.body);
+            worker &&
+                res.cookie("workerJWT", worker.token, {
+                    httpOnly: true,                 //! Prevent XSS Attack
+                    sameSite: "strict",             //! Prevent CSRF Attack
+                    maxAge: 24 * 60 * 60 * 1000,    //! 24 Hrs validity.
+                });
+            res.status(worker.statusCode).json({
+                success: worker.success,
+                message: worker.message,
+                data: worker.data,
+            });
+        } catch (error) {
+            next(error)
+        }
+    }
+
+
     /**
      ** Service Data to Create New Service.
      * @Request POST  /api/admin/service/add
-     * @Data Body: { serviceName, minimumAmount, HourlyAmount, serviceDescription}
-     * @Data File: { icon, image }
-     * @Response Response: 200  New Service Creation Successful or appropriate error code
+     * @Data Body: { username, email, phoneNumber, district, location, qualification, experience, password}
+     * @Data File: { certificate, idProof }
+     * @Response Response: 200  New Worker Regisration Successful or appropriate error code
      */
     async createWorker(req: Req, res: Res, next: Next) {
         try {
@@ -30,10 +50,9 @@ export class WorkerAdapter {
 
     /**
      ** Retrieve All Worker Data.
-     * @Request POST  /api/admin/service/add
-     * @Data Body: { serviceName, minimumAmount, HourlyAmount, serviceDescription}
-     * @Data File: { icon, image }
-     * @Response Response: 200  New Service Creation Successful or appropriate error code
+     * @Request GET  /api/admin/worker/:Status
+     * @Param Status: true | false
+     * @Response Response: 200 All Condition Based Data or appropriate error code
      */
     async retrieveAllWorker(req: Req, res: Res, next: Next) {
         try {
