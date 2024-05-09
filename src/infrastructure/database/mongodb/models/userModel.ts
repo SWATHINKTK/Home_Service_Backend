@@ -25,6 +25,9 @@ const userSchema: Schema = new Schema<IUser & Document>(
             type: String,
             require: true,
         },
+        profile:{
+            type:String,
+        },
         password: {
             type: String,
             require: true,

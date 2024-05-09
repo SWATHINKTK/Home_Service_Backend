@@ -7,6 +7,7 @@ import { createUser } from "./user/createUser";
 import { findUser } from "./user/findUser";
 import { findAllUsers } from "./user/findAllUser";
 import { updateUserBlockStatus } from "./user/changeUserBlockStatus";
+import { IUpdateUserData, updateUserData } from "./user/editUser";
 
 
 /**
@@ -23,6 +24,7 @@ export class UserRepository implements IUserRepository {
     constructor(_userModelInstance: typeof userModel) {
         this._userModelInstance = _userModelInstance;
     }
+   
 
 
     /**
@@ -62,5 +64,15 @@ export class UserRepository implements IUserRepository {
      */
     updateUserBlockStatus(userId: string): Promise<string> {
         return updateUserBlockStatus(userId, this._userModelInstance);
+    }
+
+    /**
+     * Updating the UserProfile Data.
+     * @param {userEmail} userEmail is used to Fetch That User.
+     * @param {updatedData} updatedData is used to change data on That User.
+     * @returns {Promise<boolean>} A Promise that resolves with the return all users.
+     */
+    updateUserData(userEmail: string, updatedData: IUpdateUserData): Promise<boolean> {
+        return updateUserData(userEmail, updatedData, this._userModelInstance)
     }
 }

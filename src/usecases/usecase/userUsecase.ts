@@ -6,6 +6,8 @@ import { IOTPService } from "../interface/services/IOTPService";
 import { ISecretHasher } from "../interface/services/ISecretHasher";
 import { IJWT } from "../interface/services/Ijwt";
 import { createUser } from "./user/createUser";
+import { editUserProfile } from "./user/editUser";
+import { getUser } from "./user/getUser";
 import { loginUser } from "./user/loginUser";
 import { logout } from "./user/logout";
 import { sendOTP } from "./user/sendOTP";
@@ -153,5 +155,23 @@ export class UserUseCase {
     async logoutUser() {
         //* Invoke the logout function to perform user logout.
         return logout();
+    }
+
+
+    async getUser(userEmail:string){
+        return getUser(userEmail, this._userRepository)
+    }
+
+
+    async editUserProfile(userEmail:string,{firstname, lastname, phoneNumber, district,}:IUser,userImage: { [fieldname: string]: Express.Multer.File[]; }){
+        return editUserProfile(
+            userEmail,
+            firstname,
+            lastname,
+            phoneNumber,
+            district,
+            userImage,
+            this._userRepository
+        )
     }
 }

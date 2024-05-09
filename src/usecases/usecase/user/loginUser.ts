@@ -46,14 +46,19 @@ export const loginUser = async(
         const token = await jwtService.createJWT(existingUser._id, username, "User");
         
         // Omit the password field from the user data in the response
-        existingUser.password = '';
+        const sendUserData = {
+            firstname:existingUser.firstname,
+            lastname:existingUser.lastname,
+            profile:existingUser.profile ?? null,
+            createdAt:existingUser.createdAt
+        }
 
         // Return a success response with user data and JWT token
         return {
             statusCode:200,
             success:true,
             message:'User Logged Successfully',
-            data:existingUser,
+            data: sendUserData,
             token:token
         }
         

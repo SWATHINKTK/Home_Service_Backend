@@ -19,7 +19,7 @@ export class WorkerAdapter {
             res.status(worker.statusCode).json({
                 success: worker.success,
                 message: worker.message,
-                data: worker.data,
+                data: worker.token,
             });
         } catch (error) {
             next(error)
@@ -32,7 +32,7 @@ export class WorkerAdapter {
      * @Request POST  /api/admin/service/add
      * @Data Body: { username, email, phoneNumber, district, location, qualification, experience, password}
      * @Data File: { certificate, idProof }
-     * @Response Response: 200  New Worker Regisration Successful or appropriate error code
+     * @Response Response: 200  New Worker Registration Successful or appropriate error code
      */
     async createWorker(req: Req, res: Res, next: Next) {
         try {

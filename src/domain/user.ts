@@ -4,6 +4,7 @@ export interface IUser{
     lastname:string;
     email:string;
     phoneNumber:string;
+    profile?:string;
     district:string;
     password:string;
     _isBlocked?:boolean;

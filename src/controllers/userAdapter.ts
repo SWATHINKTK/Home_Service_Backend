@@ -8,7 +8,12 @@
  */
 
 import { Req, Res, Next } from "../infrastructure/types/expressTypes";
+import { BadRequestError } from "../usecases/handler/badRequestError";
 import { UserUseCase } from "../usecases/usecase/userUseCase";
+
+interface CustomReq extends Req{
+    user?:string
+}
 
 export class UserAdapter {
     
@@ -83,6 +88,38 @@ export class UserAdapter {
             })
         } catch (error) {
             next(error);
+        }
+    }
+
+
+    async getUserProfile(req: CustomReq, res: Res, next: Next){
+        try {
+            const userEmail = req.user;
+            const userData = await this._userUsecase.getUser(userEmail!);
+            res.status(userData.statusCode).json({
+                success: userData.success,
+                message: userData.message,
+                data: userData.data,
+            });
+        } catch (error) {
+            next(error)
+        }
+    }
+
+
+    async editUserProfile(req: CustomReq, res: Res, next: Next){
+        try {
+            console.log('edit')
+            const userEmail = req.user;
+            const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+            console.log(files)
+            const userData = await this._userUsecase.editUserProfile(userEmail!, req.body, files);
+            res.status(userData.statusCode).json({
+                success: userData.success,
+                message: userData.message,
+            });
+        } catch (error) {
+            next(error)
         }
     }
 

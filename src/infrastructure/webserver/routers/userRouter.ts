@@ -13,6 +13,8 @@
 import express, { Request, Response, NextFunction } from "express";
 import { UserAdapters } from "./injectons/userInjection";
 import { validationMiddleware } from "../middleware/requestValidationMiddleware";
+import { userAuthentication } from "../middleware/userAuthenticationMiddleware";
+import { upload } from "../middleware/multerConfig";
 
 
 const router = express.Router();
@@ -63,6 +65,34 @@ router.post(
     '/logout',
     ( req:Request, res:Response, next:NextFunction) => {
        UserAdapters.logoutUser( req, res, next );
+    })
+
+
+/**
+* @route GET api/user/profile
+* @desc Retrieve User Data.
+* @access Public
+*/
+router.get(
+    '/profile',
+    userAuthentication,
+    (req: Request, res: Response, next: NextFunction) => {
+        UserAdapters.getUserProfile(req, res, next);
+    })
+
+
+
+/**
+* @route PUT api/user/editProfile
+* @desc Retrieve User Data.
+* @access Public
+*/
+router.put(
+    '/editProfile',
+    userAuthentication,
+    upload.fields([{ name: "profile", maxCount: 1 }]),
+    (req: Request, res: Response, next: NextFunction) => {
+        UserAdapters.editUserProfile(req, res, next);
     })
 
 export default router
