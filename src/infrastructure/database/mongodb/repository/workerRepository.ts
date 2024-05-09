@@ -9,6 +9,7 @@ import { findWorker } from "./worker/findWorker";
 import { verifyWorker } from "./worker/verifyWorker";
 import { blockWorker } from "./worker/blockWorker";
 import { retrieveAllWorkers } from "./worker/findAllWorkers";
+import { IUpdateWorkerData, updateWorkerData } from "./worker/editWorker";
 
 export class WorkerRepository implements IWorkerRepository {
 
@@ -18,6 +19,7 @@ export class WorkerRepository implements IWorkerRepository {
         this._workerModelInstance = workerModelInstance;
         this._workerExtraInfoModelInstance = workerExtraInfoModel;
     }
+   
 
 
     registerWorker(workerData: IWorker, workerExtraInfo: IWorkerExtraInfo): Promise<boolean> {
@@ -38,6 +40,10 @@ export class WorkerRepository implements IWorkerRepository {
 
     blockWorker(workerId: string): Promise<boolean> {
         return blockWorker(workerId, this._workerModelInstance)
+    }
+
+    updateWorkerData(workerPhoneNumber: string, updatedData: IUpdateWorkerData): Promise<boolean> {
+        return updateWorkerData(workerPhoneNumber, updatedData, this._workerModelInstance)
     }
 
 }

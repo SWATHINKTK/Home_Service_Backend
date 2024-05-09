@@ -27,6 +27,10 @@ const workerSchema = new Schema(
             type: String,
             require: true,
         },
+        profile: {
+            type:String,
+            require:true  
+        },
         password: {
             type: String,
             require: true,

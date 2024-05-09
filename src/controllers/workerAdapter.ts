@@ -1,6 +1,10 @@
 import { Req, Res, Next } from "../infrastructure/types/expressTypes";
 import { WorkerUseCase } from "../usecases/usecase/workerUseCase";
 
+interface CustomReq extends Req{
+    worker?:string
+}
+
 export class WorkerAdapter {
     private readonly _workerUseCase: WorkerUseCase;
     constructor(workerUseCase: WorkerUseCase) {
@@ -19,7 +23,7 @@ export class WorkerAdapter {
             res.status(worker.statusCode).json({
                 success: worker.success,
                 message: worker.message,
-                data: worker.token,
+                data: worker.data,
             });
         } catch (error) {
             next(error)
@@ -106,6 +110,36 @@ export class WorkerAdapter {
             })
         } catch (error) {
             next(error);
+        }
+    }
+
+
+    async getWorkerProfile(req: CustomReq, res: Res, next: Next){
+        try {
+            const userPhoneNumber = req.worker;
+            const userData = await this._workerUseCase.getWorker(userPhoneNumber!);
+            res.status(userData.statusCode).json({
+                success: userData.success,
+                message: userData.message,
+                data: userData.data,
+            });
+        } catch (error) {
+            next(error)
+        }
+    }
+
+
+    async editWorkerProfile(req: CustomReq, res: Res, next: Next){
+        try {
+            const workerPhoneNumber = req.worker;
+            const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+            const userData = await this._workerUseCase.editWorkerProfile(workerPhoneNumber!, req.body, files);
+            res.status(userData.statusCode).json({
+                success: userData.success,
+                message: userData.message,
+            });
+        } catch (error) {
+            next(error)
         }
     }
 

@@ -7,7 +7,7 @@ import { token } from 'morgan';
 declare global {
     namespace Express {
         interface Request {
-            user?: string;
+            worker?: string;
         }
     }
 }
@@ -18,9 +18,9 @@ interface IDecodedToken extends JwtPayload{
     role:string;
 }
 
-export const userAuthentication = (req:Req, res:Res, next:Next) => {
+export const workerRouteProtect = (req:Req, res:Res, next:Next) => {
     try {
-        const token = req.cookies.userJWT;
+        const token = req.cookies.workerJWT;
         console.log(jwt, process.env.JWT_KEY)
         if (!token) {
             return res.status(401).json({
@@ -30,14 +30,13 @@ export const userAuthentication = (req:Req, res:Res, next:Next) => {
         }
 
         const decodedToken = jwt.verify(token, process.env.JWT_KEY as string) as IDecodedToken;
-        if(decodedToken.role != 'User'){
+        if(decodedToken.role != 'worker'){
             return res.status(401).json({
                 success: false,
                 message: "Authentication Failed. Please log in and try again."
             });
         }
-        console.log(decodedToken)
-        req.user = decodedToken?.email;
+        req.worker = decodedToken?.email;
         next();
     } catch (error) {
         next(error);

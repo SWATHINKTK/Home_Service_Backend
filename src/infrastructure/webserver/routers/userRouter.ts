@@ -15,6 +15,7 @@ import { UserAdapters } from "./injectons/userInjection";
 import { validationMiddleware } from "../middleware/requestValidationMiddleware";
 import { userAuthentication } from "../middleware/userAuthenticationMiddleware";
 import { upload } from "../middleware/multerConfig";
+import { serviceAdapter } from "./injectons/serviceInjection";
 
 
 const router = express.Router();
@@ -93,6 +94,20 @@ router.put(
     upload.fields([{ name: "profile", maxCount: 1 }]),
     (req: Request, res: Response, next: NextFunction) => {
         UserAdapters.editUserProfile(req, res, next);
+    })
+
+
+
+/**
+* @route GET api/user/service
+* @desc Retrieve User Data.
+* @access Public
+*/
+router.get(
+    '/service',
+    userAuthentication,
+    (req: Request, res: Response, next: NextFunction) => {
+       serviceAdapter.findAllServices(req, res, next);
     })
 
 export default router

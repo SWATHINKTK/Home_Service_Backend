@@ -20,7 +20,7 @@ import { ISecretHasher } from "../../interface/services/ISecretHasher";
 import { IJWT } from "../../interface/services/Ijwt";
 
 export const loginWorker = async (
-    username: string,
+    phoneNumber: string,
     password: string,
     workerRepository: IWorkerRepository,
     secretHashService: ISecretHasher,
@@ -29,7 +29,7 @@ export const loginWorker = async (
     try {
 
         // ** Checking This Worker is Already Exist or Not
-        const query = { email: username }
+        const query = { phoneNumber: phoneNumber }
         const existingWorker = await workerRepository.findWorker(query);
 
         // If user does not exist, throw a BadRequestError
@@ -42,11 +42,11 @@ export const loginWorker = async (
 
         // If password does not match, throw a BadRequestError
         if (!checkCredentials) {
-            throw new BadRequestError('Invalid user data.Please Check email & password.')
+            throw new BadRequestError('Invalid user data.Please Check Phone Number & password.')
         }
 
         // Generate a JWT token for the authenticated user
-        const token = await jwtService.createJWT(existingWorker._id, username, "worker");
+        const token = await jwtService.createJWT(existingWorker._id, phoneNumber, "worker");
 
         // Omit the password field from the user data in the response
         existingWorker.password = '';
