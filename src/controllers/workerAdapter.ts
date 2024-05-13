@@ -30,6 +30,18 @@ export class WorkerAdapter {
         }
     }
 
+    async logoutWorker(req:Req, res:Res, next:Next){
+        try {
+            const logout = await this._workerUseCase.logoutWorker();
+            res.status(logout.statusCode).clearCookie('workerJWT').json({
+                success:logout.success,
+                message:logout.message
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
+
 
     /**
      ** Service Data to Create New Service.

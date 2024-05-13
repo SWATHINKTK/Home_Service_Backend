@@ -8,8 +8,10 @@ import { IJWT } from "../interface/services/Ijwt";
 import { createUser } from "./user/createUser";
 import { editUserProfile } from "./user/editUser";
 import { getUser } from "./user/getUser";
+import { googleSignin } from "./user/googleSigin";
 import { loginUser } from "./user/loginUser";
 import { logout } from "./user/logout";
+import { refreshToken } from "./user/refreshToken";
 import { sendOTP } from "./user/sendOTP";
 
 
@@ -144,6 +146,21 @@ export class UserUseCase {
             username,
             password
         );
+    }
+
+    async refreshToken(userRTkn :string){
+        return refreshToken(userRTkn,  this._userRepository, this._jwtService)
+    }
+
+    async googleSignin({
+        firstname,
+        lastname,
+        email,
+        phoneNumber,
+        district,
+        password
+    }: IUser){
+        return googleSignin(firstname, lastname, email, phoneNumber, district, password, this._userRepository)
     }
 
 

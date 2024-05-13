@@ -2,7 +2,7 @@
 import { BadRequestError } from "../../handler/badRequestError";
 import { IUserRepository } from "../../interface/repository/IUserRepository";
 import { IOTPService } from "../../interface/services/IOTPService";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 import { ISecretHasher } from "../../interface/services/ISecretHasher";
 
 /**

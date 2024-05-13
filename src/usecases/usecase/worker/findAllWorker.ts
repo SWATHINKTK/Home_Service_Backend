@@ -1,5 +1,5 @@
 import { IWorkerRepository } from "../../interface/repository/IWorkerRepository";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 
 export const retrieveAllWorker = async(status:boolean, workerRepository:IWorkerRepository):Promise<IServerResponse> => {
       try {

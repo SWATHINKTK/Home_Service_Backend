@@ -1,7 +1,7 @@
 import { profile } from "winston";
 import { BadRequestError } from "../../handler/badRequestError";
 import { IUserRepository } from "../../interface/repository/IUserRepository";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 
 export const editUserProfile = async(
     userEmail:string,

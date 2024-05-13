@@ -1,7 +1,7 @@
 import { IService } from "../../../domain/service";
 import { BadRequestError } from "../../handler/badRequestError";
 import { IServiceRepository } from "../../interface/repository/IServiceRepository";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 
 export const createService = async(
   serviceData:IService,

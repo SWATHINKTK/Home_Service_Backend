@@ -1,6 +1,6 @@
 import { BadRequestError } from "../../handler/badRequestError";
 import { IWorkerRepository } from "../../interface/repository/IWorkerRepository";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 
 export const blockWorker = async (workerId: string, workerRepository: IWorkerRepository): Promise<IServerResponse> => {
     try {

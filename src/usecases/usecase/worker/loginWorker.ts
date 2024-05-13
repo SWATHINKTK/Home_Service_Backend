@@ -15,7 +15,7 @@
 
 import { BadRequestError } from "../../handler/badRequestError";
 import { IWorkerRepository } from "../../interface/repository/IWorkerRepository";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 import { ISecretHasher } from "../../interface/services/ISecretHasher";
 import { IJWT } from "../../interface/services/Ijwt";
 
@@ -46,7 +46,12 @@ export const loginWorker = async (
         }
 
         // Generate a JWT token for the authenticated user
-        const token = await jwtService.createJWT(existingWorker._id, phoneNumber, "worker");
+        const tokenCredential = {
+            _id:existingWorker._id,
+            email:existingWorker.email,
+            role:"worker"
+        }
+        const token = await jwtService.createJWT(tokenCredential);
 
         // Omit the password field from the user data in the response
         existingWorker.password = '';

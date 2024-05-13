@@ -2,7 +2,7 @@ import { IWorker } from "../../../domain/worker";
 import { IWorkerExtraInfo } from "../../../infrastructure/types/workerExtraInfo";
 import { BadRequestError } from "../../handler/badRequestError";
 import { IWorkerRepository } from "../../interface/repository/IWorkerRepository";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 import { ISecretHasher } from "../../interface/services/ISecretHasher";
 
 export const registerWorker = async (

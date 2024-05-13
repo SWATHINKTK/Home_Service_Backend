@@ -1,7 +1,7 @@
 import { BadRequestError } from "../../handler/badRequestError";
 import { IUserRepository } from "../../interface/repository/IUserRepository";
 import { IWorkerRepository } from "../../interface/repository/IWorkerRepository";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 
 export const getWorker = async (userPhoneNumber:string, workerRepository: IWorkerRepository):Promise<IServerResponse> => {
     try {

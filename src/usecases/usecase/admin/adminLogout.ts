@@ -1,4 +1,4 @@
-import { IServerResponse } from "../../interface/services/IResponse"
+import { IServerResponse } from "../../../infrastructure/types/IResponse"
 
 export const adminLogout = ():IServerResponse => {
     return{

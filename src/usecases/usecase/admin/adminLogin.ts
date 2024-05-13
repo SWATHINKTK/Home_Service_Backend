@@ -1,6 +1,6 @@
 import { BadRequestError } from "../../handler/badRequestError";
 import { IAdminRepository } from "../../interface/repository/IAdminRepository";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 import { ISecretHasher } from "../../interface/services/ISecretHasher";
 import { IJWT } from "../../interface/services/Ijwt";
 
@@ -23,8 +23,12 @@ export const adminLogin = async(
         }
   
         console.log(existingAdmin,username,password,checkCredentials)
-
-        const token:string = await jwtService.createJWT(existingAdmin._id,username,"Admin")
+        const tokenCredential = {
+            _id:existingAdmin._id,
+            email:existingAdmin.email,
+            role:'admin'
+        }
+        const token = await jwtService.createJWT(tokenCredential)
         return {
             statusCode:200,
             success:true,

@@ -5,11 +5,11 @@ import { IServerResponse } from "../../../infrastructure/types/IResponse"
  * 
  * @returns {IServerResponse} A server response indicating successful user logout.
  */
-export const logout = ():IServerResponse => {
+export const logoutWorker = ():IServerResponse => {
     return{
         statusCode:200,
         success:true,
-        message:"User Logout Sucessfully."
+        message:"Worker Logout Sucessfully."
     }
 }
     

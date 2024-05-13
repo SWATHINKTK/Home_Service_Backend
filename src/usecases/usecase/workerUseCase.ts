@@ -9,6 +9,7 @@ import { getWorker } from "./worker/findWorker";
 import { loginWorker } from "./worker/loginWorker";
 import { registerWorker } from "./worker/registerWorker";
 import { verifyWorker } from "./worker/verifyWorker";
+import { logoutWorker } from "./worker/workerLogout";
 
 export class WorkerUseCase{
     private readonly _workerRepository:IWorkerRepository;
@@ -33,6 +34,10 @@ export class WorkerUseCase{
             this._secretHashService,
             this._jwtService,
         );
+    }
+
+    async logoutWorker(){
+        return logoutWorker();
     }
 
     async retrieveAllWorker(status:boolean){

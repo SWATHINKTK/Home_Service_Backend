@@ -1,5 +1,5 @@
 import { IUser } from "../../../../../domain/user";
-import { PublicUserInfo } from "../../../../../usecases/interface/services/IResponse";
+import { PublicUserInfo } from "../../../../types/IResponse";
 import { userModel } from "../../models/userModel";
 
 export const createUser = async(newUser:IUser, userModelInstance: typeof userModel):Promise<PublicUserInfo> => {

@@ -1,5 +1,5 @@
 import { IServiceRepository } from "../../interface/repository/IServiceRepository";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 
 export const findAllServices = async(serviceRepository:IServiceRepository):Promise<IServerResponse> => {
     try {

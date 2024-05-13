@@ -1,6 +1,6 @@
 
 import { BadRequestError } from "../../handler/badRequestError";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 import { IWorkerRepository } from "../../interface/repository/IWorkerRepository";
 
 export const editWorkerProfile = async(

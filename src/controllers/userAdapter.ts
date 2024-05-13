@@ -7,6 +7,7 @@
  * - POST  /api/user/sendEmail  Sending Email For OTP Verification.
  */
 
+import { token } from "morgan";
 import { Req, Res, Next } from "../infrastructure/types/expressTypes";
 import { BadRequestError } from "../usecases/handler/badRequestError";
 import { UserUseCase } from "../usecases/usecase/userUseCase";
@@ -63,19 +64,58 @@ export class UserAdapter {
         try {
             const user = await this._userUsecase.loginUser(req.body);
             user &&
-                res.cookie("userJWT", user.token, {
-                    httpOnly: true,                 //! Prevent XSS Attack
-                    sameSite: "strict",             //! Prevent CSRF Attack
-                    maxAge: 24 * 60 * 60 * 1000,    //! 24 Hrs validity.
+                res.cookie("userRTkn", user.token?.refreshToken, {
+                    httpOnly: true,       //! Prevent XSS Attack
+                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
+                });
+                res.cookie("userATkn", user.token?.accessToken, {
+                    httpOnly: true,       //! Prevent XSS Attack
+                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    maxAge: 4 * 60 * 1000,    //! 4m validity
                 });
             res.status(user.statusCode).json({
                 success: user.success,
                 message: user.message,
                 data: user.data,
+                token:user.token?.refreshToken 
             });
         } catch (error) {
             next(error)
         }
+    }
+
+    async refreshToken(req:Req, res:Res, next:Next){
+        try {
+            const response = await this._userUsecase.refreshToken(req.cookies.userRTkn)
+            response &&
+                res.cookie("userRTkn", response.token?.refreshToken, {
+                    httpOnly: true,       //! Prevent XSS Attack
+                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
+                });
+                res.cookie("userATkn",response.token?.accessToken, {
+                    httpOnly: true,       //! Prevent XSS Attack
+                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    maxAge: 4 * 60 * 1000,    //! 4m validity
+                });
+
+            res.status(response.statusCode).json({
+                success:response.success,
+                message:response.message
+            })  
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async googleSignin(req:Req, res:Res, next:Next){
+        const googleSign = await this._userUsecase.googleSignin(req.body);
+        res.status(googleSign.statusCode).json({
+            success: googleSign.success,
+            message: googleSign.message,
+            data: googleSign.data,
+        });
     }
 
   

@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 import { IUser } from "../../../domain/user";
-import { PublicUserInfo } from "../services/IResponse";
+import { PublicUserInfo } from "../../../infrastructure/types/IResponse";
 import { IUpdateUserData } from "../../../infrastructure/database/mongodb/repository/user/editUser";
 
 

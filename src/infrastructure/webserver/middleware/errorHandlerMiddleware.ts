@@ -9,4 +9,8 @@ export const errorHandler = ( err:Error, req:Req, res:Res, next:Next ) => {
             errors:err.serializeError()
         });
     }
+    res.status(401).json({
+        success:false,
+        message:"user Unauthorized."
+    })
 }

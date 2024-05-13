@@ -32,6 +32,22 @@ router.post(
 
 
 /**
+ * @route POST api/worker/logout
+ * @desc Worker is going to logout.
+ * @access Public
+ */
+router.post(
+    "/logout",
+    (req: Request, res: Response, next: NextFunction) => {
+        workerAdapter.logoutWorker(req, res, next);
+    });    
+
+
+
+
+
+
+/**
 * @route GET api/worker/profile
 * @desc Retrieve Worker Data.
 * @access Public

@@ -1,7 +1,7 @@
 import { Document } from "mongoose";
 import { IUser } from "../../../../domain/user";
 import { IUserRepository } from "../../../../usecases/interface/repository/IUserRepository";
-import { PublicUserInfo } from "../../../../usecases/interface/services/IResponse";
+import { PublicUserInfo } from "../../../types/IResponse";
 import { userModel } from "../models/userModel";
 import { createUser } from "./user/createUser";
 import { findUser } from "./user/findUser";

@@ -13,10 +13,13 @@
 import express, { Request, Response, NextFunction } from "express";
 import { UserAdapters } from "./injectons/userInjection";
 import { validationMiddleware } from "../middleware/requestValidationMiddleware";
-import { userAuthentication } from "../middleware/userAuthenticationMiddleware";
 import { upload } from "../middleware/multerConfig";
 import { serviceAdapter } from "./injectons/serviceInjection";
+import { JWTService } from "../../services/jwtService";
+import { Authentication } from "../middleware/authentication";
 
+
+const authentication = new Authentication();
 
 const router = express.Router();
 
@@ -31,6 +34,23 @@ router.post(
     ( req:Request, res:Response, next:NextFunction) => {
         UserAdapters.createUser(req,res,next)
     }) 
+
+
+/**
+ * @route POST api/user/googleSignin
+ * @desc Register New User
+ * @access Public
+ */
+router.post(
+    '/googleSignIn',
+    validationMiddleware,
+    ( req:Request, res:Response, next:NextFunction) => {
+        UserAdapters.googleSignin(req,res,next)
+    }) 
+
+
+
+
 
 
 /**
@@ -76,7 +96,7 @@ router.post(
 */
 router.get(
     '/profile',
-    userAuthentication,
+    authentication.protectUser,
     (req: Request, res: Response, next: NextFunction) => {
         UserAdapters.getUserProfile(req, res, next);
     })
@@ -90,7 +110,7 @@ router.get(
 */
 router.put(
     '/editProfile',
-    userAuthentication,
+    authentication.protectUser,
     upload.fields([{ name: "profile", maxCount: 1 }]),
     (req: Request, res: Response, next: NextFunction) => {
         UserAdapters.editUserProfile(req, res, next);
@@ -105,9 +125,18 @@ router.put(
 */
 router.get(
     '/service',
-    userAuthentication,
     (req: Request, res: Response, next: NextFunction) => {
        serviceAdapter.findAllServices(req, res, next);
     })
+
+
+const jwt = new JWTService();
+
+router.post(
+    '/refresh',
+    (req:Request, res:Response, next:NextFunction) => {
+        UserAdapters.refreshToken(req, res, next)
+    }
+)
 
 export default router

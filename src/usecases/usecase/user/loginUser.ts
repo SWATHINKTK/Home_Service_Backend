@@ -1,6 +1,6 @@
 import { BadRequestError } from "../../handler/badRequestError";
 import { IUserRepository } from "../../interface/repository/IUserRepository";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 import { ISecretHasher } from "../../interface/services/ISecretHasher";
 import { IJWT } from "../../interface/services/Ijwt";
 
@@ -34,6 +34,10 @@ export const loginUser = async(
             throw new BadRequestError('Invalid user data')
         }
 
+        if(existingUser._isBlocked){
+            throw new BadRequestError('User Is Blocked.')
+        }
+
         // Check if the provided password matches the hashed password stored in the database
         const checkCredentials = await secretHashService.checkSecretMatch(password, existingUser.password);
         
@@ -43,8 +47,13 @@ export const loginUser = async(
         }
 
         // Generate a JWT token for the authenticated user
-        const token = await jwtService.createJWT(existingUser._id, username, "User");
-        
+        const tokenCredential = {
+            _id:existingUser._id,
+            email:existingUser.email,
+            role:"user"
+        }
+        const token = jwtService.createJWT(tokenCredential);
+
         // Omit the password field from the user data in the response
         const sendUserData = {
             firstname:existingUser.firstname,

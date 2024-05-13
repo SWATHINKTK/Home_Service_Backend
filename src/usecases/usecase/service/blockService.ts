@@ -1,6 +1,6 @@
 import { BadRequestError } from "../../handler/badRequestError";
 import { IServiceRepository } from "../../interface/repository/IServiceRepository";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 
 export const blockService = async(serviceId: string, serviceRepository: IServiceRepository):Promise<IServerResponse> => {
     try {

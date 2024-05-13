@@ -1,6 +1,6 @@
 import { BadRequestError } from "../../handler/badRequestError";
 import { IUserRepository } from "../../interface/repository/IUserRepository";
-import { IServerResponse } from "../../interface/services/IResponse";
+import { IServerResponse } from "../../../infrastructure/types/IResponse";
 
 export const findAllUsers = async(userRepository:IUserRepository):Promise<IServerResponse> =>{
     try {
