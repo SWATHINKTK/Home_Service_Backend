@@ -15,10 +15,15 @@ export class WorkerAdapter {
         try {
             const worker = await this._workerUseCase.loginWorker(req.body);
             worker &&
-                res.cookie("workerJWT", worker.token, {
-                    httpOnly: true,                 //! Prevent XSS Attack
-                    sameSite: "strict",             //! Prevent CSRF Attack
-                    maxAge: 24 * 60 * 60 * 1000,    //! 24 Hrs validity.
+                res.cookie("workerRTkn", worker.token?.refreshToken, {
+                    httpOnly: true,       //! Prevent XSS Attack
+                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
+                });
+                res.cookie("workerATkn",worker.token?.accessToken, {
+                    httpOnly: true,       //! Prevent XSS Attack
+                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    maxAge: 4 * 60 * 1000,    //! 4m validity
                 });
             res.status(worker.statusCode).json({
                 success: worker.success,
@@ -29,6 +34,32 @@ export class WorkerAdapter {
             next(error)
         }
     }
+
+
+    async refreshToken(req:Req, res:Res, next:Next){
+        try {
+            const worker = await this._workerUseCase.refreshToken(req.cookies.workerRTkn);
+            worker &&
+                res.cookie("workerRTkn", worker.token?.refreshToken, {
+                    httpOnly: true,       //! Prevent XSS Attack
+                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
+                });
+                res.cookie("workerATkn",worker.token?.accessToken, {
+                    httpOnly: true,       //! Prevent XSS Attack
+                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    maxAge: 4 * 60 * 1000,    //! 4m validity
+                });
+            res.status(worker.statusCode).json({
+                success: worker.success,
+                message: worker.message,
+                data: worker.data,
+            });
+        } catch (error) {
+            next(error)
+        }
+    }
+
 
     async logoutWorker(req:Req, res:Res, next:Next){
         try {

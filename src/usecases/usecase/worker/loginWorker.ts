@@ -51,7 +51,7 @@ export const loginWorker = async (
             email:existingWorker.email,
             role:"worker"
         }
-        const token = await jwtService.createJWT(tokenCredential);
+        const token = jwtService.createJWT(tokenCredential);
 
         // Omit the password field from the user data in the response
         existingWorker.password = '';

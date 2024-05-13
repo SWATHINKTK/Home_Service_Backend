@@ -18,11 +18,17 @@ export class AdminAdapter {
         try {
             const admin = await this._adminUsecase.adminLogin(req.body);
             admin &&
-                res.cookie("adminJWT", admin.token, {
-                    httpOnly: true, //Prevent XSS Attack
-                    sameSite: "strict", // Prevent CSRF Attack
-                    maxAge: 24 * 60 * 60 * 1000, // 24 Hrs validity.
+                res.cookie("adminRTkn", admin.token?.refreshToken, {
+                    httpOnly: true,       //! Prevent XSS Attack
+                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
                 });
+                res.cookie("adminATkn",admin.token?.accessToken, {
+                    httpOnly: true,       //! Prevent XSS Attack
+                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    maxAge: 4 * 60 * 1000,    //! 4m validity
+                });
+
             res.status(admin.statusCode).json({
                 success: admin.success,
                 message: admin.message,
@@ -32,6 +38,32 @@ export class AdminAdapter {
             next(error);
         }
     }
+
+
+    async refreshToken(req:Req, res:Res, next:Next){
+        try {
+            const admin = await this._adminUsecase.refreshToken(req.cookies.adminRTkn);
+            admin &&
+                res.cookie("adminRTkn", admin.token?.refreshToken, {
+                    httpOnly: true,      
+                    sameSite: "strict",        
+                    maxAge: 15 * 24 * 60 * 60 * 1000,  
+                });
+                res.cookie("adminATkn",admin.token?.accessToken, {
+                    httpOnly: true,       //! Prevent XSS Attack
+                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    maxAge: 4 * 60 * 1000,    //! 4m validity
+                });
+            res.status(admin.statusCode).json({
+                success: admin.success,
+                message: admin.message,
+                data: admin.data,
+            });
+        } catch (error) {
+            next(error)
+        }
+    }
+
 
     /**(
      * Admin logging out.
@@ -45,6 +77,7 @@ export class AdminAdapter {
             next(error);
         }
     }
+
 
     /**
      * All User Data Retrieval.
@@ -63,6 +96,7 @@ export class AdminAdapter {
             next(error);
         }
     }
+
 
     /**
      * Blocking the userId mentioned user.

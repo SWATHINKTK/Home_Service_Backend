@@ -28,7 +28,21 @@ router.post(
     });
 
 
-    /**
+/**
+ * @route POST api/admin/refreshToken
+ * @desc Admin Refresh Token is used to Generate Access Token
+ * @access Public
+ */
+router.post(
+    "refreshToken", 
+    (req: Request, res: Response, next: NextFunction) => {
+        adminAdapter.refreshToken(req, res, next);
+    });
+
+
+
+
+/**
  * @route POST api/admin/logout
  * @desc Register New User
  * @access Public

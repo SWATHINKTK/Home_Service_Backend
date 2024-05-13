@@ -30,6 +30,20 @@ router.post(
     });
 
 
+/**
+ * @route POST api/worker/refreshToken
+ * @desc Worker Refresh token is used to provide the access toke.
+ * @access Public
+ */
+router.post(
+    "/refreshToken",
+    (req: Request, res: Response, next: NextFunction) => {
+        workerAdapter.refreshToken(req, res, next);
+    });
+
+
+
+
 
 /**
  * @route POST api/worker/logout
@@ -50,7 +64,7 @@ router.post(
 /**
 * @route GET api/worker/profile
 * @desc Retrieve Worker Data.
-* @access Public
+* @access Private
 */
 router.get(
     '/profile',

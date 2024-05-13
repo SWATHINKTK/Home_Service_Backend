@@ -28,7 +28,7 @@ export const adminLogin = async(
             email:existingAdmin.email,
             role:'admin'
         }
-        const token = await jwtService.createJWT(tokenCredential)
+        const token = jwtService.createJWT(tokenCredential)
         return {
             statusCode:200,
             success:true,

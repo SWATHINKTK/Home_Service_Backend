@@ -7,6 +7,7 @@ import { editWorkerProfile } from "./worker/editWorker";
 import { retrieveAllWorker } from "./worker/findAllWorker";
 import { getWorker } from "./worker/findWorker";
 import { loginWorker } from "./worker/loginWorker";
+import { refreshToken } from "./worker/refreshToke";
 import { registerWorker } from "./worker/registerWorker";
 import { verifyWorker } from "./worker/verifyWorker";
 import { logoutWorker } from "./worker/workerLogout";
@@ -35,6 +36,13 @@ export class WorkerUseCase{
             this._jwtService,
         );
     }
+
+
+
+    async refreshToken(workerRTkn :string){
+        return refreshToken(workerRTkn,  this._workerRepository, this._jwtService)
+    }
+
 
     async logoutWorker(){
         return logoutWorker();
