@@ -42,9 +42,6 @@ router.post(
     });
 
 
-
-
-
 /**
  * @route POST api/worker/logout
  * @desc Worker is going to logout.

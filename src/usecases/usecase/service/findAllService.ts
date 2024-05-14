@@ -1,14 +1,25 @@
 import { IServiceRepository } from "../../interface/repository/IServiceRepository";
 import { IServerResponse } from "../../../infrastructure/types/IResponse";
 
-export const findAllServices = async(serviceRepository:IServiceRepository):Promise<IServerResponse> => {
+export const findAllServices = async(page:number, pageSize:number, search:string, serviceRepository:IServiceRepository):Promise<IServerResponse> => {
     try {
-        const services = await serviceRepository.findAllServices();
+        let query = {};
+        if(search){
+            query = {
+                $or:[
+                    {serviceName: {$regex: search, $options:'i'}}
+                ]
+            }
+        }
+        const serviceGenerator =  serviceRepository.findAllServices(page, pageSize, query);
+        const services = await serviceGenerator.next();
         return {
             statusCode:200,
             success:true,
             message:'Retrieve All Services',
-            data:services
+            data:services.value.services,
+            page:services.value.totalPages,
+            currentPage:services.value.currentPage
         }
     } catch (error) {
         throw error;

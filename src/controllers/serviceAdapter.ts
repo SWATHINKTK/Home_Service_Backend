@@ -43,11 +43,14 @@ export class ServiceAdapter{
      */
     async findAllServices( req:Req, res:Res, next:Next){
         try {
-            const services = await this._serviceUseCase.findAllServices();
+           
+            const services = await this._serviceUseCase.findAllServices(req.query as {page:string, pageSize:string, search:string});
             res.status(services.statusCode).json({
                 success: services.success,
                 message: services.message,
-                data: services.data
+                data: services.data,
+                page: services.page,
+                currentPage:services.currentPage
             })
         } catch (error) {
             next(error)

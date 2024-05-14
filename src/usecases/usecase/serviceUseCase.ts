@@ -39,8 +39,10 @@ export class ServiceUseCase {
     * 
     * @returns A promise resolving to retrieve all service data.
     */
-    async findAllServices() {
-        return findAllServices(this._serviceRepository);
+    async findAllServices({page, pageSize, search}:{page:string, pageSize:string, search:string}) {
+        const parsedPage  = page ? parseInt(page) : 1;
+        const parsedPageSize  = pageSize ? parseInt(pageSize) : 4;
+        return findAllServices(parsedPage, parsedPageSize, search, this._serviceRepository);
     }
 
 

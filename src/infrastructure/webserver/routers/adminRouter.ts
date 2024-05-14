@@ -34,7 +34,7 @@ router.post(
  * @access Public
  */
 router.post(
-    "refreshToken", 
+    "/refreshToken", 
     (req: Request, res: Response, next: NextFunction) => {
         adminAdapter.refreshToken(req, res, next);
     });

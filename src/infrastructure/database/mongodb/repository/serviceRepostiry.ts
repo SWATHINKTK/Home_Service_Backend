@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, FilterQuery } from "mongoose";
 import { IService } from "../../../../domain/service";
 import { IServiceRepository } from "../../../../usecases/interface/repository/IServiceRepository";
 import { serviceModel } from "../models/serviceModel";
@@ -25,8 +25,8 @@ export class ServiceRepository implements IServiceRepository{
         return findService(query, this._serviceModelInstance);
     }
 
-    findAllServices(): Promise<(IService & Document)[] | null> {
-        return findAllServices(this._serviceModelInstance)
+    async *findAllServices(page:number, pageSize:number,  query:FilterQuery<any>): AsyncGenerator<{ services: (Document & IService)[], currentPage: number, totalPages: number } | null> {
+        yield* findAllServices(page, pageSize, query, this._serviceModelInstance)
     }
 
     editService(serviceId: string, editServiceData: IService):Promise<boolean> {
