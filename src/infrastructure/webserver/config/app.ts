@@ -14,7 +14,7 @@ const app:Express = express();
 
 // CORS setup
 const corsOptions = {
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173","http://10.4.2.182:5173"],
     methods: ["GET", "PATCH", "PUT", "POST"],
     optionsSuccessStatus: 204,
     credentials: true 
@@ -23,7 +23,19 @@ app.use(cors(corsOptions));
 
 
 // URL Encoding
-app.use(express.json());
+app.use(
+    (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ): void => {
+      if (req.originalUrl === '/api/user/webhook') {
+        next();
+      } else {
+        express.json()(req, res, next);
+      }
+    }
+  );
 app.use(express.urlencoded({extended:true}));
 
 
@@ -34,9 +46,9 @@ const httpServer = http.createServer(app);
 
 
 // Router
-app.use('/api/user',userRouter)
-app.use('/api/admin', adminRouter)
-app.use('/api/worker', workRouter)
+app.use('/api/user',userRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/worker', workRouter);
 
 
 // Error handler

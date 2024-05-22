@@ -7,9 +7,7 @@
  * - POST  /api/user/sendEmail  Sending Email For OTP Verification.
  */
 
-import { token } from "morgan";
 import { Req, Res, Next } from "../infrastructure/types/expressTypes";
-import { BadRequestError } from "../usecases/handler/badRequestError";
 import { UserUseCase } from "../usecases/usecase/userUseCase";
 
 interface CustomReq extends Req{
@@ -149,7 +147,6 @@ export class UserAdapter {
 
     async editUserProfile(req: CustomReq, res: Res, next: Next){
         try {
-            console.log('edit')
             const userEmail = req.user;
             const files = req.files as { [fieldname: string]: Express.Multer.File[] };
             console.log(files)
@@ -162,8 +159,5 @@ export class UserAdapter {
             next(error)
         }
     }
-
-    
-
-   
+ 
 }

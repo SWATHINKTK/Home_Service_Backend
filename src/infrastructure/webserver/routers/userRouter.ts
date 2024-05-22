@@ -15,8 +15,8 @@ import { UserAdapters } from "./injectons/userInjection";
 import { validationMiddleware } from "../middleware/requestValidationMiddleware";
 import { upload } from "../middleware/multerConfig";
 import { serviceAdapter } from "./injectons/serviceInjection";
-import { JWTService } from "../../services/jwtService";
 import { Authentication } from "../middleware/authentication";
+import { BookingAdapters } from "./injectons/bookingInjection";
 
 
 const authentication = new Authentication();
@@ -92,7 +92,7 @@ router.post(
 /**
 * @route GET api/user/profile
 * @desc Retrieve User Data.
-* @access Public
+* @access Private
 */
 router.get(
     '/profile',
@@ -129,8 +129,17 @@ router.get(
        serviceAdapter.findAllServices(req, res, next);
     })
 
-
-const jwt = new JWTService();
+/**
+* @route GET api/service/details
+* @desc Retrieve User Data.
+* @access Private
+*/
+router.get(
+    '/service/details/:serviceId',
+    authentication.protectUser,
+    (req: Request, res: Response, next: NextFunction) => {
+        serviceAdapter.findService(req, res, next);
+    })
 
 router.post(
     '/refresh',
@@ -138,5 +147,23 @@ router.post(
         UserAdapters.refreshToken(req, res, next)
     }
 )
+
+
+router.post(
+    '/booking',
+    authentication.protectUser,
+    (req:Request, res:Response, next:NextFunction) => {
+        BookingAdapters.advanceBookingPayment(req, res, next)
+    }
+);
+
+router.post(
+    '/webhook',
+    express.raw({type: 'application/json'}),
+    (req:Request, res:Response, next:NextFunction) => {
+       BookingAdapters.webhook(req, res, next);
+    }
+);
+
 
 export default router

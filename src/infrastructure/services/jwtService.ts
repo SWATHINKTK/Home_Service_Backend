@@ -18,7 +18,6 @@ export class JWTService implements IJWT{
 
 
     verifyJWT(token: string): IDecodedToken {
-        console.log(process.env.JWT_KEY)
         const decodedToken = jwt.verify(token, process.env.JWT_KEY as string) as IDecodedToken;
         return decodedToken;
     }

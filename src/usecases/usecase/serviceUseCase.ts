@@ -5,6 +5,7 @@ import { blockService } from "./service/blockService";
 import { createService } from "./service/createService";
 import { editService } from "./service/editService";
 import { findAllServices } from "./service/findAllService";
+import { findService } from "./service/findService";
 
 /**
  ** Handles Service Related tasks such as Creating Service,Edit Service.
@@ -43,6 +44,15 @@ export class ServiceUseCase {
         const parsedPage  = page ? parseInt(page) : 1;
         const parsedPageSize  = pageSize ? parseInt(pageSize) : 4;
         return findAllServices(parsedPage, parsedPageSize, search, this._serviceRepository);
+    }
+
+    /**
+    ** Retrieving Specified Id Mention Service Data.
+    * 
+    * @returns A promise resolving to retrieve specified service data.
+    */
+    async findServices({serviceId}:{serviceId:string}) {
+        return findService(serviceId, this._serviceRepository)
     }
 
 

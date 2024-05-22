@@ -13,6 +13,7 @@ declare global {
     namespace Express {
         interface Request {
             user?: string;
+            userId?:string;
         }
     }
 }
@@ -34,7 +35,7 @@ export class Authentication{
                 throw new UnauthorizedRequestError();
             }
             const decodedToken = this._jwtService.verifyJWT(token);
-            console.log(decodedToken)
+            // console.log(decodedToken)
             if(decodedToken.role != 'user' || !decodedToken){
                 throw new ForbiddenError();
             }
@@ -48,6 +49,7 @@ export class Authentication{
             }
 
             req.user = decodedToken?.email;
+            req.userId = decodedToken?._id;
             next();
         } catch (error) {
             next(error);

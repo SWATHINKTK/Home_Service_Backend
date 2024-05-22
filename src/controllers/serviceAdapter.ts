@@ -59,6 +59,26 @@ export class ServiceAdapter{
 
 
     /**
+     ** Retrieve Specified Id Service Data.
+     * @Request GET  /api/user/service/details/:serviceId
+     * @Response Response: 200  Return Specified Service Data or appropriate error code
+     */
+     async findService(req: Req, res: Res, next: Next) {
+        try {
+            // const serviceId:string = req.params.serviceId.toString();
+            const service = await this._serviceUseCase.findServices(req.params as {serviceId:string});
+            res.status(service.statusCode).json({
+                success: service.success,
+                message: service.message,
+                data:service.data
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+
+    /**
      ** Modifying The Existing Service.
      * @Request PUT  /api/admin/service/edit
      * @Response Response: 200  Return Edited Service Data or appropriate error code
