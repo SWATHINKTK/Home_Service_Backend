@@ -1,5 +1,5 @@
 import { IServerResponse } from "../../../infrastructure/types/IResponse";
-import { IBookingRequestData } from "../../../infrastructure/types/bookingRequest";
+import { IBookingRequestData } from "../../../infrastructure/types/booking";
 import { NotFoundError } from "../../handler/notFoundError";
 import { IServiceRepository } from "../../interface/repository/IServiceRepository";
 import { IUserRepository } from "../../interface/repository/IUserRepository";

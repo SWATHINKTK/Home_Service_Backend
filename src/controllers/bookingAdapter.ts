@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { Next, Req, Res } from "../infrastructure/types/expressTypes";
 import { BookingUseCase } from "../usecases/usecase/bookingUseCase";
+import { BadRequestError } from "../usecases/handler/badRequestError";
 
 interface CustomReq extends Req {
     user?: string;
@@ -31,29 +32,15 @@ export class BookingAdapter {
     async webhook(req: Req, res: Res, next: Next) {
         try {
             const signature = req.headers['stripe-signature'] as string;
-            const response = await this._bookingUseCase.webhook(signature, req.body)
-//             const sig = req.headers['stripe-signature'] as string;
-//             const endpointSecret = "whsec_7b8750c713fbec3221d6800691e33e7505ac04bb2d96488387a7887264d25704";
-//             const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || ''); 
-//             const body = req.body;
-// // console.log( req.body.toString())
-//             let event;
-
-//             try {
-//                 event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-//             } catch (err:any) {
-//                 console.log(err);
-//                 res.status(400).send(`Webhook Error: ${err.message}`);
-//                 return;
-//             }
-
-//             const data = event.data.object;
-//             const eventType = event.type;
-
-//             console.log('success', data, eventType);
-
-
-//             res.status(200).send({ received: true });
+            const response = await this._bookingUseCase.webhook(signature, req.body);
+            if (response) {
+                res.status(response.statusCode).json({
+                    success: response.success,
+                    message: response.message
+                });
+            } else {
+                throw new BadRequestError('No response received from webhook processing');
+            }
         } catch (error) {
             next(error);
         }

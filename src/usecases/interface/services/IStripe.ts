@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { IBookingRequestData } from "../../../infrastructure/types/bookingRequest";
+import { IBookingRequestData } from "../../../infrastructure/types/booking";
 
 export interface IStripe{
     createCustomer(name:string, phone:string, email:string):Promise<Stripe.Customer>;

@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import { IStripe } from "../../usecases/interface/services/IStripe";
-import { IBookingRequestData } from "../types/bookingRequest";
+import { IBookingRequestData } from "../types/booking";
 
 export class StripePaymentIntegration implements IStripe{
 
