@@ -8,7 +8,8 @@ interface CustomReq extends Req {
     userId?:string;
 }
 
-export class BookingAdapter {
+export class BookingAdapter{
+
     private readonly _bookingUseCase: BookingUseCase;
     constructor(_bookingUseCase: BookingUseCase) {
         this._bookingUseCase = _bookingUseCase;
@@ -45,4 +46,20 @@ export class BookingAdapter {
             next(error);
         }
     }
+
+    async retrieveAllBookingData(req:Req, res:Res, next:Next){
+        try {
+            const userId = req.userId;
+            const workerId = req.worker;
+            const allBookings = await  this._bookingUseCase.retrieveAllBookingData(userId, workerId);
+            res.status(allBookings.statusCode).json({
+                success:allBookings.success,
+                message:allBookings.message,
+                data:allBookings.data
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
 }
+

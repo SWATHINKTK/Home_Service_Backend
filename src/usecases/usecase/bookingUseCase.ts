@@ -1,4 +1,3 @@
-import Stripe from "stripe";
 import { IBookingRequestData } from "../../infrastructure/types/booking";
 import { BadRequestError } from "../handler/badRequestError";
 import { IBookingRepository } from "../interface/repository/IBookingRepository";
@@ -8,8 +7,8 @@ import { IEmailService } from "../interface/services/IEmailService";
 import { IStripe } from "../interface/services/IStripe";
 import { advanceBookingPayment } from "./booking/advanceBookingPayment";
 import { createBooking } from "./booking/createBooking";
-import { webhook } from "./booking/webhook";
-import { error } from "winston";
+import { findAllBookings } from "./booking/findAllBookings";
+
 
 export class BookingUseCase {
     private readonly _userRepository: IUserRepository;
@@ -58,7 +57,6 @@ export class BookingUseCase {
                 const advancePaymentAmount = parseFloat(data.metadata.amount);
                 const bookingData: IBookingRequestData = JSON.parse(data.metadata.bookingData);
                 const booking = await this.createBooking(userId, advancePaymentAmount, bookingData);
-                console.log('booking Success', booking)
                 return booking;
             }
         } catch (error:unknown) {
@@ -73,5 +71,9 @@ export class BookingUseCase {
 
     async createBooking(userId:string, advancePaymentAmount:number, bookingData:IBookingRequestData){
         return createBooking(userId, advancePaymentAmount, bookingData, this._bookingRepository, this._serviceRepository);
+    }
+
+    async retrieveAllBookingData(userId:string | undefined, workerId:string | undefined){
+        return findAllBookings(userId, workerId, this._bookingRepository)
     }
 }

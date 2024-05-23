@@ -60,8 +60,8 @@ export class WorkerUseCase{
         return blockWorker(workerId, this._workerRepository);
     }
 
-    async getWorker(userPhoneNumber:string){
-        return getWorker(userPhoneNumber, this._workerRepository)
+    async getWorker(workerPhoneNumber:string){
+        return getWorker(workerPhoneNumber, this._workerRepository)
     }
 
     async editWorkerProfile(workerPhoneNumber:string,{username, email, district, location,}:IWorker,workerImage: { [fieldname: string]: Express.Multer.File[]; }){

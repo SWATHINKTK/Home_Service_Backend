@@ -166,4 +166,13 @@ router.post(
 );
 
 
+router.get(
+    '/bookings',
+    authentication.protectUser,
+    (req:Request, res:Response, next:NextFunction) => {
+        BookingAdapters.retrieveAllBookingData(req, res, next)
+    }
+)
+
+
 export default router

@@ -48,7 +48,7 @@ export const loginWorker = async (
         // Generate a JWT token for the authenticated user
         const tokenCredential = {
             _id:existingWorker._id,
-            email:existingWorker.email,
+            phoneNumber:existingWorker.phoneNumber,
             role:"worker"
         }
         const token = jwtService.createJWT(tokenCredential);

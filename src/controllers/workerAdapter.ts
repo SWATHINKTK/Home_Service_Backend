@@ -159,8 +159,8 @@ export class WorkerAdapter {
 
     async getWorkerProfile(req: CustomReq, res: Res, next: Next){
         try {
-            const userPhoneNumber = req.worker;
-            const userData = await this._workerUseCase.getWorker(userPhoneNumber!);
+            const workerPhoneNumber = req.worker;
+            const userData = await this._workerUseCase.getWorker(workerPhoneNumber!);
             res.status(userData.statusCode).json({
                 success: userData.success,
                 message: userData.message,
@@ -176,10 +176,10 @@ export class WorkerAdapter {
         try {
             const workerPhoneNumber = req.worker;
             const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-            const userData = await this._workerUseCase.editWorkerProfile(workerPhoneNumber!, req.body, files);
-            res.status(userData.statusCode).json({
-                success: userData.success,
-                message: userData.message,
+            const workerData = await this._workerUseCase.editWorkerProfile(workerPhoneNumber!, req.body, files);
+            res.status(workerData.statusCode).json({
+                success: workerData.success,
+                message: workerData.message,
             });
         } catch (error) {
             next(error)

@@ -36,7 +36,7 @@ export const workerRouteProtect = (req:Req, res:Res, next:Next) => {
                 message: "Authentication Failed. Please log in and try again."
             });
         }
-        req.worker = decodedToken?.email;
+        req.worker = decodedToken?.phoneNumber;
         next();
     } catch (error) {
         next(error);
