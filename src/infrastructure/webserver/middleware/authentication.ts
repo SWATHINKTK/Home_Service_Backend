@@ -15,6 +15,7 @@ declare global {
             user?: string;
             userId?:string;
             worker?:string;
+            workerId?:string;
         }
     }
 }
@@ -58,6 +59,26 @@ export class Authentication{
     }
 
     async protectWorker( req:Req, res:Res, next:Next ){
-
+        try {
+            console.log('protectedWorker')
+            const token = req.cookies.workerATkn;
+            console.log('-----------------------------------------------')
+            console.log(token)
+            if(!token){
+                throw new UnauthorizedRequestError();
+            }
+            const decodedToken = this._jwtService.verifyJWT(token);
+            console.log(decodedToken)
+            if(decodedToken.role != 'worker' || !decodedToken){
+                throw new ForbiddenError();
+            }
+            
+            req.worker = decodedToken?.phoneNumber;
+            req.workerId = decodedToken?._id;
+            console.log('-----------------------------------------------')
+            next();
+        } catch (error) {
+            next(error);
+        }
     }
 }

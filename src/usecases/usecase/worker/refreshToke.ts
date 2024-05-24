@@ -7,16 +7,18 @@ import { IJWT } from "../../interface/services/Ijwt";
 export const refreshToken = async(workerRTkn:string, workerRepository:IWorkerRepository, jwtService:IJWT):Promise<IServerResponse> => {
     try {
         const credential = jwtService.verifyJWT(workerRTkn);
+        console.log(credential)
         if(!credential){
             throw new UnauthorizedRequestError();
         }
-        const worker = await workerRepository.findWorker({email:credential.email});
+        const worker = await workerRepository.findWorker({phoneNumber:credential.phoneNumber});
+        console.log(worker)
         if(!worker || worker?._isBlocked){
             throw new ForbiddenError();
         }
         const tokenCredential = {
             _id:credential._id,
-            email:credential.email,
+            phoneNumber:credential.phoneNumber,
             role:credential.role
         }
 

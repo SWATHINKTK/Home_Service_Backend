@@ -7,8 +7,8 @@ export const updateBookingStatus = async(userId:string ,status:string, bookingId
     try {
         let validStatus = '';
         const incomingStatus = new RegExp(`^${status}$`, 'i')
-        if(incomingStatus.test(WorkStatus.PENDING)){
-            validStatus = WorkStatus.PENDING;
+        if(incomingStatus.test(WorkStatus.CANCELLED)){
+            validStatus = WorkStatus.CANCELLED;
         }else{
             throw new BadRequestError('Invalid Status')
         }

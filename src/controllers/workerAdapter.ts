@@ -38,6 +38,7 @@ export class WorkerAdapter {
 
     async refreshToken(req:Req, res:Res, next:Next){
         try {
+            console.log(req.cookies)
             const worker = await this._workerUseCase.refreshToken(req.cookies.workerRTkn);
             worker &&
                 res.cookie("workerRTkn", worker.token?.refreshToken, {
@@ -159,6 +160,7 @@ export class WorkerAdapter {
 
     async getWorkerProfile(req: CustomReq, res: Res, next: Next){
         try {
+            console.log('...........................', req.worker)
             const workerPhoneNumber = req.worker;
             const userData = await this._workerUseCase.getWorker(workerPhoneNumber!);
             res.status(userData.statusCode).json({

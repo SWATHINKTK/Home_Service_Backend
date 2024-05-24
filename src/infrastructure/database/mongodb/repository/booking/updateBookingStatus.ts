@@ -5,7 +5,7 @@ import { bookingModel } from "../../models/bookingModel";
 
 export const updateBookingStatus = async(status:string, bookingId:string, bookingModelInstance:typeof bookingModel ):Promise<IBooking & Document> => {
     try {
-        const booking = await bookingModelInstance.findByIdAndUpdate({_id:bookingId},{bookingStatus:status},{new:true});
+        const booking = await bookingModelInstance.findByIdAndUpdate({_id:bookingId},{workStatus:status},{new:true});
         if(!booking){
             throw new BadRequestError('Booking Document Not Found.')
         }

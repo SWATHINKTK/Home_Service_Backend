@@ -13,15 +13,15 @@ declare global {
 }
 
 interface IDecodedToken extends JwtPayload{
-    userId:string;
-    email:string;
+    workerId:string;
+    phoneNumber:string;
     role:string;
 }
 
 export const workerRouteProtect = (req:Req, res:Res, next:Next) => {
     try {
-        const token = req.cookies.workerJWT;
-        console.log(jwt, process.env.JWT_KEY)
+        console.log('--------------------------------')
+        const token = req.cookies.workerATkn;
         if (!token) {
             return res.status(401).json({
                 success: false,

@@ -51,7 +51,8 @@ export class BookingAdapter{
         try {
             const userId = req.userId;
             const workerId = req.worker;
-            const allBookings = await  this._bookingUseCase.retrieveAllBookingData(userId, workerId);
+            const history = !!req.query.history || false
+            const allBookings = await  this._bookingUseCase.retrieveAllBookingData(userId, workerId, history);
             res.status(allBookings.statusCode).json({
                 success:allBookings.success,
                 message:allBookings.message,

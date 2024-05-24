@@ -166,7 +166,7 @@ router.post(
 );
 
 
-router.patch(
+router.get(
     '/bookings',
     authentication.protectUser,
     (req:Request, res:Response, next:NextFunction) => {
@@ -174,11 +174,11 @@ router.patch(
     }
 )
 
-router.get(
+router.patch(
     '/booking/cancel',
     authentication.protectUser,
     (req:Request, res:Response, next:NextFunction) => {
-        BookingAdapters.retrieveAllBookingData(req, res, next)
+        BookingAdapters.cancelBooking(req, res, next)
     }
 )
 

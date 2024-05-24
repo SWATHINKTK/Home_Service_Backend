@@ -1,9 +1,11 @@
 import express, { Request, Response, NextFunction } from "express";
 import { upload } from "../middleware/multerConfig";
+import { Authentication } from "../middleware/authentication";
 import { workerAdapter } from "./injectons/workerInjection";
 import { workerRouteProtect } from "../middleware/workerAuthMiddleware";
-const router = express.Router();
+const authentication = new Authentication();
 
+const router = express.Router();
 
 /**
  * @route POST api/worker/register

@@ -74,8 +74,8 @@ export class BookingUseCase {
         return createBooking(userId, advancePaymentAmount, bookingData, this._bookingRepository, this._serviceRepository);
     }
 
-    async retrieveAllBookingData(userId:string | undefined, workerId:string | undefined){
-        return findAllBookings(userId, workerId, this._bookingRepository)
+    async retrieveAllBookingData(userId:string | undefined, workerId:string | undefined, history:boolean){
+        return findAllBookings(userId, workerId, history, this._bookingRepository)
     }
 
     async updateBookingStatus(userId:string,{status, bookingId}:{status:string, bookingId:string}){
