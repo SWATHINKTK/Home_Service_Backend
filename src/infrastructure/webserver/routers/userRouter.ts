@@ -166,8 +166,16 @@ router.post(
 );
 
 
-router.get(
+router.patch(
     '/bookings',
+    authentication.protectUser,
+    (req:Request, res:Response, next:NextFunction) => {
+        BookingAdapters.retrieveAllBookingData(req, res, next)
+    }
+)
+
+router.get(
+    '/booking/cancel',
     authentication.protectUser,
     (req:Request, res:Response, next:NextFunction) => {
         BookingAdapters.retrieveAllBookingData(req, res, next)

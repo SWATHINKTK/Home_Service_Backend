@@ -8,6 +8,7 @@ import { IStripe } from "../interface/services/IStripe";
 import { advanceBookingPayment } from "./booking/advanceBookingPayment";
 import { createBooking } from "./booking/createBooking";
 import { findAllBookings } from "./booking/findAllBookings";
+import { updateBookingStatus } from "./booking/updateStatus";
 
 
 export class BookingUseCase {
@@ -75,5 +76,9 @@ export class BookingUseCase {
 
     async retrieveAllBookingData(userId:string | undefined, workerId:string | undefined){
         return findAllBookings(userId, workerId, this._bookingRepository)
+    }
+
+    async updateBookingStatus(userId:string,{status, bookingId}:{status:string, bookingId:string}){
+        return updateBookingStatus(userId,status, bookingId, this._bookingRepository)
     }
 }

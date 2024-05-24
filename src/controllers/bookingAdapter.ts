@@ -61,5 +61,20 @@ export class BookingAdapter{
             next(error);
         }
     }
+
+
+    async cancelBooking(req:Req, res:Res, next:Next){
+        try {
+            const userId = req.userId;
+            const cancelBooking = await this._bookingUseCase.updateBookingStatus(userId!, req.body);
+            res.status(cancelBooking.statusCode).json({
+                success:cancelBooking.success,
+                message:cancelBooking.message,
+                data:cancelBooking.data
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 

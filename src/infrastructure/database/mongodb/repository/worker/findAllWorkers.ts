@@ -3,22 +3,22 @@ import { IWorker } from "../../../../../domain/worker";
 import { DBConnectionError } from "../../../../../usecases/handler/databaseConnectionError";
 import { workerModel } from "../../models/workerModel";
 
-export const retrieveAllWorkers = async(status:boolean, workerModelInstance:typeof workerModel):Promise<(IWorker & Document)[] | []> => {
+export const retrieveAllWorkers = async (status: boolean, workerModelInstance: typeof workerModel): Promise<(IWorker & Document)[] | []> => {
     try {
         const workers = await workerModelInstance.aggregate([
             {
-                $match:{_isVerified:status}
+                $match: { _isVerified: status }
             },
             {
                 $lookup: {
-                    from: 'workerextrainfos',    
-                    localField:'_id',    
-                    foreignField: 'workerId', 
-                    as: 'workerInfo'         
-  }
+                    from: 'workerextrainfos',
+                    localField: '_id',
+                    foreignField: 'workerId',
+                    as: 'workerInfo'
+                }
             },
             {
-                $unwind:"$workerInfo"
+                $unwind: "$workerInfo"
             },
             {
                 $lookup: {
@@ -48,7 +48,7 @@ export const retrieveAllWorkers = async(status:boolean, workerModelInstance:type
                     experience: "$workerInfo.experience",
                     certificate: "$workerInfo.certificate",
                     idProof: "$workerInfo.idProof",
-                    service:"$serviceInfo.serviceName"
+                    service: "$serviceInfo.serviceName"
                 }
             }
         ]);
