@@ -3,10 +3,9 @@ import { IUserRepository } from "../../interface/repository/IUserRepository";
 import { IWorkerRepository } from "../../interface/repository/IWorkerRepository";
 import { IServerResponse } from "../../../infrastructure/types/IResponse";
 
-export const getWorker = async (workerPhoneNumber:string, workerRepository: IWorkerRepository):Promise<IServerResponse> => {
+export const getWorkerProfile = async (workerId:string, workerRepository: IWorkerRepository):Promise<IServerResponse> => {
     try {
-        const query = {phoneNumber:workerPhoneNumber}
-        const workerData = await workerRepository.findWorker(query);
+        const workerData = await workerRepository.retrieveWorkerAllDetails(true, workerId);
         if(!workerData){
             throw new BadRequestError("Worker Is Does not Exist");
         }
@@ -14,7 +13,7 @@ export const getWorker = async (workerPhoneNumber:string, workerRepository: IWor
             statusCode:200,
             success:true,
             message: "Worker profile retrieved successfully.",
-            data: workerData
+            data: workerData[0]
         }
     } catch (error) {
         throw error

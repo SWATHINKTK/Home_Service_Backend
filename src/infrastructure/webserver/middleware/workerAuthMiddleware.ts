@@ -37,6 +37,7 @@ export const workerRouteProtect = (req:Req, res:Res, next:Next) => {
             });
         }
         req.worker = decodedToken?.phoneNumber;
+        req.workerId = decodedToken._id;
         next();
     } catch (error) {
         next(error);

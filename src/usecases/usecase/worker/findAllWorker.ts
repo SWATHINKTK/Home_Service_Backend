@@ -1,9 +1,9 @@
 import { IWorkerRepository } from "../../interface/repository/IWorkerRepository";
 import { IServerResponse } from "../../../infrastructure/types/IResponse";
 
-export const retrieveAllWorker = async(status:boolean, workerRepository:IWorkerRepository):Promise<IServerResponse> => {
+export const retrieveWorkerAllDetails = async(status:boolean, workerRepository:IWorkerRepository):Promise<IServerResponse> => {
       try {
-          const workers = await workerRepository.retrieveAllWorkers(status);
+          const workers = await workerRepository.retrieveWorkerAllDetails(status,undefined);
           return{
             statusCode:200,
             success:true,

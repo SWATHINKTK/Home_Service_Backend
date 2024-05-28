@@ -160,9 +160,9 @@ export class WorkerAdapter {
 
     async getWorkerProfile(req: CustomReq, res: Res, next: Next){
         try {
-            console.log('...........................', req.worker)
-            const workerPhoneNumber = req.worker;
-            const userData = await this._workerUseCase.getWorker(workerPhoneNumber!);
+            console.log('...........................', req.worker,req.workerId)
+            const workerId = req.workerId;
+            const userData = await this._workerUseCase.getWorkerProfile(workerId!);
             res.status(userData.statusCode).json({
                 success: userData.success,
                 message: userData.message,

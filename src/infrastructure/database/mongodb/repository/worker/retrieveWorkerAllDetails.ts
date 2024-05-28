@@ -1,14 +1,22 @@
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
 import { IWorker } from "../../../../../domain/worker";
 import { DBConnectionError } from "../../../../../usecases/handler/databaseConnectionError";
 import { workerModel } from "../../models/workerModel";
 
-export const retrieveAllWorkers = async (status: boolean, workerModelInstance: typeof workerModel): Promise<(IWorker & Document)[] | []> => {
+export const retrieveWorkerAllDetails= async (status: boolean, workerModelInstance: typeof workerModel, workerId:string | undefined): Promise<(IWorker & Document)[] | []> => {
     try {
-        const workers = await workerModelInstance.aggregate([
-            {
+        let pipeline = [];
+        if(!workerId){
+            pipeline.push( {
                 $match: { _isVerified: status }
-            },
+            })
+        }else{
+            pipeline.push( {
+                $match: { _id: mongoose.Types.ObjectId.createFromHexString(workerId)}
+            })
+        }
+        const workers = await workerModelInstance.aggregate([
+            ...pipeline,
             {
                 $lookup: {
                     from: 'workerextrainfos',
@@ -39,7 +47,6 @@ export const retrieveAllWorkers = async (status: boolean, workerModelInstance: t
                     phoneNumber: 1,
                     district: 1,
                     location: 1,
-                    password: 1,
                     _isBlocked: 1,
                     _isVerified: 1,
                     createdAt: 1,

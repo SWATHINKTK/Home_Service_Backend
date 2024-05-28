@@ -6,7 +6,7 @@ import { IUpdateWorkerData } from "../../../infrastructure/database/mongodb/repo
 export interface IWorkerRepository{
     registerWorker(workerData:IWorker, workerExtraInfo:IWorkerExtraInfo): Promise<boolean>;
     findWorker(query: { [key: string]: any }): Promise<IWorker & Document | null>;
-    retrieveAllWorkers(status:boolean): Promise<(IWorker & Document)[] | []>;
+    retrieveWorkerAllDetails(status:boolean, workerId:string | undefined): Promise<(IWorker & Document)[] | []>;
     verifyWorker(workerId: string): Promise<boolean>;
     blockWorker(workerId: string): Promise<boolean>;
     updateWorkerData(workerPhoneNumber:string, updatedData:IUpdateWorkerData):Promise<boolean>; 

@@ -4,13 +4,13 @@ import { ISecretHasher } from "../interface/services/ISecretHasher";
 import { IJWT } from "../interface/services/Ijwt";
 import { blockWorker } from "./worker/blockWorker";
 import { editWorkerProfile } from "./worker/editWorker";
-import { retrieveAllWorker } from "./worker/findAllWorker";
-import { getWorker } from "./worker/findWorker";
+import { retrieveWorkerAllDetails } from "./worker/findAllWorker";
 import { loginWorker } from "./worker/loginWorker";
 import { refreshToken } from "./worker/refreshToke";
 import { registerWorker } from "./worker/registerWorker";
 import { verifyWorker } from "./worker/verifyWorker";
 import { logoutWorker } from "./worker/workerLogout";
+import { getWorkerProfile } from "./worker/getWorkerProfile";
 
 export class WorkerUseCase{
     private readonly _workerRepository:IWorkerRepository;
@@ -49,7 +49,7 @@ export class WorkerUseCase{
     }
 
     async retrieveAllWorker(status:boolean){
-        return retrieveAllWorker(status, this._workerRepository)
+        return retrieveWorkerAllDetails(status, this._workerRepository)
     }
 
     async verifyWorker(workerId:string){
@@ -60,8 +60,8 @@ export class WorkerUseCase{
         return blockWorker(workerId, this._workerRepository);
     }
 
-    async getWorker(workerPhoneNumber:string){
-        return getWorker(workerPhoneNumber, this._workerRepository)
+    async getWorkerProfile(workerId:string){
+        return getWorkerProfile(workerId, this._workerRepository)
     }
 
     async editWorkerProfile(workerPhoneNumber:string,{username, email, district, location,}:IWorker,workerImage: { [fieldname: string]: Express.Multer.File[]; }){

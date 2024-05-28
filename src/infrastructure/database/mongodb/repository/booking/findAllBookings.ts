@@ -2,6 +2,7 @@ import mongoose, { Document } from "mongoose";
 import { IBooking } from "../../../../../domain/booking";
 import { DBConnectionError } from "../../../../../usecases/handler/databaseConnectionError";
 import { bookingModel } from "../../models/bookingModel";
+import { WorkStatus } from "../../../../types/booking";
 
 export const findAllBooking = async (query: { [key: string]: any; }, bookingModelInstance: typeof bookingModel): Promise<(IBooking & Document)[]> => {
     try {
@@ -18,6 +19,12 @@ export const findAllBooking = async (query: { [key: string]: any; }, bookingMode
                 $match: {
                     userId: mongoose.Types.ObjectId.createFromHexString(query.workerId),
                     workStatus: { $nin: ['Completed', 'Cancelled'] }
+                }
+            }
+        }else{
+            pipeLine[0] = {
+                $match:{
+                    WorkStatus:'Pending'
                 }
             }
         }
