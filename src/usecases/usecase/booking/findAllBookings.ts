@@ -1,4 +1,5 @@
 import { IServerResponse } from "../../../infrastructure/types/IResponse";
+import { WorkStatus } from "../../../infrastructure/types/booking";
 import { BadRequestError } from "../../handler/badRequestError";
 import { IBookingRepository } from "../../interface/repository/IBookingRepository";
 
@@ -7,14 +8,18 @@ export const findAllBookings = async(userId:string | undefined, workerId:string 
         let query = {};
         if(userId){
             query = {
-                userId,
+                userId:userId,
+                workStatus:{$nin:['Completed','Cancelled']}
             }
         }else if(workerId){
             query = {workerId}
+        }else{
+            query = {
+                workStatus:'Pending'
+            }
         }
 
         const bookings = await bookingRepository.findAllBooking(query);
-        console.log(bookings)
         return {
             statusCode:200,
             success:true,

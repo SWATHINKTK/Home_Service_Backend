@@ -6,45 +6,15 @@ import { WorkStatus } from "../../../../types/booking";
 
 export const findAllBooking = async (query: { [key: string]: any; }, bookingModelInstance: typeof bookingModel): Promise<(IBooking & Document)[]> => {
     try {
-        let pipeLine = [];
-        if (query.userId) {
-            pipeLine[0] = {
-                $match: {
-                    userId: mongoose.Types.ObjectId.createFromHexString(query.userId),
-                    workStatus: { $nin: ['Completed', 'Cancelled'] }
-                }
-            }
-        }else if(query.workerId){
-            pipeLine[0] = {
-                $match: {
-                    userId: mongoose.Types.ObjectId.createFromHexString(query.workerId),
-                    workStatus: { $nin: ['Completed', 'Cancelled'] }
-                }
-            }
-        }else{
-            pipeLine[0] = {
-                $match:{
-                    WorkStatus:'Pending'
-                }
-            }
-        }
-
-        const allBookings = await bookingModelInstance.aggregate([
-            ...pipeLine,
-            {
-                $lookup: {
-                    from: 'services',
-                    localField: 'serviceId',
-                    foreignField: '_id',
-                    as: 'serviceInfo'
-                }
-            },
-            {
-                $unwind: '$serviceInfo'
-            }
-        ]);
+        console.log(query)
+        console.log('-------------------------------------')
+        const allBookings = await bookingModelInstance.find(query)
+                                                       .populate({path:'serviceId', select:'_id serviceName image'})
+                                                       .populate({path:'userId', select:'_id firstname lastname phonenumber email'});
+        console.log(allBookings)
         return allBookings;
     } catch (error) {
+        console.log(error)
         throw new DBConnectionError();
     }
 }

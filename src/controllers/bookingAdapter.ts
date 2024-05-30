@@ -47,7 +47,7 @@ export class BookingAdapter{
         }
     }
 
-    async retrieveAllBookingData(req:Req, res:Res, next:Next){
+    async userSpecificBookings(req:Req, res:Res, next:Next){
         try {
             const userId = req.userId;
             const workerId = req.worker;
@@ -67,7 +67,35 @@ export class BookingAdapter{
     async cancelBooking(req:Req, res:Res, next:Next){
         try {
             const userId = req.userId;
-            const cancelBooking = await this._bookingUseCase.updateBookingStatus(userId!, req.body);
+            const cancelBooking = await this._bookingUseCase.cancelBooking(userId!, req.body);
+            res.status(cancelBooking.statusCode).json({
+                success:cancelBooking.success,
+                message:cancelBooking.message,
+                data:cancelBooking.data
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async retrieveAllBookingForWorkers(req:Req, res:Res, next:Next){
+        try {
+            const bookings = await this._bookingUseCase.retrieveAllBookingData(undefined, undefined, false);
+            console.log(bookings)
+            res.status(bookings.statusCode).json({
+                success:bookings.success,
+                message:bookings.message,
+                data:bookings.data
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async acceptWork(req:Req, res:Res, next:Next){
+        try {
+            const workerId = req.workerId
+            const cancelBooking = await this._bookingUseCase.acceptWork(workerId!, req.body);
             res.status(cancelBooking.statusCode).json({
                 success:cancelBooking.success,
                 message:cancelBooking.message,
@@ -78,4 +106,3 @@ export class BookingAdapter{
         }
     }
 }
-

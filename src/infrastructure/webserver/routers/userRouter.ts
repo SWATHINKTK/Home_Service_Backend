@@ -167,10 +167,10 @@ router.post(
 
 
 router.get(
-    '/bookings',
+    '/booking',
     authentication.protectUser,
     (req:Request, res:Response, next:NextFunction) => {
-        BookingAdapters.retrieveAllBookingData(req, res, next)
+        BookingAdapters.userSpecificBookings(req, res, next)
     }
 )
 

@@ -4,14 +4,17 @@ import { IBooking } from "../../../../domain/booking";
 const bookingSchema = new Schema({
     userId:{
         type:mongoose.Types.ObjectId,
-        required:true
+        required:true,
+        ref:'users'
     },
     workerId:{
-        type:mongoose.Types.ObjectId
+        type:mongoose.Types.ObjectId,
+        ref:'workers'
     },
     serviceId:{
         type:mongoose.Types.ObjectId,
-        required:true
+        required:true,
+        ref:'services'
     },
     serviceMinimumAmount:{
         type:Number,
@@ -66,7 +69,7 @@ const bookingSchema = new Schema({
     },
     workStatus: {
         type: String,
-        enum: ['Pending', 'Accepted', 'In Progress', 'Completed', 'Cancelled'],
+        enum: ['Pending', 'Accepted', 'InProgress', 'Completed', 'Cancelled'],
         default: 'Pending'
     },
     paymentStatus:{

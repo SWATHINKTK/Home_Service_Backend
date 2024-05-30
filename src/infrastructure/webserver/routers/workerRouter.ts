@@ -3,6 +3,8 @@ import { upload } from "../middleware/multerConfig";
 import { Authentication } from "../middleware/authentication";
 import { workerAdapter } from "./injectons/workerInjection";
 import { workerRouteProtect } from "../middleware/workerAuthMiddleware";
+import { BookingAdapter } from "../../../controllers/bookingAdapter";
+import { BookingAdapters } from "./injectons/bookingInjection";
 const authentication = new Authentication();
 
 const router = express.Router();
@@ -84,7 +86,22 @@ router.put(
     upload.fields([{ name: "profile", maxCount: 1 }]),
     (req: Request, res: Response, next: NextFunction) => {
         workerAdapter.editWorkerProfile(req, res, next);
-    })
+    });
 
+
+router.get(
+    '/booking',
+    workerRouteProtect,
+    (req: Request, res: Response, next: NextFunction) => {
+        BookingAdapters.retrieveAllBookingForWorkers(req, res, next);
+    });
+
+
+    router.patch(
+        '/booking/acceptWork',
+        workerRouteProtect,
+        (req: Request, res: Response, next: NextFunction) => {
+            BookingAdapters.acceptWork(req, res, next);
+        });
 
 export default router;

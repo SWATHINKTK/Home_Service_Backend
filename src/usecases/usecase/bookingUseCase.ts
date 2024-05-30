@@ -8,7 +8,8 @@ import { IStripe } from "../interface/services/IStripe";
 import { advanceBookingPayment } from "./booking/advanceBookingPayment";
 import { createBooking } from "./booking/createBooking";
 import { findAllBookings } from "./booking/findAllBookings";
-import { updateBookingStatus } from "./booking/updateStatus";
+import { cancelBooking } from "./booking/cancelBooking";
+import { acceptWork } from "./booking/acceptWork";
 
 
 export class BookingUseCase {
@@ -78,7 +79,11 @@ export class BookingUseCase {
         return findAllBookings(userId, workerId, history, this._bookingRepository)
     }
 
-    async updateBookingStatus(userId:string,{status, bookingId}:{status:string, bookingId:string}){
-        return updateBookingStatus(userId,status, bookingId, this._bookingRepository)
+    async cancelBooking(userId:string, {status, bookingId}:{status:string, bookingId:string}){
+        return cancelBooking(userId,status, bookingId, this._bookingRepository)
+    }
+
+    async acceptWork(workerId:string, {status, bookingId}:{status:string, bookingId:string}){
+        return acceptWork(workerId, status, bookingId, this._bookingRepository);
     }
 }

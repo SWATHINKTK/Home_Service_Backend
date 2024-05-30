@@ -37,4 +37,4 @@ const serviceSchema = new Schema(
 
 
 
-export const serviceModel: Model<IService & Document> = model<IService & Document>('service', serviceSchema)
+export const serviceModel: Model<IService & Document> = model<IService & Document>('services', serviceSchema)

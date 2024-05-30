@@ -2,10 +2,11 @@ import { Document } from "mongoose";
 import { IBooking } from "../../../../../domain/booking";
 import { BadRequestError } from "../../../../../usecases/handler/badRequestError";
 import { bookingModel } from "../../models/bookingModel";
+import { Query } from "../../../../types/queryTypes";
 
-export const updateBookingStatus = async(status:string, bookingId:string, bookingModelInstance:typeof bookingModel ):Promise<IBooking & Document> => {
+export const updateBookingStatus = async(query:Query[], bookingModelInstance:typeof bookingModel ):Promise<IBooking & Document> => {
     try {
-        const booking = await bookingModelInstance.findByIdAndUpdate({_id:bookingId},{workStatus:status},{new:true});
+        const booking = await bookingModelInstance.findByIdAndUpdate(...query,{new:true});
         if(!booking){
             throw new BadRequestError('Booking Document Not Found.')
         }

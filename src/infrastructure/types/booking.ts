@@ -21,7 +21,7 @@ export enum PaymentStatus {
 export enum WorkStatus {
     PENDING = 'Pending',
     ACCEPTED = 'Accepted',
-    IN_PROGRESS = 'In Progress',
+    IN_PROGRESS = 'InProgress',
     COMPLETED = 'Completed',
     CANCELLED = 'Cancelled'
 }
