@@ -97,11 +97,11 @@ router.get(
     });
 
 
-    router.patch(
-        '/booking/acceptWork',
-        workerRouteProtect,
-        (req: Request, res: Response, next: NextFunction) => {
-            BookingAdapters.acceptWork(req, res, next);
-        });
+router.patch(
+    '/booking/acceptWork',
+    workerRouteProtect,
+    (req: Request, res: Response, next: NextFunction) => {
+        BookingAdapters.acceptWork(req, res, next);
+    });
 
 export default router;

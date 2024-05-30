@@ -80,8 +80,8 @@ export class BookingAdapter{
 
     async retrieveAllBookingForWorkers(req:Req, res:Res, next:Next){
         try {
-            const bookings = await this._bookingUseCase.retrieveAllBookingData(undefined, undefined, false);
-            console.log(bookings)
+            const workerId = req.workerId;
+            const bookings = await this._bookingUseCase.retrieveBookingsForWorker(workerId!);
             res.status(bookings.statusCode).json({
                 success:bookings.success,
                 message:bookings.message,
@@ -95,11 +95,11 @@ export class BookingAdapter{
     async acceptWork(req:Req, res:Res, next:Next){
         try {
             const workerId = req.workerId
-            const cancelBooking = await this._bookingUseCase.acceptWork(workerId!, req.body);
-            res.status(cancelBooking.statusCode).json({
-                success:cancelBooking.success,
-                message:cancelBooking.message,
-                data:cancelBooking.data
+            const acceptedWork = await this._bookingUseCase.acceptWork(workerId!, req.body);
+            res.status(acceptedWork.statusCode).json({
+                success:acceptedWork.success,
+                message:acceptedWork.message,
+                data:acceptedWork.data
             })
         } catch (error) {
             next(error)

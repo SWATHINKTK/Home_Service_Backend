@@ -19,8 +19,8 @@ export class BookingRepository implements IBookingRepository{
         return createBooking(bookingData, this._bookingModelInstance)
     }
 
-    findAllBooking(query: { [key: string]: any; }): Promise<(IBooking & Document)[]> {
-        return findAllBooking(query, this._bookingModelInstance);
+    findAllBooking(query:Query, existWorkerId:boolean): Promise<(IBooking & Document)[]> {
+        return findAllBooking(query, existWorkerId, this._bookingModelInstance);
     }
 
     findBooking(query:{ [key: string]: any;}):Promise<IBooking & Document>{

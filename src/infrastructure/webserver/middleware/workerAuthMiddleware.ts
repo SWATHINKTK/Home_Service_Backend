@@ -20,7 +20,7 @@ interface IDecodedToken extends JwtPayload{
 
 export const workerRouteProtect = (req:Req, res:Res, next:Next) => {
     try {
-        console.log('--------------------------------')
+        console.log('---------------Protect-----------------')
         const token = req.cookies.workerATkn;
         if (!token) {
             return res.status(401).json({

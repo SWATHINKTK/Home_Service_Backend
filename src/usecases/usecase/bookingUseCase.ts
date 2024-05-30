@@ -10,10 +10,13 @@ import { createBooking } from "./booking/createBooking";
 import { findAllBookings } from "./booking/findAllBookings";
 import { cancelBooking } from "./booking/cancelBooking";
 import { acceptWork } from "./booking/acceptWork";
+import { retrieveBookingsForWorker } from "./booking/retrieveBookingsForWorker";
+import { IWorkerRepository } from "../interface/repository/IWorkerRepository";
 
 
 export class BookingUseCase {
     private readonly _userRepository: IUserRepository;
+    private readonly _workerRepository: IWorkerRepository;
     private readonly _serviceRepository: IServiceRepository;
     private readonly _bookingRepository: IBookingRepository;
     private readonly _emailService: IEmailService;
@@ -21,12 +24,14 @@ export class BookingUseCase {
 
     constructor(
         userRepository: IUserRepository,
+        workerRepository: IWorkerRepository,
         serviceRepository: IServiceRepository,
         bookingRepository: IBookingRepository,
         emailService: IEmailService,
         stripeService: IStripe
     ) {
         this._userRepository = userRepository;
+        this._workerRepository = workerRepository;
         this._serviceRepository = serviceRepository;
         this._bookingRepository = bookingRepository;
         this._emailService = emailService;
@@ -79,11 +84,15 @@ export class BookingUseCase {
         return findAllBookings(userId, workerId, history, this._bookingRepository)
     }
 
+    async retrieveBookingsForWorker(workerId:string,){
+        return retrieveBookingsForWorker(workerId, this._workerRepository, this._bookingRepository);
+    }
+
     async cancelBooking(userId:string, {status, bookingId}:{status:string, bookingId:string}){
         return cancelBooking(userId,status, bookingId, this._bookingRepository)
     }
 
-    async acceptWork(workerId:string, {status, bookingId}:{status:string, bookingId:string}){
-        return acceptWork(workerId, status, bookingId, this._bookingRepository);
+    async acceptWork(workerId:string, { bookingId}:{bookingId:string}){
+        return acceptWork(workerId, bookingId, this._bookingRepository);
     }
 }

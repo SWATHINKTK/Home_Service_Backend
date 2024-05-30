@@ -19,7 +19,7 @@ export const findAllBookings = async(userId:string | undefined, workerId:string 
             }
         }
 
-        const bookings = await bookingRepository.findAllBooking(query);
+        const bookings = await bookingRepository.findAllBooking(query, false);
         return {
             statusCode:200,
             success:true,

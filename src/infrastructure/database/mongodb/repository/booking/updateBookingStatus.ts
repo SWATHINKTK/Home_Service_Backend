@@ -10,6 +10,7 @@ export const updateBookingStatus = async(query:Query[], bookingModelInstance:typ
         if(!booking){
             throw new BadRequestError('Booking Document Not Found.')
         }
+        console.log(booking)
         return booking;
     } catch (error) {
         if (error instanceof BadRequestError) {
