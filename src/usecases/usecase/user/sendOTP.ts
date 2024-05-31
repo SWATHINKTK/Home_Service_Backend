@@ -27,8 +27,8 @@ export const sendOTP = async (
     userRepository: IUserRepository,
     emailService: IEmailService,
     otpService: IOTPService,
-    secretHashService:ISecretHasher
-):Promise<IServerResponse> => {
+    secretHashService: ISecretHasher
+): Promise<IServerResponse> => {
     try {
 
         // Check the user is already exists with the provided email address.
@@ -38,7 +38,7 @@ export const sendOTP = async (
         }
 
         // Generate and store OTP for the user
-        const otp = otpService.generateAndStoreOTP(emailAddr); 
+        const otp = otpService.generateAndStoreOTP(emailAddr);
 
         // Hash the OTP before sending. 
         const hashOTP = await secretHashService.hashSecret(otp);
@@ -66,12 +66,12 @@ export const sendOTP = async (
 
 
         return {
-            statusCode:200,
-            success:true,
-            message:"OTP sent successfully to your email address.",
-            data:hashOTP
+            statusCode: 200,
+            success: true,
+            message: "OTP sent successfully to your email address.",
+            data: hashOTP
         }
-        
+
     } catch (error) {
         throw error;
     }

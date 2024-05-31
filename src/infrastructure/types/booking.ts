@@ -23,5 +23,6 @@ export enum WorkStatus {
     ACCEPTED = 'Accepted',
     IN_PROGRESS = 'InProgress',
     COMPLETED = 'Completed',
-    CANCELLED = 'Cancelled'
+    CANCELLED = 'Cancelled',
+    STARTED = 'Started'
 }

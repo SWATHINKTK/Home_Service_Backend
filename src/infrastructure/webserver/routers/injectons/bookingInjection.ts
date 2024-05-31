@@ -10,6 +10,7 @@ import { ServiceRepository } from "../../../database/mongodb/repository/serviceR
 import { UserRepository } from "../../../database/mongodb/repository/userRepository";
 import { WorkerRepository } from "../../../database/mongodb/repository/workerRepository";
 import { EmailService } from "../../../services/emailService";
+import { OTPService } from "../../../services/otpService";
 import { StripePaymentIntegration } from "../../../services/stripeService";
 
 const userRepository = new UserRepository(userModel);
@@ -18,6 +19,7 @@ const bookingRepository = new BookingRepository(bookingModel);
 const workerRepository = new WorkerRepository(workerModel,workerExtraInfoModel);
 const emailService = new EmailService();
 const stripePayment = new StripePaymentIntegration();
-const bookingUseCase = new BookingUseCase(userRepository, workerRepository, serviceRepository, bookingRepository, emailService, stripePayment);
+const otpService = new OTPService();
+const bookingUseCase = new BookingUseCase(userRepository, workerRepository, serviceRepository, bookingRepository, emailService, stripePayment, otpService);
 
 export const BookingAdapters = new BookingAdapter(bookingUseCase); 

@@ -12,6 +12,8 @@ import { acceptWork } from "./booking/acceptWork";
 import { viewWorkerSpecificBooking } from "./booking/viewWorkerBooking";
 import { IWorkerRepository } from "../interface/repository/IWorkerRepository";
 import { viewUserBooking } from "./booking/viewUserBooking";
+import { IOTPService } from "../interface/services/IOTPService";
+import { verifyWork } from "./booking/verifyWork";
 
 
 export class BookingUseCase {
@@ -21,6 +23,7 @@ export class BookingUseCase {
     private readonly _bookingRepository: IBookingRepository;
     private readonly _emailService: IEmailService;
     private readonly _stripeService: IStripe;
+    private readonly _otpService: IOTPService;
 
     constructor(
         userRepository: IUserRepository,
@@ -28,7 +31,8 @@ export class BookingUseCase {
         serviceRepository: IServiceRepository,
         bookingRepository: IBookingRepository,
         emailService: IEmailService,
-        stripeService: IStripe
+        stripeService: IStripe,
+        otpService:IOTPService
     ) {
         this._userRepository = userRepository;
         this._workerRepository = workerRepository;
@@ -36,6 +40,7 @@ export class BookingUseCase {
         this._bookingRepository = bookingRepository;
         this._emailService = emailService;
         this._stripeService = stripeService;
+        this._otpService = otpService;
     }
 
     async advanceBookingPayment(
@@ -94,5 +99,9 @@ export class BookingUseCase {
 
     async acceptWork(workerId:string, { bookingId}:{bookingId:string}){
         return acceptWork(workerId, bookingId, this._bookingRepository);
+    }
+
+    async verifyWork(workerId:string, {bookingId, userEmail}:{bookingId:string, userEmail:string}){
+        return verifyWork(workerId, bookingId, userEmail, this._bookingRepository, this._otpService, this._emailService)
     }
 }

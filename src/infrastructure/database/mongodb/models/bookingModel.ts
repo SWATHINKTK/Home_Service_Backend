@@ -69,7 +69,7 @@ const bookingSchema = new Schema({
     },
     workStatus: {
         type: String,
-        enum: ['Pending', 'Accepted', 'InProgress', 'Completed', 'Cancelled'],
+        enum: ['Pending', 'Accepted', 'InProgress','Started', 'Completed', 'Cancelled'],
         default: 'Pending'
     },
     paymentStatus:{
@@ -87,7 +87,10 @@ const bookingSchema = new Schema({
         amount:{
             type:Number
         }
-    }]
+    }],
+    otp:{
+        type:String
+    }
 },{timestamps:true});
 
 export const bookingModel: Model<IBooking & Document> = model<IBooking & Document>('booking', bookingSchema);

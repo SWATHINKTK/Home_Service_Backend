@@ -104,4 +104,12 @@ router.patch(
         BookingAdapters.acceptWork(req, res, next);
     });
 
+// bookingId, userEmail
+router.patch(
+    '/booking/startWork',
+    workerRouteProtect,
+    (req: Request, res: Response, next: NextFunction) => {
+        BookingAdapters.workVerification(req, res, next);
+    });
+
 export default router;

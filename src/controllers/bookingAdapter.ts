@@ -105,4 +105,19 @@ export class BookingAdapter{
             next(error)
         }
     }
+
+
+    async workVerification(req:Req, res:Res, next:Next){
+        try {
+            const workerId = req.workerId;
+            const verification = await this._bookingUseCase.verifyWork(workerId!, req.body);
+            res.status(verification.statusCode).json({
+                success:verification.success,
+                message:verification.message,
+                data:verification.data
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
 }
