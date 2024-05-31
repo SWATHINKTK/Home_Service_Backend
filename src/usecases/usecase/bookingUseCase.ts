@@ -1,4 +1,4 @@
-import { IBookingRequestData } from "../../infrastructure/types/booking";
+import { AdditionalCharges, IBookingRequestData } from "../../infrastructure/types/booking";
 import { BadRequestError } from "../handler/badRequestError";
 import { IBookingRepository } from "../interface/repository/IBookingRepository";
 import { IServiceRepository } from "../interface/repository/IServiceRepository";
@@ -15,6 +15,7 @@ import { viewUserBooking } from "./booking/viewUserBooking";
 import { IOTPService } from "../interface/services/IOTPService";
 import { startWork } from "./booking/startWork";
 import { workVerification } from "./booking/workVerification";
+import { completeWork } from "./booking/completeWork";
 
 
 export class BookingUseCase {
@@ -110,7 +111,7 @@ export class BookingUseCase {
         return workVerification(workerId, bookingId, otp, this._bookingRepository)
     }
 
-    async completeWork(workerId:string,{bookingId}:{bookingId:string}){
-        
+    async completeWork(workerId:string,{bookingId, additionalCharges}:{bookingId:string, additionalCharges:AdditionalCharges}){
+        return completeWork(workerId, bookingId, additionalCharges, this._bookingRepository)
     }
 }

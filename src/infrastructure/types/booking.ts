@@ -26,3 +26,10 @@ export enum WorkStatus {
     CANCELLED = 'Cancelled',
     STARTED = 'Started'
 }
+
+
+export type AdditionalCharges = {
+        description: string;
+        qty: number;
+        amount: number;
+    }[];
