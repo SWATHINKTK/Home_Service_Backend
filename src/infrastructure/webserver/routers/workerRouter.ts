@@ -109,7 +109,22 @@ router.patch(
     '/booking/startWork',
     workerRouteProtect,
     (req: Request, res: Response, next: NextFunction) => {
+        BookingAdapters.startWork(req, res, next);
+    });
+
+// bookingId, otp, workerId
+router.patch(
+    '/booking/startWork/verification',
+    workerRouteProtect,
+    (req: Request, res: Response, next: NextFunction) => {
         BookingAdapters.workVerification(req, res, next);
     });
 
+// bookingId, additional Information, workerId
+router.patch(
+    '/booking/completeWork',
+    workerRouteProtect,
+    (req: Request, res: Response, next: NextFunction) => {
+        BookingAdapters.completeWork(req, res, next);
+    });
 export default router;

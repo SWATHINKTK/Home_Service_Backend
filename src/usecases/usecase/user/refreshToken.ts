@@ -8,7 +8,7 @@ export const refreshToken = async(userRToken:string, userRepository:IUserReposit
     try {
         const credential = jwtService.verifyJWT(userRToken);
         if(!credential){
-            throw new UnauthorizedRequestError();
+            throw new UnauthorizedRequestError('Unauthorized Request.');
         }
         const user = await userRepository.findUser(credential.email);
         if(!user || user?._isBlocked){

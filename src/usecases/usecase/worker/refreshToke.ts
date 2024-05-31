@@ -9,7 +9,7 @@ export const refreshToken = async(workerRTkn:string, workerRepository:IWorkerRep
         const credential = jwtService.verifyJWT(workerRTkn);
         console.log(credential)
         if(!credential){
-            throw new UnauthorizedRequestError();
+            throw new UnauthorizedRequestError('Unauthorized Request.');
         }
         const worker = await workerRepository.findWorker({phoneNumber:credential.phoneNumber});
         console.log(worker)

@@ -6,7 +6,7 @@ import { IBookingRepository } from "../../interface/repository/IBookingRepositor
 import { IEmailService } from "../../interface/services/IEmailService";
 import { IOTPService } from "../../interface/services/IOTPService";
 
-export const verifyWork = async (
+export const startWork = async (
   workerId: string,
   bookingId: string,
   userEmail: string,
@@ -15,6 +15,7 @@ export const verifyWork = async (
   emailService: IEmailService
 ):Promise<IServerResponse> => {
     try {
+        console.log(bookingId, workerId, userEmail)
         if(!bookingId || !workerId || !userEmail){
             throw new BadRequestError('Request Sending Invalid Data')
         }

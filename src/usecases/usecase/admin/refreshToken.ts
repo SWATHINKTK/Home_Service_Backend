@@ -6,7 +6,7 @@ export const refreshToken = async(adminRTkn:string, jwtService:IJWT):Promise<ISe
     try {
         const credential = jwtService.verifyJWT(adminRTkn);
         if(!credential){
-            throw new UnauthorizedRequestError();
+            throw new UnauthorizedRequestError('Unauthorized Request.');
         }
 
         const tokenCredential = {

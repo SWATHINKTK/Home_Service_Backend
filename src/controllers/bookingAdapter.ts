@@ -107,17 +107,37 @@ export class BookingAdapter{
     }
 
 
-    async workVerification(req:Req, res:Res, next:Next){
+    async startWork(req:Req, res:Res, next:Next){
         try {
             const workerId = req.workerId;
-            const verification = await this._bookingUseCase.verifyWork(workerId!, req.body);
-            res.status(verification.statusCode).json({
-                success:verification.success,
-                message:verification.message,
-                data:verification.data
+            const startWork = await this._bookingUseCase.startWork(workerId!, req.body);
+            res.status(startWork.statusCode).json({
+                success:startWork.success,
+                message:startWork.message,
+                data:startWork.data
             })
         } catch (error) {
             next(error);
+        }
+    }
+
+    async workVerification(req:Req, res:Res, next:Next){
+        try {
+            const workerId = req.workerId;
+            const verification = await this._bookingUseCase.workVerification(workerId!, req.body);
+            res.status(verification.statusCode).json({...verification})
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async completeWork(req:Req, res:Res, next:Next){
+        try {
+            const workerId = req.workerId;
+            const completeWork = await this._bookingUseCase.completeWork(workerId!, req.body);
+            // res.status(completeWork.statusCode).json({...completeWork})
+        } catch (error) {
+            
         }
     }
 }

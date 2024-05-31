@@ -13,7 +13,8 @@ import { viewWorkerSpecificBooking } from "./booking/viewWorkerBooking";
 import { IWorkerRepository } from "../interface/repository/IWorkerRepository";
 import { viewUserBooking } from "./booking/viewUserBooking";
 import { IOTPService } from "../interface/services/IOTPService";
-import { verifyWork } from "./booking/verifyWork";
+import { startWork } from "./booking/startWork";
+import { workVerification } from "./booking/workVerification";
 
 
 export class BookingUseCase {
@@ -101,7 +102,15 @@ export class BookingUseCase {
         return acceptWork(workerId, bookingId, this._bookingRepository);
     }
 
-    async verifyWork(workerId:string, {bookingId, userEmail}:{bookingId:string, userEmail:string}){
-        return verifyWork(workerId, bookingId, userEmail, this._bookingRepository, this._otpService, this._emailService)
+    async startWork(workerId:string, {bookingId, userEmail}:{bookingId:string, userEmail:string}){
+        return startWork(workerId, bookingId, userEmail, this._bookingRepository, this._otpService, this._emailService)
+    }
+
+    async workVerification(workerId:string, {bookingId, otp}:{bookingId:string, otp:string}){
+        return workVerification(workerId, bookingId, otp, this._bookingRepository)
+    }
+
+    async completeWork(workerId:string,{bookingId}:{bookingId:string}){
+        
     }
 }

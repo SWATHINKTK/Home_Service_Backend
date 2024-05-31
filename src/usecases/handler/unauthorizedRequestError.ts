@@ -2,14 +2,13 @@ import { CustomClass } from "./customError";
 
 export class UnauthorizedRequestError  extends CustomClass {
     statusCode = 401;
-    reason = 'Unauthorized access.';
 
-    constructor() {
-        super("UnauthorizedError: Unauthorized access.");
+    constructor(public message:string) {
+        super(message);
         Object.setPrototypeOf(this, UnauthorizedRequestError.prototype);
     }
 
     serializeError() {
-        return [{ message: this.reason }];
+        return [{ message: this.message }];
     }
 }

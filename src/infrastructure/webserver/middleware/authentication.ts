@@ -34,7 +34,7 @@ export class Authentication{
         try {
             const token = req.cookies.userATkn;
             if(!token){
-                throw new UnauthorizedRequestError();
+                throw new UnauthorizedRequestError('Unauthorized Request.');
             }
             const decodedToken = this._jwtService.verifyJWT(token);
             // console.log(decodedToken)
@@ -65,7 +65,7 @@ export class Authentication{
             console.log('-----------------------------------------------')
             console.log(token)
             if(!token){
-                throw new UnauthorizedRequestError();
+                throw new UnauthorizedRequestError('Unauthorized Request.');
             }
             const decodedToken = this._jwtService.verifyJWT(token);
             console.log(decodedToken)

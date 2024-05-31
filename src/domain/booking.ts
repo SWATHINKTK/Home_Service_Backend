@@ -23,5 +23,7 @@ export interface IBooking {
         description: string;
         qty: number;
         amount: number;
-    }[]; 
+    }[];
+    otp?:string;
+    otpTime?:Date; 
 }

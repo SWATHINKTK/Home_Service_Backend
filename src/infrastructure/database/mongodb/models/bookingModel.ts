@@ -90,6 +90,9 @@ const bookingSchema = new Schema({
     }],
     otp:{
         type:String
+    },
+    otpTime:{
+        type:Date
     }
 },{timestamps:true});
 
