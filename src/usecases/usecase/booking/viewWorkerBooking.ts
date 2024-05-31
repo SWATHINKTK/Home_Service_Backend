@@ -4,7 +4,7 @@ import { NotFoundError } from "../../handler/notFoundError";
 import { IBookingRepository } from "../../interface/repository/IBookingRepository";
 import { IWorkerRepository } from "../../interface/repository/IWorkerRepository";
 
-export const retrieveBookingsForWorker = async (
+export const viewWorkerSpecificBooking = async (
     workerId: string,
     workerRepository: IWorkerRepository,
     bookingRepository: IBookingRepository

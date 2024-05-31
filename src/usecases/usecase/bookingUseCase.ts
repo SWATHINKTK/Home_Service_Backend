@@ -7,11 +7,11 @@ import { IEmailService } from "../interface/services/IEmailService";
 import { IStripe } from "../interface/services/IStripe";
 import { advanceBookingPayment } from "./booking/advanceBookingPayment";
 import { createBooking } from "./booking/createBooking";
-import { findAllBookings } from "./booking/findAllBookings";
 import { cancelBooking } from "./booking/cancelBooking";
 import { acceptWork } from "./booking/acceptWork";
-import { retrieveBookingsForWorker } from "./booking/retrieveBookingsForWorker";
+import { viewWorkerSpecificBooking } from "./booking/viewWorkerBooking";
 import { IWorkerRepository } from "../interface/repository/IWorkerRepository";
+import { viewUserBooking } from "./booking/viewUserBooking";
 
 
 export class BookingUseCase {
@@ -80,12 +80,12 @@ export class BookingUseCase {
         return createBooking(userId, advancePaymentAmount, bookingData, this._bookingRepository, this._serviceRepository);
     }
 
-    async retrieveAllBookingData(userId:string | undefined, workerId:string | undefined, history:boolean){
-        return findAllBookings(userId, workerId, history, this._bookingRepository)
+    async viewUserBooking(userId:string,history:boolean){
+        return viewUserBooking(userId, history, this._bookingRepository)
     }
 
-    async retrieveBookingsForWorker(workerId:string,){
-        return retrieveBookingsForWorker(workerId, this._workerRepository, this._bookingRepository);
+    async viewWorkerSpecificBooking(workerId:string,){
+        return viewWorkerSpecificBooking(workerId, this._workerRepository, this._bookingRepository);
     }
 
     async cancelBooking(userId:string, {status, bookingId}:{status:string, bookingId:string}){

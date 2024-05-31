@@ -9,7 +9,8 @@ export const findAllBooking = async (query:Query, existWorkerId:boolean,bookingM
     try {
         const allBookings = await bookingModelInstance.find(query)
                                                        .populate({path:'serviceId', select:'_id serviceName image'})
-                                                       .populate({path:'userId', select:'_id firstname lastname phonenumber email'});
+                                                       .populate({path:'userId', select:'_id firstname lastname phonenumber email'})
+                                                       .sort({ createdAt: -1 });;
         return allBookings;
     } catch (error) {
         console.log(error)

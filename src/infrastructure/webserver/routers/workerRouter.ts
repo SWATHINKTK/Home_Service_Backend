@@ -93,7 +93,7 @@ router.get(
     '/booking',
     workerRouteProtect,
     (req: Request, res: Response, next: NextFunction) => {
-        BookingAdapters.retrieveAllBookingForWorkers(req, res, next);
+        BookingAdapters.workerSpecificBookings(req, res, next);
     });
 
 

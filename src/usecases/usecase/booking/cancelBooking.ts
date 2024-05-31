@@ -5,7 +5,6 @@ import { IBookingRepository } from "../../interface/repository/IBookingRepositor
 
 export const cancelBooking = async(userId:string ,status:string, bookingId:string, bookingRepository:IBookingRepository):Promise<IServerResponse> => {
     try {
-        console.log(status)
         const incomingStatus = new RegExp(`^${status}$`, 'i')
         if(!incomingStatus.test(WorkStatus.CANCELLED)){
             throw new BadRequestError('Invalid Status')

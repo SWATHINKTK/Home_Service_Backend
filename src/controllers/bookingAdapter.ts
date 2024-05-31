@@ -50,9 +50,9 @@ export class BookingAdapter{
     async userSpecificBookings(req:Req, res:Res, next:Next){
         try {
             const userId = req.userId;
-            const workerId = req.worker;
-            const history = !!req.query.history || false
-            const allBookings = await  this._bookingUseCase.retrieveAllBookingData(userId, workerId, history);
+            const history = !!req.query.history || false;
+            const allBookings = await  this._bookingUseCase.viewUserBooking(userId!, history);
+            console.log(allBookings)
             res.status(allBookings.statusCode).json({
                 success:allBookings.success,
                 message:allBookings.message,
@@ -78,10 +78,10 @@ export class BookingAdapter{
         }
     }
 
-    async retrieveAllBookingForWorkers(req:Req, res:Res, next:Next){
+    async workerSpecificBookings(req:Req, res:Res, next:Next){
         try {
             const workerId = req.workerId;
-            const bookings = await this._bookingUseCase.retrieveBookingsForWorker(workerId!);
+            const bookings = await this._bookingUseCase.viewWorkerSpecificBooking(workerId!);
             res.status(bookings.statusCode).json({
                 success:bookings.success,
                 message:bookings.message,
