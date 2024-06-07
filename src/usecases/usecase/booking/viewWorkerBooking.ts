@@ -6,6 +6,8 @@ import { IWorkerRepository } from "../../interface/repository/IWorkerRepository"
 
 export const viewWorkerSpecificBooking = async (
     workerId: string,
+    workStatus:{[key:string]:any},
+    paymentStatus:{[key:string]:any},
     workerRepository: IWorkerRepository,
     bookingRepository: IBookingRepository
 ):Promise<IServerResponse> => { 
@@ -16,10 +18,12 @@ export const viewWorkerSpecificBooking = async (
         }
 
         const query = {
-            workStatus:WorkStatus.PENDING,
+            workStatus:workStatus,
+            paymentStatus:paymentStatus,
             serviceId:worker.service
         }
         const bookings = await bookingRepository.findAllBooking(query,false);
+        console.log("hello, Bookings",bookings)
         return {
             statusCode:200,
             success:true,

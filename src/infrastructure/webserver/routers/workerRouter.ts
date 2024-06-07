@@ -104,6 +104,14 @@ router.patch(
         BookingAdapters.acceptWork(req, res, next);
     });
 
+router.get(
+    '/booking/viewAcceptWork',
+    workerRouteProtect,
+    (req: Request, res: Response, next: NextFunction) => {
+        BookingAdapters.committedWorks(req, res, next);
+    });
+
+
 // bookingId, userEmail
 router.patch(
     '/booking/startWork',
@@ -113,7 +121,7 @@ router.patch(
     });
 
 // bookingId, otp, workerId
-router.patch(
+router.post(
     '/booking/startWork/verification',
     workerRouteProtect,
     (req: Request, res: Response, next: NextFunction) => {

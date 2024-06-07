@@ -16,8 +16,8 @@ export const completeWork = async (
         }
         const totalAmount = additionalCharges.reduce((acc, curr) => acc + (curr.amount * curr.qty), booking.serviceMinimumAmount)
         const query = [
-            { _id: bookingId, workerId },
-            { WorkStatus: WorkStatus.COMPLETED, totalAmount }
+            { _id:bookingId, workerId },
+            { workStatus: WorkStatus.COMPLETED, totalAmount, additionalCharges }
         ]
         const completeBooking = await bookingRepository.updateBookingStatus(query);
         return {

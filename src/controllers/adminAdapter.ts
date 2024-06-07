@@ -42,6 +42,8 @@ export class AdminAdapter {
 
     async refreshToken(req:Req, res:Res, next:Next){
         try {
+            console.log("++++++++++++++++")
+            console.log(req.cookies)
             const admin = await this._adminUsecase.refreshToken(req.cookies.adminRTkn);
             admin &&
                 res.cookie("adminRTkn", admin.token?.refreshToken, {

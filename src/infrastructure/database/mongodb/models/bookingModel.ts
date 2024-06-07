@@ -7,6 +7,10 @@ const bookingSchema = new Schema({
         required:true,
         ref:'users'
     },
+    bookingId:{
+        type:String,
+        required:true
+    },
     workerId:{
         type:mongoose.Types.ObjectId,
         ref:'workers'
@@ -69,7 +73,7 @@ const bookingSchema = new Schema({
     },
     workStatus: {
         type: String,
-        enum: ['Pending', 'Accepted', 'InProgress','Started', 'Completed', 'Cancelled'],
+        enum: ['Pending', 'Accepted', 'InProgress','Started' , 'Completed', 'Cancelled'],
         default: 'Pending'
     },
     paymentStatus:{

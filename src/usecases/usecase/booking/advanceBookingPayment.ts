@@ -7,23 +7,27 @@ import { IStripe } from "../../interface/services/IStripe";
 
 export const advanceBookingPayment = async(
     userId:string,
-  userEmail: string,
-  bookingData:IBookingRequestData,
-  userRepository: IUserRepository,
-  serviceRepository:IServiceRepository,
-  stripeService: IStripe
+    userEmail: string,
+    bookingData:IBookingRequestData,
+    userRepository: IUserRepository,
+    serviceRepository:IServiceRepository,
+    stripeService: IStripe
 ):Promise<IServerResponse> => {
-    console.log('stripe Advance booking',bookingData)
     const service = await serviceRepository.findService({_id:bookingData.serviceId});
     if(!service){
         throw new NotFoundError('Service is not found.try again');
     }
 
-    const success_url = process.env.ADVANCE_PAYMENT_SUCCESS_URL || 'http://localhost:5173/success';
-    const cancel_url = process.env.ADVANCE_PAYMENT_CANCEL_URL || 'http://localhost:5173/failed'
+    const success_url = process.env.PAYMENT_SUCCESS_URL || 'http://localhost:5173/success';
+    const cancel_url = process.env.PAYMENT_CANCEL_URL || 'http://localhost:5173/failed'
     const payingAmount = service.minimumAmount / 5 ;
+    const metadata = {
+        bookingData: JSON.stringify(bookingData),
+        amount:payingAmount,
+        userId
+    };
 
-    const session = await stripeService.stripeCheckoutSession(service.serviceName, bookingData, userId, payingAmount,'cus_Q9QHGjKyhfHx6Z',success_url, cancel_url);
+    const session = await stripeService.stripeCheckoutSession(service.serviceName, metadata, payingAmount,'cus_Q9QHGjKyhfHx6Z',success_url, cancel_url);
     return {
         statusCode:200,
         success:true,

@@ -16,6 +16,8 @@ import { IOTPService } from "../interface/services/IOTPService";
 import { startWork } from "./booking/startWork";
 import { workVerification } from "./booking/workVerification";
 import { completeWork } from "./booking/completeWork";
+import { completionPayment } from "./booking/payment";
+import { paymentStatusUpdate } from "./booking/paymentStatusUpdate";
 
 
 export class BookingUseCase {
@@ -67,6 +69,10 @@ export class BookingUseCase {
             const data = event.data.object as any;
             const eventType = event.type;
             if(eventType == 'checkout.session.completed'){
+                if(data.metadata?.completion){
+                     return this.paymentStatusUpdate(data.metadata?.bookingId)
+                }
+                console.log(":::::::::::::::::::::::::::::::::::::::::::;;;;;;")
                 const userId = data.metadata.userId;
                 const advancePaymentAmount = parseFloat(data.metadata.amount);
                 const bookingData: IBookingRequestData = JSON.parse(data.metadata.bookingData);
@@ -91,8 +97,8 @@ export class BookingUseCase {
         return viewUserBooking(userId, history, this._bookingRepository)
     }
 
-    async viewWorkerSpecificBooking(workerId:string,){
-        return viewWorkerSpecificBooking(workerId, this._workerRepository, this._bookingRepository);
+    async viewWorkerSpecificBooking(workerId:string, workStatus:{[key:string]:any}, paymentStatus:{[key:string]:any}){
+        return viewWorkerSpecificBooking(workerId, workStatus, paymentStatus, this._workerRepository, this._bookingRepository);
     }
 
     async cancelBooking(userId:string, {status, bookingId}:{status:string, bookingId:string}){
@@ -114,4 +120,13 @@ export class BookingUseCase {
     async completeWork(workerId:string,{bookingId, additionalCharges}:{bookingId:string, additionalCharges:AdditionalCharges}){
         return completeWork(workerId, bookingId, additionalCharges, this._bookingRepository)
     }
+
+    async payment(userId: string, userEmail: string, { bookingId, serviceName }:{bookingId:string, serviceName:string}){
+        return completionPayment(userId, userEmail, bookingId, serviceName, this._bookingRepository, this._stripeService);
+    }
+
+    async paymentStatusUpdate(bookingId:string){
+        return paymentStatusUpdate(bookingId, this._bookingRepository)
+    }
+
 }

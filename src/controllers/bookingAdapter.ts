@@ -2,6 +2,7 @@ import Stripe from "stripe";
 import { Next, Req, Res } from "../infrastructure/types/expressTypes";
 import { BookingUseCase } from "../usecases/usecase/bookingUseCase";
 import { BadRequestError } from "../usecases/handler/badRequestError";
+import { Console } from "winston/lib/winston/transports";
 
 interface CustomReq extends Req {
     user?: string;
@@ -81,7 +82,25 @@ export class BookingAdapter{
     async workerSpecificBookings(req:Req, res:Res, next:Next){
         try {
             const workerId = req.workerId;
-            const bookings = await this._bookingUseCase.viewWorkerSpecificBooking(workerId!);
+            const workStatus:{[key:string]:any} = {$in:['Pending']};
+            const paymentStatus:{[key:string]:any} = {$in:['Pending']};
+            const bookings = await this._bookingUseCase.viewWorkerSpecificBooking(workerId!,workStatus, paymentStatus);
+            res.status(bookings.statusCode).json({
+                success:bookings.success,
+                message:bookings.message,
+                data:bookings.data
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async committedWorks(req:Req, res:Res, next:Next){
+        try {
+            const workerId = req.workerId;
+            const workStatus:{[key:string]:any} = {$nin:['Pending',,'Cancelled']};
+            const paymentStatus:{[key:string]:any} = {$in:['Pending']};
+            const bookings = await this._bookingUseCase.viewWorkerSpecificBooking(workerId!,workStatus, paymentStatus);
             res.status(bookings.statusCode).json({
                 success:bookings.success,
                 message:bookings.message,
@@ -134,10 +153,24 @@ export class BookingAdapter{
     async completeWork(req:Req, res:Res, next:Next){
         try {
             const workerId = req.workerId;
+            console.log(req.body)
             const completeWork = await this._bookingUseCase.completeWork(workerId!, req.body);
-            // res.status(completeWork.statusCode).json({...completeWork})
+            res.status(completeWork.statusCode).json({...completeWork})
         } catch (error) {
             
         }
+    }
+
+
+    async payment(req:Req, res:Res, next:Next){
+        const userEmail = req.user;
+            const userId = req.userId;
+            const payment = await this._bookingUseCase.payment(userId!, userEmail!, req.body);
+            console.log(payment)
+            res.status(payment.statusCode).json({
+                success: payment.success,
+                message: payment.message,
+                data: payment.data
+            });
     }
 }

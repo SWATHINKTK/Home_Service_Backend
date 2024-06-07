@@ -1,3 +1,4 @@
+import { PaymentStatus } from "../../../infrastructure/types/booking";
 import { IBookingRepository } from "../../interface/repository/IBookingRepository";
 
 export const viewUserBooking = async(userId:string, history:boolean, bookingRepository:IBookingRepository) => {
@@ -6,7 +7,8 @@ export const viewUserBooking = async(userId:string, history:boolean, bookingRepo
         if(history){
             query = {
                 userId,
-                workStatus:{$nin:['Completed','Cancelled']}
+                workStatus:{$nin:['Cancelled']},
+                paymentStatus:'Pending' 
             }
         }else{
             query = {

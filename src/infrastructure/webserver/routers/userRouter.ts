@@ -182,5 +182,14 @@ router.patch(
     }
 )
 
+// bookingId
+router.post(
+    '/payment',
+    authentication.protectUser,
+    (req:Request, res:Response, next:NextFunction) => {
+        BookingAdapters.payment(req, res, next)
+    }
+);
+
 
 export default router

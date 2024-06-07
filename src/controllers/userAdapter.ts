@@ -8,7 +8,7 @@
  */
 
 import { Req, Res, Next } from "../infrastructure/types/expressTypes";
-import { UserUseCase } from "../usecases/usecase/userUseCase";
+import { UserUseCase } from "../usecases/usecase/userUsecase";
 
 interface CustomReq extends Req{
     user?:string

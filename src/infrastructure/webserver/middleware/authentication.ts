@@ -1,3 +1,6 @@
+import jwt from "jsonwebtoken";
+
+
 import { IJWT } from "../../../usecases/interface/services/Ijwt";
 import { Next, Req, Res } from "../../types/expressTypes";
 import { JWTService } from "../../services/jwtService";
@@ -8,6 +11,7 @@ import { IUser } from "../../../domain/user";
 import { UnauthorizedRequestError } from "../../../usecases/handler/unauthorizedRequestError";
 import { ForbiddenError } from "../../../usecases/handler/forbiddenError";
 import { NotFoundError } from "../../../usecases/handler/notFoundError";
+import { IDecodedToken } from "../../types/jwtDecode";
 
 declare global {
     namespace Express {
@@ -76,6 +80,28 @@ export class Authentication{
             req.worker = decodedToken?.phoneNumber;
             req.workerId = decodedToken?._id;
             console.log('-----------------------------------------------')
+            next();
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async protectAdmin( req:Req, res:Res, next:Next ){
+        try {
+            console.log('protectedAdmin')
+            const token = req.cookies.adminATkn;
+            console.log('-----------------------------------------------')
+            console.log(token)
+            if(!token){
+                throw new UnauthorizedRequestError('Unauthorized Request.');
+            }
+            const decodedToken = jwt.verify(token, process.env.JWT_KEY as string) as IDecodedToken;
+
+            if(decodedToken.role != 'admin' || !decodedToken){
+                throw new ForbiddenError();
+            }
+            
+        
             next();
         } catch (error) {
             next(error);

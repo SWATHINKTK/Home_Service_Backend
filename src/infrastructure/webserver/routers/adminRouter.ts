@@ -10,6 +10,8 @@ import { adminAdapter } from "./injectons/adminInjection";
 import { upload } from "../middleware/multerConfig";
 import { serviceAdapter } from "./injectons/serviceInjection";
 import { workerAdapter } from "./injectons/workerInjection";
+import { Authentication } from "../middleware/authentication";
+const authentication = new Authentication();
 
 
 
@@ -60,6 +62,7 @@ router.post(
  */
 router.get(
     "/users",
+    authentication.protectAdmin,
     (req:Request, res:Response, next:NextFunction)=>{
         adminAdapter.retrieveAllUsers( req, res, next);
     });
@@ -72,6 +75,7 @@ router.get(
  */
 router.patch(
     "/:userId/block",
+    authentication.protectAdmin,
     (req:Request, res:Response, next:NextFunction)=>{
         adminAdapter.blockUser( req, res, next);
     });
@@ -90,10 +94,11 @@ router.post('/service/add', upload.fields([{name:'icon',maxCount:1},{name:'image
 /**
  * @route GET api/admin/service
  * @desc  Retrieve all Service data
- * @access Public
+ * @access Private
  */
 router.get(
     "/service",
+    authentication.protectAdmin,
     (req: Request, res: Response, next: NextFunction) => {
         serviceAdapter.findAllServices(req, res, next);
     });
@@ -102,10 +107,11 @@ router.get(
 /**
  * @route PUT api/admin/service/edit
  * @desc  Modifying The Existing Service Data.
- * @access Public
+ * @access Private
  */
 router.put(
     "/service/edit",
+    authentication.protectAdmin,
     (req: Request, res: Response, next: NextFunction) => {
         serviceAdapter.editService(req, res, next);
     });
@@ -113,10 +119,11 @@ router.put(
 /**
 * @route Patch api/admin/service/block
 * @desc  Modifying The Existing Service Data.
-* @access Public
+* @access Private
 */
 router.patch(
     "/service/:serviceId/blockService",
+    authentication.protectAdmin,
     (req: Request, res: Response, next: NextFunction) => {
         serviceAdapter.blockService(req, res, next);
     });
@@ -125,10 +132,11 @@ router.patch(
 /**
 * @route GET api/admin/worker
 * @desc  Retrieve all Worker data
-* @access Public
+* @access Private
 */
 router.get(
     "/worker/:status",
+    authentication.protectAdmin,
     (req: Request, res: Response, next: NextFunction) => {
         workerAdapter.retrieveAllWorker(req, res, next);
     });
@@ -136,10 +144,11 @@ router.get(
 /**
 * @route Patch api/admin/worker/:workerId/verify
 * @desc  Verifying New Registered Worker.
-* @access Public
+* @access Private
 */
 router.patch(
     "/worker/:workerId/verify",
+    authentication.protectAdmin,
     (req: Request, res: Response, next: NextFunction) => {
         workerAdapter.verifyWorker(req, res, next);
     });
@@ -147,10 +156,11 @@ router.patch(
 /**
 * @route Patch api/admin/worker/:workerId/block
 * @desc  Block Registered Worker.
-* @access Public
+* @access Private
 */
 router.patch(
     "/worker/:workerId/block",
+    authentication.protectAdmin,
     (req: Request, res: Response, next: NextFunction) => {
         workerAdapter.blockWorker(req, res, next);
     });

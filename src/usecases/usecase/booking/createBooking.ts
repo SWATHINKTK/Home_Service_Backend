@@ -10,7 +10,15 @@ export const createBooking = async(userId:string, advancePaymentAmount:number, b
         if(!service){
             throw new BadRequestError('ServiceId is Invalid');
         }
-        const bookingStoreData ={ 
+
+        const generateUniqueId = () => {
+            const timestamp = Date.now(); 
+            const randomNum = Math.floor(Math.random() * 1000000); 
+            return `${timestamp}${randomNum}`;
+        };
+
+        const bookingStoreData ={
+            bookingId:generateUniqueId(),
             userId,
             serviceMinimumAmount:service.minimumAmount,
             serviceHourlyCharge:service.hourlyAmount,

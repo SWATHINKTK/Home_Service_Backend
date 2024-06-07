@@ -1,6 +1,7 @@
 export interface IBooking {
     _id?:string;
     userId:string;
+    bookingId:string;
     workerId?:string;
     serviceId:string;
     serviceMinimumAmount:number;
