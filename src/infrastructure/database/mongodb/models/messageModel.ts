@@ -9,11 +9,11 @@ const messageSchema = new Schema({
         ref:'conversation',
         required:true
     },
-    sender:{
+    senderId:{
         type:mongoose.Types.ObjectId,
         required:true
     },
-    receiver:{
+    receiverId:{
         type:mongoose.Types.ObjectId,
         required:true
     },

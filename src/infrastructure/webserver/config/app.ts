@@ -9,6 +9,7 @@ import adminRouter from '../routers/adminRouter';
 import workRouter from '../routers/workerRouter';
 import chatRouter from '../routers/chatRouter';
 import { errorHandler } from "../middleware/errorHandlerMiddleware";
+import { SocketManager } from "../../services/stocketIO";
 
 dotenv.config();
 const app:Express = express();
@@ -44,6 +45,7 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 const httpServer = http.createServer(app);
+const socket = new SocketManager(httpServer);
 
 
 // Router

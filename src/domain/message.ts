@@ -1,7 +1,7 @@
 export interface IMessage{
     conversationId:string;
-    sender:string;
-    receiver:string;
+    senderId:string;
+    receiverId:string;
     text:string;
     status?:boolean;
 }

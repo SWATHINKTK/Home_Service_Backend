@@ -5,20 +5,20 @@ import { IRequestValidator } from "../../interface/services/IRequestValidator";
 
 export const createMessage = async (
     text: string,
-    sender: string,
-    receiver: string,
+    senderId: string,
+    receiverId: string,
     conversationId: string,
     messageRepository: IMessageRepository,
     requestValidator: IRequestValidator
 ):Promise<IServerResponse> => {
     try {
-        const requestValidation = requestValidator.validateRequiredFields({text, sender, receiver, conversationId},['text', 'sender', 'receiver', 'conversationId']);
+        const requestValidation = requestValidator.validateRequiredFields({text, senderId, receiverId, conversationId},['text', 'senderId', 'receiverId', 'conversationId']);
         if(!requestValidation.success){
             console.log(requestValidation)
             throw new BadRequestError(requestValidation.message)
         }
 
-        const message = await messageRepository.createMessage({text, sender, receiver, conversationId});
+        const message = await messageRepository.createMessage({text, senderId, receiverId, conversationId});
         return {
             statusCode:200,
             success:true,
