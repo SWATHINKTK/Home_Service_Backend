@@ -2,7 +2,6 @@ import Stripe from "stripe";
 import { Next, Req, Res } from "../infrastructure/types/expressTypes";
 import { BookingUseCase } from "../usecases/usecase/bookingUseCase";
 import { BadRequestError } from "../usecases/handler/badRequestError";
-import { Console } from "winston/lib/winston/transports";
 
 interface CustomReq extends Req {
     user?: string;

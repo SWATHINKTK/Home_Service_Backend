@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "../routers/userRouter";
 import adminRouter from '../routers/adminRouter';
 import workRouter from '../routers/workerRouter';
+import chatRouter from '../routers/chatRouter';
 import { errorHandler } from "../middleware/errorHandlerMiddleware";
 
 dotenv.config();
@@ -49,6 +50,7 @@ const httpServer = http.createServer(app);
 app.use('/api/user',userRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/worker', workRouter);
+app.use('/api/chat', chatRouter);
 
 
 // Error handler
