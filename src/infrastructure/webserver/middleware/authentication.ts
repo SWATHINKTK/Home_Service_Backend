@@ -45,7 +45,7 @@ export class Authentication{
             if(decodedToken.role != 'user' || !decodedToken){
                 throw new ForbiddenError();
             }
-            const existingUser:IUser | null = await this._userRepository.findUser(decodedToken?.email);
+            const existingUser:IUser | null = await this._userRepository.findUser({email:decodedToken?.email});
             if(!existingUser){
                 throw new NotFoundError('user is not found');
             }

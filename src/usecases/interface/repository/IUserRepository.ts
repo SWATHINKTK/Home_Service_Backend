@@ -7,7 +7,7 @@ import { IUpdateUserData } from "../../../infrastructure/database/mongodb/reposi
 
 export interface IUserRepository{
     createUser(newUser:IUser):Promise<PublicUserInfo>;
-    findUser(email:string):Promise<IUser & Document | null>;
+    findUser(query:Record<string, any>):Promise<IUser & Document | null>;
     findAllUsers(): Promise<any[] | null>;
     updateUserBlockStatus(userId:string):Promise<string>;
     updateUserData(userEmail:string, updatedData:IUpdateUserData):Promise<boolean>; 

@@ -42,8 +42,8 @@ export class UserRepository implements IUserRepository {
      * @param {string} email email is used to fetch data.
      * @returns {Promise<IUser & Document | null>} A Promise that resolves with the return all users.
      */
-    async findUser(email: string): Promise<(IUser & Document) | null> {
-        return findUser(email, this._userModelInstance);
+    async findUser(query:Record<string, any>): Promise<(IUser & Document) | null> {
+        return findUser(query, this._userModelInstance);
     }
 
 

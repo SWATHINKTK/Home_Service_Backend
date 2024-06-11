@@ -27,4 +27,21 @@ router.get(
         chatAdapter.viewMessage(req, res, next)
     }
 )
+
+// view Worker
+router.get(
+    '/worker/:workerId',
+    (req:Request, res:Response, next:NextFunction) => {
+        chatAdapter.viewWorker(req, res, next)
+    }
+)
+
+// view user
+router.get(
+    '/user/:userId',
+    (req:Request, res:Response, next:NextFunction) => {
+        chatAdapter.viewUser(req, res, next)
+    }
+)
+
 export default router

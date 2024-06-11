@@ -27,7 +27,7 @@ export const loginUser = async(
     try {
 
         // Find user in the repository using the provided username
-        const existingUser = await userRepository.findUser(username);
+        const existingUser = await userRepository.findUser({email:username});
 
         // If user does not exist, throw a BadRequestError
         if(!existingUser){

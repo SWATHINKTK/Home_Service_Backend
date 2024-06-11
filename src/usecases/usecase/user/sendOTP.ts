@@ -32,7 +32,7 @@ export const sendOTP = async (
     try {
 
         // Check the user is already exists with the provided email address.
-        const existingUser = await userRepository.findUser(emailAddr);
+        const existingUser = await userRepository.findUser({email:emailAddr});
         if (existingUser) {
             throw new BadRequestError("User is already exist.");
         }

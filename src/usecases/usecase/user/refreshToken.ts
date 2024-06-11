@@ -10,7 +10,7 @@ export const refreshToken = async(userRToken:string, userRepository:IUserReposit
         if(!credential){
             throw new UnauthorizedRequestError('Unauthorized Request.');
         }
-        const user = await userRepository.findUser(credential.email);
+        const user = await userRepository.findUser({email:credential.email});
         if(!user || user?._isBlocked){
             throw new ForbiddenError();
         }

@@ -176,7 +176,7 @@ export class UserUseCase {
 
 
     async getUser(userEmail:string){
-        return getUser(userEmail, this._userRepository)
+        return getUser({email:userEmail}, this._userRepository)
     }
 
 

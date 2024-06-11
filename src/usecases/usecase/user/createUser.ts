@@ -38,7 +38,7 @@ export const createUser = async (
     try {
 
         // Check if user with the same email already exists
-        const existingUser = await userRepository.findUser(email);
+        const existingUser = await userRepository.findUser({email});
         if (existingUser) {
             throw new BadRequestError('User is already exist.')
         }

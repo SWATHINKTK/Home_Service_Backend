@@ -17,7 +17,7 @@ export const editUserProfile = async(
             throw new BadRequestError('Request Failed.Ensure Our data.')
         }
 
-        const existingUser = await userRepository.findUser(userEmail);
+        const existingUser = await userRepository.findUser({email:userEmail});
         if(!existingUser){
             throw new BadRequestError('User Does Not Exist.')
         }

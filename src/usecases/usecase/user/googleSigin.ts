@@ -11,7 +11,7 @@ export const googleSignin = async(
     userRepository:IUserRepository
 ):Promise<IServerResponse> => {
     try {
-        const user = await userRepository.findUser("");
+        const user = await userRepository.findUser({});
         return {
             statusCode:200,
             success:true,

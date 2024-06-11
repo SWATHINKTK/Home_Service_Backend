@@ -11,7 +11,6 @@ export interface IUpdateUserData{
 
 export const updateUserData = async(userEmail:string, updateUserData:IUpdateUserData, userModelInstance: typeof userModel) => {
     try {
-        console.log(updateUserData,userEmail)
         const editedUser = await userModelInstance.updateOne({ email: userEmail }, { $set: updateUserData },{upsert:true});
         console.log(editedUser)
         return !!editedUser.modifiedCount
