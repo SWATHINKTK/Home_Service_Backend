@@ -172,5 +172,12 @@ router.get(
         adminAdapter.viewSalesReport(req, res, next);
     });
 
+router.get(
+    '/viewBookings',
+    authentication.protectAdmin,
+    (req: Request, res: Response, next: NextFunction) => {
+        adminAdapter.viewBookings(req, res, next);
+    });
+    
 
 export default router;

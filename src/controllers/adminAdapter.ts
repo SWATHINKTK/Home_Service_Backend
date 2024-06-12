@@ -126,4 +126,14 @@ export class AdminAdapter {
             next(error);
         }
     }
+
+
+    async viewBookings(req:Req, res:Res, next:Next) {
+        try {
+            const bookings = await this._adminUsecase.viewBookings();
+            res.status(bookings.statusCode).json(bookings);
+        } catch (error) {
+            next(error);
+        }
+    }
 }

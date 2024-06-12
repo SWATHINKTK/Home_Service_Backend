@@ -7,6 +7,7 @@ import { IJWT } from "../interface/services/Ijwt";
 import { adminLogin } from "./admin/adminLogin";
 import { adminLogout } from "./admin/adminLogout";
 import { refreshToken } from "./admin/refreshToken";
+import { viewAllBookings } from "./admin/viewBooking";
 import { viewSalesReport } from "./admin/viewSalesReport";
 import { blockUser } from "./user/blockUser";
 import { findAllUsers } from "./user/findAllUser";
@@ -74,5 +75,9 @@ export class AdminUseCase{
 
     async viewSalesReport(){
         return viewSalesReport(this._bookingRepository)
+    }
+
+    async viewBookings() {
+        return viewAllBookings(this._bookingRepository)
     }
 }
