@@ -165,5 +165,12 @@ router.patch(
         workerAdapter.blockWorker(req, res, next);
     });
 
+router.get(
+    '/salesReport',
+    authentication.protectAdmin,
+    (req: Request, res: Response, next: NextFunction) => {
+        adminAdapter.viewSalesReport(req, res, next);
+    });
+
 
 export default router;

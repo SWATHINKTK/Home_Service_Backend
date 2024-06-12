@@ -43,6 +43,10 @@ const workerSchema = new Schema(
             type: Boolean,
             default: false,
         },
+        walletAmount:{
+            type:Number,
+            default:0
+        }
     },
     { timestamps: true }
 );

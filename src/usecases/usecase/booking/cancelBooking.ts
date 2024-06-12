@@ -11,7 +11,7 @@ export const cancelBooking = async(userId:string ,status:string, bookingId:strin
         }
         const query = [
             {_id:bookingId, userId},
-            {workStatus:status}
+            {workStatus:status,paymentStatus:'Cancelled'},
         ]
         const updatedBooking = bookingRepository.updateBookingStatus(query);
         return {

@@ -78,8 +78,11 @@ const bookingSchema = new Schema({
     },
     paymentStatus:{
         type:String,
-        enum:['Pending', 'Completed'],
+        enum:['Pending', 'Completed','Cancelled'],
         default:'Pending'
+    },
+    transactionId:{
+        type:String
     },
     additionalCharges:[{
         description:{

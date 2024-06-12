@@ -117,4 +117,13 @@ export class AdminAdapter {
             next(error)
         }
     }
+
+    async viewSalesReport(req:Req, res:Res, next:Next) {
+        try {
+            const sales = await this._adminUsecase.viewSalesReport();
+            res.status(sales.statusCode).json(sales);
+        } catch (error) {
+            next(error);
+        }
+    }
 }

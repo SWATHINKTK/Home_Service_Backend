@@ -10,5 +10,6 @@ export interface IWorkerRepository{
     verifyWorker(workerId: string): Promise<boolean>;
     blockWorker(workerId: string): Promise<boolean>;
     updateWorkerData(workerPhoneNumber:string, updatedData:IUpdateWorkerData):Promise<boolean>; 
+    walletUpdate(workerId:string, amount:number):Promise<boolean>;
 
 }

@@ -14,7 +14,7 @@ export const completeWork = async (
         if (!booking) {
             throw new NotFoundError('Booking id Invalid.')
         }
-        const totalAmount = additionalCharges.reduce((acc, curr) => acc + (curr.amount * curr.qty), booking.serviceMinimumAmount)
+        const totalAmount = (additionalCharges.reduce((acc, curr) => acc + (curr.amount * curr.qty), booking.serviceMinimumAmount)) - booking.advancePaymentAmount;
         const query = [
             { _id:bookingId, workerId },
             { workStatus: WorkStatus.COMPLETED, totalAmount, additionalCharges }

@@ -1,11 +1,13 @@
 // Import necessary types and functions
 import { IAdminRepository } from "../interface/repository/IAdminRepository";
+import { IBookingRepository } from "../interface/repository/IBookingRepository";
 import { IUserRepository } from "../interface/repository/IUserRepository";
 import { ISecretHasher } from "../interface/services/ISecretHasher";
 import { IJWT } from "../interface/services/Ijwt";
 import { adminLogin } from "./admin/adminLogin";
 import { adminLogout } from "./admin/adminLogout";
 import { refreshToken } from "./admin/refreshToken";
+import { viewSalesReport } from "./admin/viewSalesReport";
 import { blockUser } from "./user/blockUser";
 import { findAllUsers } from "./user/findAllUser";
 
@@ -18,13 +20,15 @@ export class AdminUseCase{
     private readonly _adminRepository:IAdminRepository
     private readonly _secretHashService:ISecretHasher;
     private readonly _jwtService: IJWT;
+    private readonly _bookingRepository: IBookingRepository;
     
    
-    constructor( adminRepository:IAdminRepository, secretHashService:ISecretHasher, jwtService:IJWT, userRepository:IUserRepository ){
+    constructor( adminRepository:IAdminRepository, secretHashService:ISecretHasher, jwtService:IJWT, userRepository:IUserRepository, bookingRepository:IBookingRepository ){
         this._userRepository = userRepository;
         this._adminRepository = adminRepository;
         this._secretHashService = secretHashService;
         this._jwtService = jwtService;
+        this._bookingRepository = bookingRepository;
     }
 
     async adminLogin({ username, password }: { username: string, password: string }) {
@@ -68,5 +72,7 @@ export class AdminUseCase{
         )
     }
 
-    
+    async viewSalesReport(){
+        return viewSalesReport(this._bookingRepository)
+    }
 }

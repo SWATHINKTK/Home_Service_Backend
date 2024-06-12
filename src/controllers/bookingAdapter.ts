@@ -50,7 +50,7 @@ export class BookingAdapter{
     async userSpecificBookings(req:Req, res:Res, next:Next){
         try {
             const userId = req.userId;
-            const history = !!req.query.history || false;
+            const history = req.query.history == 'true';
             const allBookings = await  this._bookingUseCase.viewUserBooking(userId!, history);
             console.log(allBookings)
             res.status(allBookings.statusCode).json({

@@ -70,9 +70,8 @@ export class BookingUseCase {
             const eventType = event.type;
             if(eventType == 'checkout.session.completed'){
                 if(data.metadata?.completion){
-                     return this.paymentStatusUpdate(data.metadata?.bookingId)
+                     return this.paymentStatusUpdate(data.metadata?.bookingId, data.id, data.metadata?.workerId, data.metadata?.totalAmount)
                 }
-                console.log(":::::::::::::::::::::::::::::::::::::::::::;;;;;;")
                 const userId = data.metadata.userId;
                 const advancePaymentAmount = parseFloat(data.metadata.amount);
                 const bookingData: IBookingRequestData = JSON.parse(data.metadata.bookingData);
@@ -125,8 +124,8 @@ export class BookingUseCase {
         return completionPayment(userId, userEmail, bookingId, serviceName, this._bookingRepository, this._stripeService);
     }
 
-    async paymentStatusUpdate(bookingId:string){
-        return paymentStatusUpdate(bookingId, this._bookingRepository)
+    async paymentStatusUpdate(bookingId:string, transactionId:string, workerId:string, totalAmount:number){
+        return paymentStatusUpdate(bookingId, transactionId, workerId, totalAmount, this._bookingRepository, this._workerRepository)
     }
 
 }

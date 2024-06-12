@@ -7,13 +7,14 @@ export const viewUserBooking = async(userId:string, history:boolean, bookingRepo
         if(history){
             query = {
                 userId,
-                workStatus:{$nin:['Cancelled']},
-                paymentStatus:'Pending' 
+                workStatus:{$in:['Completed','Cancelled']},
+                paymentStatus:{$nin:['Pending']}
             }
         }else{
             query = {
                 userId,
-                workStatus:{$in:['Completed','Cancelled']}
+                workStatus:{$nin:['Cancelled']},
+                paymentStatus:'Pending' 
             }
         }
 

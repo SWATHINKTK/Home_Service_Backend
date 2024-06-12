@@ -10,6 +10,7 @@ import { verifyWorker } from "./worker/verifyWorker";
 import { blockWorker } from "./worker/blockWorker";
 import { retrieveWorkerAllDetails } from "./worker/retrieveWorkerAllDetails";
 import { IUpdateWorkerData, updateWorkerData } from "./worker/editWorker";
+import { walletUpdate } from "./worker/walletUpdate";
 
 export class WorkerRepository implements IWorkerRepository {
 
@@ -46,4 +47,7 @@ export class WorkerRepository implements IWorkerRepository {
         return updateWorkerData(workerPhoneNumber, updatedData, this._workerModelInstance)
     }
 
+    walletUpdate(workerId:string, amount:number):Promise<boolean>{
+        return walletUpdate(workerId, amount, this._workerModelInstance)
+    }
 }

@@ -21,6 +21,8 @@ export const completionPayment = async (
         const cancel_url = process.env.PAYMENT_CANCEL_URL+`?completed=${true}` || `http://localhost:5173/failed?completed=${true}`;
         const metadata = {
             bookingId,
+            workerId:booking.workerId?.toString(),
+            totalAmount:booking.totalAmount,
             completion:true
         }
         const session = await stripeService.stripeCheckoutSession(serviceName, metadata, booking.totalAmount,'cus_Q9QHGjKyhfHx6Z',success_url, cancel_url);
