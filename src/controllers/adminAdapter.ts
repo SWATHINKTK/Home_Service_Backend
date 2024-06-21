@@ -130,7 +130,8 @@ export class AdminAdapter {
 
     async viewBookings(req:Req, res:Res, next:Next) {
         try {
-            const bookings = await this._adminUsecase.viewBookings();
+            const page = parseInt(req.query.page as string) || 1;
+            const bookings = await this._adminUsecase.viewBookings(page);
             res.status(bookings.statusCode).json(bookings);
         } catch (error) {
             next(error);

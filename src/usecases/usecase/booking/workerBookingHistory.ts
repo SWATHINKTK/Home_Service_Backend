@@ -8,7 +8,7 @@ export const viewWorkerBookingHistory = async(workerId:string, bookingRepository
             paymentStatus:{$nin:['Pending']}
         }
 
-        const bookings = await bookingRepository.findAllBooking(query, false);
+        const bookings = await bookingRepository.findAllBooking(0,4,query, false);
         return {
             statusCode:200,
             success:true,

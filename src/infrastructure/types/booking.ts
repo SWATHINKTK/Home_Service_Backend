@@ -1,3 +1,6 @@
+import { Document } from "mongoose";
+import { IBooking } from "../../domain/booking";
+
 export interface IBookingRequestData {
     buildingName: string;
     date: string;
@@ -33,3 +36,10 @@ export type AdditionalCharges = {
         qty: number;
         amount: number;
     }[];
+
+export interface IBookingsResponse{
+    bookings:(IBooking & Document)[],
+    currentPage:number,
+    totalPages:number,
+    totalDocuments:number
+}

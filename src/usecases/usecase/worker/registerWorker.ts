@@ -1,5 +1,5 @@
 import { IWorker } from "../../../domain/worker";
-import { IWorkerExtraInfo } from "../../../infrastructure/types/workerExtraInfo";
+import { IWorkerExtraInfo } from "../../../infrastructure/types/worker";
 import { BadRequestError } from "../../handler/badRequestError";
 import { IWorkerRepository } from "../../interface/repository/IWorkerRepository";
 import { IServerResponse } from "../../../infrastructure/types/IResponse";

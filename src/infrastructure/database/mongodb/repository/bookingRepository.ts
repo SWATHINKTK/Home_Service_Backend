@@ -8,6 +8,7 @@ import { findBooking } from "./booking/findBooking";
 import { updateBookingStatus } from "./booking/updateBookingStatus";
 import { Query } from "../../../types/queryTypes";
 import { fetchTotalSalesAndRevenue } from "./booking/fetchTotalSalesAndRevenue";
+import { IBookingsResponse } from "../../../types/booking";
 
 export class BookingRepository implements IBookingRepository{
     
@@ -20,11 +21,11 @@ export class BookingRepository implements IBookingRepository{
         return createBooking(bookingData, this._bookingModelInstance)
     }
 
-    findAllBooking(query:Query, existWorkerId:boolean): Promise<(IBooking & Document)[]> {
-        return findAllBooking(query, existWorkerId, this._bookingModelInstance);
+    async *findAllBooking(page:number, pageLength:number, query:Query, existWorkerId:boolean): AsyncGenerator<IBookingsResponse> {
+        yield* findAllBooking(page, pageLength, query, existWorkerId, this._bookingModelInstance);
     }
 
-    findBooking(query:{ [key: string]: any;}):Promise<IBooking & Document>{
+    findBooking(query:Record<string,any>):Promise<IBooking & Document>{
         return findBooking(query, this._bookingModelInstance)
     }
 

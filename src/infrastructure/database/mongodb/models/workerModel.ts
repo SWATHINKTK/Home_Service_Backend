@@ -18,6 +18,7 @@ const workerSchema = new Schema(
         service: {
             type: mongoose.Schema.ObjectId,
             require: true,
+            ref:'services'
         },
         district: {
             type: String,

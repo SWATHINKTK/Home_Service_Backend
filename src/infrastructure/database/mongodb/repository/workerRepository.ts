@@ -1,7 +1,7 @@
-import { Document } from "mongoose";
+import { Document, Query } from "mongoose";
 import { IWorker } from "../../../../domain/worker";
 import { IWorkerRepository } from "../../../../usecases/interface/repository/IWorkerRepository";
-import { IWorkerExtraInfo } from "../../../types/workerExtraInfo";
+import { IWorkerExtraInfo } from "../../../types/worker";
 import { workerExtraInfoModel } from "../models/workerExtraInfoModel";
 import { workerModel } from "../models/workerModel";
 import { workerRegister } from "./worker/registerWorker";
@@ -12,6 +12,7 @@ import { retrieveWorkerAllDetails } from "./worker/retrieveWorkerAllDetails";
 import { IUpdateWorkerData, updateWorkerData } from "./worker/editWorker";
 import { walletUpdate } from "./worker/walletUpdate";
 import { totalWorkersCount } from "./worker/retrieveWorkersCount";
+import { findAllWorkers } from "./worker/findAllWorkers";
 
 export class WorkerRepository implements IWorkerRepository {
 
@@ -21,6 +22,7 @@ export class WorkerRepository implements IWorkerRepository {
         this._workerModelInstance = workerModelInstance;
         this._workerExtraInfoModelInstance = workerExtraInfoModel;
     }
+   
 
     registerWorker(workerData: IWorker, workerExtraInfo: IWorkerExtraInfo): Promise<boolean> {
         return workerRegister(workerData, workerExtraInfo, this._workerModelInstance, this._workerExtraInfoModelInstance)
@@ -30,8 +32,12 @@ export class WorkerRepository implements IWorkerRepository {
         return findWorker(query, this._workerModelInstance);
     }
 
-    retrieveWorkerAllDetails(status:boolean, workerId?:string): Promise<(IWorker & Document)[] | []> {
-        return retrieveWorkerAllDetails(status,this._workerModelInstance, workerId);
+    findAllWorker(query:Record<string,any>): Promise<[] | (IWorker & Document)[]> {
+        return findAllWorkers(query,this._workerModelInstance)
+    }
+
+    retrieveWorkerAllDetails(workerId:string): Promise<(IWorker & Document)[] | []> {
+        return retrieveWorkerAllDetails(workerId, this._workerModelInstance);
     }
 
     verifyWorker(workerId:string): Promise<boolean> {

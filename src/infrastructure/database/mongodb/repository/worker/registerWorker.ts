@@ -1,6 +1,6 @@
 import { IWorker } from "../../../../../domain/worker";
 import { BadRequestError } from "../../../../../usecases/handler/badRequestError";
-import { IWorkerExtraInfo } from "../../../../types/workerExtraInfo";
+import { IWorkerExtraInfo } from "../../../../types/worker";
 import { workerExtraInfoModel } from "../../models/workerExtraInfoModel";
 import { workerModel } from "../../models/workerModel";
 

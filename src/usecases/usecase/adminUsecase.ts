@@ -81,8 +81,8 @@ export class AdminUseCase{
         return viewSalesReport(this._bookingRepository)
     }
 
-    async viewBookings() {
-        return viewAllBookings(this._bookingRepository)
+    async viewBookings(page:number) {
+        return viewAllBookings(page,this._bookingRepository)
     }
 
     async dashboardTotalData(){

@@ -186,6 +186,12 @@ router.get(
         adminAdapter.dashboardTotalData(req, res, next);
     });
 
+router.get(
+    '/dashboard/recentData',
+    authentication.protectAdmin,
+    (req: Request, res: Response, next: NextFunction) => {
+        adminAdapter.dashboardTotalData(req, res, next);
+    });
     
 
 export default router;

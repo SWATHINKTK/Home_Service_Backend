@@ -3,7 +3,8 @@ import { IServerResponse } from "../../../infrastructure/types/IResponse";
 
 export const retrieveWorkerAllDetails = async(status:boolean, workerRepository:IWorkerRepository):Promise<IServerResponse> => {
       try {
-          const workers = await workerRepository.retrieveWorkerAllDetails(status,undefined);
+          const workers = await workerRepository.findAllWorker({_isVerified:status});
+          console.log("!!!!!!!!!!",workers)
           return{
             statusCode:200,
             success:true,

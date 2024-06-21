@@ -51,7 +51,8 @@ export class BookingAdapter{
         try {
             const userId = req.userId;
             const history = req.query.history == 'true';
-            const allBookings = await  this._bookingUseCase.viewUserBooking(userId!, history);
+            const page = parseInt(req.query.page as string) ?? 1;
+            const allBookings = await  this._bookingUseCase.viewUserBooking(userId!, history, page);
             console.log(allBookings)
             res.status(allBookings.statusCode).json({
                 success:allBookings.success,

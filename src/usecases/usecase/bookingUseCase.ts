@@ -93,8 +93,8 @@ export class BookingUseCase {
         return createBooking(userId, advancePaymentAmount, bookingData, this._bookingRepository, this._serviceRepository);
     }
 
-    async viewUserBooking(userId:string,history:boolean){
-        return viewUserBooking(userId, history, this._bookingRepository)
+    async viewUserBooking(userId:string,history:boolean, page:number){
+        return viewUserBooking(userId, page,  history, this._bookingRepository)
     }
 
     async viewWorkerSpecificBooking(workerId:string, workStatus:{[key:string]:any}, paymentStatus:{[key:string]:any}){

@@ -22,7 +22,7 @@ export const viewWorkerSpecificBooking = async (
             paymentStatus:paymentStatus,
             serviceId:worker.service
         }
-        const bookings = await bookingRepository.findAllBooking(query,false);
+        const bookings = await bookingRepository.findAllBooking(1,4,query,false);
         console.log("hello, Bookings",bookings)
         return {
             statusCode:200,

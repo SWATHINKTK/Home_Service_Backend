@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema, model } from "mongoose"
-import { IWorkerExtraInfo } from "../../../types/workerExtraInfo";
+import { IWorkerExtraInfo } from "../../../types/worker";
 
 
 const workerExtraInfoSchema = new Schema({
