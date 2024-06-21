@@ -178,6 +178,14 @@ router.get(
     (req: Request, res: Response, next: NextFunction) => {
         adminAdapter.viewBookings(req, res, next);
     });
+
+router.get(
+    '/dashboard/totalData',
+    authentication.protectAdmin,
+    (req: Request, res: Response, next: NextFunction) => {
+        adminAdapter.dashboardTotalData(req, res, next);
+    });
+
     
 
 export default router;

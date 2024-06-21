@@ -7,6 +7,7 @@ import { findAllBooking } from "./booking/findAllBookings";
 import { findBooking } from "./booking/findBooking";
 import { updateBookingStatus } from "./booking/updateBookingStatus";
 import { Query } from "../../../types/queryTypes";
+import { fetchTotalSalesAndRevenue } from "./booking/fetchTotalSalesAndRevenue";
 
 export class BookingRepository implements IBookingRepository{
     
@@ -29,5 +30,9 @@ export class BookingRepository implements IBookingRepository{
 
     updateBookingStatus(query:Query[]):Promise<IBooking & Document> {
         return updateBookingStatus(query, this._bookingModelInstance)
+    }
+
+    fetchTotalSalesAndRevenue(): Promise<any> {
+       return fetchTotalSalesAndRevenue(this._bookingModelInstance)
     }
 }

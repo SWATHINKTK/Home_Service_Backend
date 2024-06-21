@@ -136,4 +136,13 @@ export class AdminAdapter {
             next(error);
         }
     }
+
+    async dashboardTotalData(req:Req, res:Res, next:Next) {
+        try {
+            const totalData = await this._adminUsecase.dashboardTotalData();
+            res.status(totalData.statusCode).json(totalData);
+        } catch (error) {
+            next(error);
+        }
+    }
 }

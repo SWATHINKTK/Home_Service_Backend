@@ -7,4 +7,5 @@ export interface IBookingRepository{
     findAllBooking(query:Query, existWorkerId:boolean):Promise<(IBooking & Document)[]>;
     findBooking(query:{ [key: string]: any;}):Promise<IBooking & Document>;
     updateBookingStatus(query:Query[]):Promise<IBooking & Document>;
+    fetchTotalSalesAndRevenue():Promise<any>;
 }

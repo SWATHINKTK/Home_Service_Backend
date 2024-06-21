@@ -8,6 +8,7 @@ import { findUser } from "./user/findUser";
 import { findAllUsers } from "./user/findAllUser";
 import { updateUserBlockStatus } from "./user/changeUserBlockStatus";
 import { IUpdateUserData, updateUserData } from "./user/editUser";
+import { totalUsersCount } from "./user/totalUserCount";
 
 
 /**
@@ -75,4 +76,9 @@ export class UserRepository implements IUserRepository {
     updateUserData(userEmail: string, updatedData: IUpdateUserData): Promise<boolean> {
         return updateUserData(userEmail, updatedData, this._userModelInstance)
     }
+
+    retrieveTotalUsersCount(): Promise<number> {
+        return totalUsersCount(this._userModelInstance);
+    }
+   
 }

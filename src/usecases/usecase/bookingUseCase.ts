@@ -18,6 +18,7 @@ import { workVerification } from "./booking/workVerification";
 import { completeWork } from "./booking/completeWork";
 import { completionPayment } from "./booking/payment";
 import { paymentStatusUpdate } from "./booking/paymentStatusUpdate";
+import { viewWorkerBookingHistory } from "./booking/workerBookingHistory";
 
 
 export class BookingUseCase {
@@ -126,6 +127,10 @@ export class BookingUseCase {
 
     async paymentStatusUpdate(bookingId:string, transactionId:string, workerId:string, totalAmount:number){
         return paymentStatusUpdate(bookingId, transactionId, workerId, totalAmount, this._bookingRepository, this._workerRepository)
+    }
+
+    async viewWorkerBookingHistory(workerId:string){
+        return viewWorkerBookingHistory(workerId, this._bookingRepository)
     }
 
 }

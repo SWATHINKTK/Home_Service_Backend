@@ -11,4 +11,5 @@ export interface IUserRepository{
     findAllUsers(): Promise<any[] | null>;
     updateUserBlockStatus(userId:string):Promise<string>;
     updateUserData(userEmail:string, updatedData:IUpdateUserData):Promise<boolean>; 
+    retrieveTotalUsersCount():Promise<number>;
 }

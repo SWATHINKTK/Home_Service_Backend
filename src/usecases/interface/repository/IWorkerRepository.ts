@@ -11,5 +11,6 @@ export interface IWorkerRepository{
     blockWorker(workerId: string): Promise<boolean>;
     updateWorkerData(workerPhoneNumber:string, updatedData:IUpdateWorkerData):Promise<boolean>; 
     walletUpdate(workerId:string, amount:number):Promise<boolean>;
+    retrieveTotalWorkersCount():Promise<number>;
 
 }

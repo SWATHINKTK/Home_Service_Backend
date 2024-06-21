@@ -11,6 +11,7 @@ import { blockWorker } from "./worker/blockWorker";
 import { retrieveWorkerAllDetails } from "./worker/retrieveWorkerAllDetails";
 import { IUpdateWorkerData, updateWorkerData } from "./worker/editWorker";
 import { walletUpdate } from "./worker/walletUpdate";
+import { totalWorkersCount } from "./worker/retrieveWorkersCount";
 
 export class WorkerRepository implements IWorkerRepository {
 
@@ -20,8 +21,6 @@ export class WorkerRepository implements IWorkerRepository {
         this._workerModelInstance = workerModelInstance;
         this._workerExtraInfoModelInstance = workerExtraInfoModel;
     }
-   
-
 
     registerWorker(workerData: IWorker, workerExtraInfo: IWorkerExtraInfo): Promise<boolean> {
         return workerRegister(workerData, workerExtraInfo, this._workerModelInstance, this._workerExtraInfoModelInstance)
@@ -49,5 +48,9 @@ export class WorkerRepository implements IWorkerRepository {
 
     walletUpdate(workerId:string, amount:number):Promise<boolean>{
         return walletUpdate(workerId, amount, this._workerModelInstance)
+    }
+
+    retrieveTotalWorkersCount(): Promise<number> {
+        return totalWorkersCount(this._workerModelInstance);
     }
 }

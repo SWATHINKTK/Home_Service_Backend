@@ -2,10 +2,12 @@
 import { IAdminRepository } from "../interface/repository/IAdminRepository";
 import { IBookingRepository } from "../interface/repository/IBookingRepository";
 import { IUserRepository } from "../interface/repository/IUserRepository";
+import { IWorkerRepository } from "../interface/repository/IWorkerRepository";
 import { ISecretHasher } from "../interface/services/ISecretHasher";
 import { IJWT } from "../interface/services/Ijwt";
 import { adminLogin } from "./admin/adminLogin";
 import { adminLogout } from "./admin/adminLogout";
+import { totalDashboardData } from "./admin/dashboardTotalData";
 import { refreshToken } from "./admin/refreshToken";
 import { viewAllBookings } from "./admin/viewBooking";
 import { viewSalesReport } from "./admin/viewSalesReport";
@@ -22,14 +24,16 @@ export class AdminUseCase{
     private readonly _secretHashService:ISecretHasher;
     private readonly _jwtService: IJWT;
     private readonly _bookingRepository: IBookingRepository;
+    private readonly _workerRepository: IWorkerRepository;
     
    
-    constructor( adminRepository:IAdminRepository, secretHashService:ISecretHasher, jwtService:IJWT, userRepository:IUserRepository, bookingRepository:IBookingRepository ){
+    constructor( adminRepository:IAdminRepository, secretHashService:ISecretHasher, jwtService:IJWT, userRepository:IUserRepository, bookingRepository:IBookingRepository, workerRepository:IWorkerRepository ){
         this._userRepository = userRepository;
         this._adminRepository = adminRepository;
         this._secretHashService = secretHashService;
         this._jwtService = jwtService;
         this._bookingRepository = bookingRepository;
+        this._workerRepository = workerRepository;
     }
 
     async adminLogin({ username, password }: { username: string, password: string }) {
@@ -79,5 +83,9 @@ export class AdminUseCase{
 
     async viewBookings() {
         return viewAllBookings(this._bookingRepository)
+    }
+
+    async dashboardTotalData(){
+        return totalDashboardData(this._bookingRepository, this._userRepository, this._workerRepository)
     }
 }

@@ -135,4 +135,13 @@ router.patch(
     (req: Request, res: Response, next: NextFunction) => {
         BookingAdapters.completeWork(req, res, next);
     });
+
+
+router.get(
+    '/history',
+    workerRouteProtect,
+    (req: Request, res: Response, next: NextFunction) => {
+        BookingAdapters.viewWorkerBookingHistory(req, res, next);
+    });
+    
 export default router;

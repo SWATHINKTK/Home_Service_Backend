@@ -25,7 +25,7 @@ export const createBooking = async(userId:string, advancePaymentAmount:number, b
             ...bookingData,
             advancePaymentAmount,
             advancePaymentStatus: PaymentStatus.COMPLETED,
-            totalAmount:service.minimumAmount                    
+            totalAmount:0                  
         }
 
         const booking = await bookingRepository.createBooking(bookingStoreData);

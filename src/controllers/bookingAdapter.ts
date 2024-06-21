@@ -156,7 +156,7 @@ export class BookingAdapter{
             const completeWork = await this._bookingUseCase.completeWork(workerId!, req.body);
             res.status(completeWork.statusCode).json({...completeWork})
         } catch (error) {
-            
+            next(error)
         }
     }
 
@@ -171,5 +171,15 @@ export class BookingAdapter{
                 message: payment.message,
                 data: payment.data
             });
+    }
+
+    async viewWorkerBookingHistory(req:Req, res:Res, next:Next){
+        try {
+            const workerId = req.workerId;
+            const history = await this._bookingUseCase.viewWorkerBookingHistory(workerId!);
+            res.status(history.statusCode).json({...history})
+        } catch (error) {
+            next(error)
+        }
     }
 }
