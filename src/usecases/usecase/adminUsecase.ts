@@ -7,6 +7,8 @@ import { ISecretHasher } from "../interface/services/ISecretHasher";
 import { IJWT } from "../interface/services/Ijwt";
 import { adminLogin } from "./admin/adminLogin";
 import { adminLogout } from "./admin/adminLogout";
+import { dashboardChartData } from "./admin/dashboardChart";
+import { dashboardRecent } from "./admin/dashboardRecent";
 import { totalDashboardData } from "./admin/dashboardTotalData";
 import { refreshToken } from "./admin/refreshToken";
 import { viewAllBookings } from "./admin/viewBooking";
@@ -87,5 +89,13 @@ export class AdminUseCase{
 
     async dashboardTotalData(){
         return totalDashboardData(this._bookingRepository, this._userRepository, this._workerRepository)
+    }
+
+    async dashboardRecentData(){
+        return dashboardRecent(this._bookingRepository, this._workerRepository)
+    }
+
+    async dashboardChartData(){
+        return dashboardChartData(this._bookingRepository)
     }
 }

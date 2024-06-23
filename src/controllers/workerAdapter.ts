@@ -105,7 +105,8 @@ export class WorkerAdapter {
     async retrieveAllWorker(req: Req, res: Res, next: Next) {
         try {
             const status: boolean = req.params.status === 'true';
-            const worker = await this._workerUseCase.retrieveAllWorker(status);
+            const pageNumber = parseInt(req.query.pageNumber as string) || 1;
+            const worker = await this._workerUseCase.retrieveAllWorker(pageNumber,status);
             worker &&
                 res.status(worker.statusCode).json({
                     success: worker.success,

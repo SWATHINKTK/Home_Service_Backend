@@ -48,8 +48,8 @@ export class WorkerUseCase{
         return logoutWorker();
     }
 
-    async retrieveAllWorker(status:boolean){
-        return retrieveWorkerAllDetails(status, this._workerRepository)
+    async retrieveAllWorker(pageNumber:number ,status:boolean){
+        return retrieveWorkerAllDetails(pageNumber, status, this._workerRepository)
     }
 
     async verifyWorker(workerId:string){

@@ -9,4 +9,6 @@ export interface IBookingRepository{
     findBooking(query:Query):Promise<IBooking & Document>;
     updateBookingStatus(query:Query[]):Promise<IBooking & Document>;
     fetchTotalSalesAndRevenue():Promise<any>;
+    findAverageOfServiceBooking():Promise<any>;
+    findDateBasedBookingCount():Promise<any>;
 }

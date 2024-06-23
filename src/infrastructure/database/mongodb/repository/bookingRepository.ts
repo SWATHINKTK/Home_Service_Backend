@@ -9,6 +9,8 @@ import { updateBookingStatus } from "./booking/updateBookingStatus";
 import { Query } from "../../../types/queryTypes";
 import { fetchTotalSalesAndRevenue } from "./booking/fetchTotalSalesAndRevenue";
 import { IBookingsResponse } from "../../../types/booking";
+import { findAverageOfServiceBooking } from "./booking/findAverageOfServiceBooking";
+import { findDateBasedBookingCount } from "./booking/findDateBasedBookingCount";
 
 export class BookingRepository implements IBookingRepository{
     
@@ -16,7 +18,7 @@ export class BookingRepository implements IBookingRepository{
     constructor(_bookingModelInstance:typeof bookingModel){
         this._bookingModelInstance = _bookingModelInstance;
     }
-
+   
     createBooking(bookingData: IBooking): Promise<IBooking> {
         return createBooking(bookingData, this._bookingModelInstance)
     }
@@ -35,5 +37,13 @@ export class BookingRepository implements IBookingRepository{
 
     fetchTotalSalesAndRevenue(): Promise<any> {
        return fetchTotalSalesAndRevenue(this._bookingModelInstance)
+    }
+
+    findAverageOfServiceBooking(): Promise<any> {
+        return findAverageOfServiceBooking(this._bookingModelInstance);
+    }
+
+    findDateBasedBookingCount(): Promise<any> {
+        return findDateBasedBookingCount(this._bookingModelInstance);
     }
 }

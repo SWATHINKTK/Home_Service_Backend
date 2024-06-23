@@ -1,7 +1,7 @@
 import { Document, Query } from "mongoose";
 import { IWorker } from "../../../../domain/worker";
 import { IWorkerRepository } from "../../../../usecases/interface/repository/IWorkerRepository";
-import { IWorkerExtraInfo } from "../../../types/worker";
+import { IWorkerExtraInfo, IWorkerResponse } from "../../../types/worker";
 import { workerExtraInfoModel } from "../models/workerExtraInfoModel";
 import { workerModel } from "../models/workerModel";
 import { workerRegister } from "./worker/registerWorker";
@@ -32,8 +32,8 @@ export class WorkerRepository implements IWorkerRepository {
         return findWorker(query, this._workerModelInstance);
     }
 
-    findAllWorker(query:Record<string,any>): Promise<[] | (IWorker & Document)[]> {
-        return findAllWorkers(query,this._workerModelInstance)
+    findAllWorker(pageNumber:number, pageSize:number, query:Record<string,any>): Promise<IWorkerResponse> {
+        return findAllWorkers(pageNumber, pageSize, query,this._workerModelInstance)
     }
 
     retrieveWorkerAllDetails(workerId:string): Promise<(IWorker & Document)[] | []> {

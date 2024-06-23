@@ -4,7 +4,7 @@ import { IBookingRepository } from "../../interface/repository/IBookingRepositor
 
 export const viewSalesReport = async(bookingRepository:IBookingRepository):Promise<IServerResponse> => {
     try {
-        const salesGenerator =  bookingRepository.findAllBooking(0,4,{workStatus:WorkStatus.COMPLETED, paymentStatus:PaymentStatus.COMPLETED},false);
+        const salesGenerator =  bookingRepository.findAllBooking(1,4,{workStatus:WorkStatus.COMPLETED, paymentStatus:PaymentStatus.COMPLETED},false);
         const sales = await salesGenerator.next();
         return {
             statusCode:200,
