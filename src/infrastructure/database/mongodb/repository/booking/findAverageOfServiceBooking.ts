@@ -45,7 +45,6 @@ export const findAverageOfServiceBooking = async(bookingModelInstance:typeof boo
                 $unwind:'$serviceName'
             }
         ])
-        console.log(averageOfServices)
         return averageOfServices;
     } catch (error) {
         console.log(error)

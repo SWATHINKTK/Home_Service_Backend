@@ -96,6 +96,6 @@ export class AdminUseCase{
     }
 
     async dashboardChartData(){
-        return dashboardChartData(this._bookingRepository)
+        return dashboardChartData(this._bookingRepository, this._userRepository)
     }
 }

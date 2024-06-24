@@ -9,6 +9,7 @@ import { findAllUsers } from "./user/findAllUser";
 import { updateUserBlockStatus } from "./user/changeUserBlockStatus";
 import { IUpdateUserData, updateUserData } from "./user/editUser";
 import { totalUsersCount } from "./user/totalUserCount";
+import { findDateBasedUserLoginCount } from "./user/findDateBasedUserLoginCount";
 
 
 /**
@@ -26,7 +27,7 @@ export class UserRepository implements IUserRepository {
         this._userModelInstance = _userModelInstance;
     }
    
-
+   
 
     /**
      * Create a new user in the database.
@@ -81,4 +82,7 @@ export class UserRepository implements IUserRepository {
         return totalUsersCount(this._userModelInstance);
     }
    
+    findDateBasedUserLoginCount(): Promise<any> {
+        return findDateBasedUserLoginCount(this._userModelInstance)
+    }
 }

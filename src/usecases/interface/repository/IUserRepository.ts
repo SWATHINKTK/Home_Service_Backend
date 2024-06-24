@@ -12,4 +12,5 @@ export interface IUserRepository{
     updateUserBlockStatus(userId:string):Promise<string>;
     updateUserData(userEmail:string, updatedData:IUpdateUserData):Promise<boolean>; 
     retrieveTotalUsersCount():Promise<number>;
+    findDateBasedUserLoginCount():Promise<any>;
 }
