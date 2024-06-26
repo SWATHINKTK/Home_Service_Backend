@@ -97,8 +97,8 @@ export class BookingUseCase {
         return viewUserBooking(userId, page,  history, this._bookingRepository)
     }
 
-    async viewWorkerSpecificBooking(workerId:string, workStatus:{[key:string]:any}, paymentStatus:{[key:string]:any}){
-        return viewWorkerSpecificBooking(workerId, workStatus, paymentStatus, this._workerRepository, this._bookingRepository);
+    async viewWorkerSpecificBooking(workerId:string, workStatus:{[key:string]:any}, paymentStatus:{[key:string]:any}, page:number, pageSize:number){
+        return viewWorkerSpecificBooking(workerId, workStatus, paymentStatus, page, pageSize, this._workerRepository, this._bookingRepository);
     }
 
     async cancelBooking(userId:string, {status, bookingId}:{status:string, bookingId:string}){

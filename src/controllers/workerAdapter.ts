@@ -118,6 +118,18 @@ export class WorkerAdapter {
         }
     }
 
+    async retrieveWorkerExtraInformation(req: Req, res: Res, next: Next) {
+        try {
+            const workerId = req.params.workerId || '';
+            const extraInformation = await this._workerUseCase.retrieveWorkerExtraInformation(workerId);
+            extraInformation &&
+                res.status(extraInformation.statusCode).json({...extraInformation})
+        } catch (error) {
+            next(error);
+        }
+    }
+
+
 
     /**
     ** Verify New Registered Worker.

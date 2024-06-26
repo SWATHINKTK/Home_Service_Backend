@@ -8,21 +8,24 @@ export const findDateBasedBookingCount = async(bookingModelInstance:typeof booki
             {
                 $match: {
                   createdAt: {
-                    $gte: new Date(new Date().setDate(new Date().getDate() - 7))
+                    $gte: new Date(new Date().setMonth(new Date().getMonth() - 5))
                   }
                 }
             },
             {
-                $group:{
-                    _id:{$dateToString:{format:"%Y-%m-%d", date:'$createdAt'}},
-                    // _id:'$createdAt',
-                    count:{$sum:1}
+                $group: {
+                    _id: { 
+                        year: { $year: "$createdAt" }, 
+                        month: { $month: "$createdAt" } 
+                    },
+                    count: { $sum: 1 }
                 }
             },
             {
-                $sort:{_id:1}
+                $sort: { "_id.year": 1, "_id.month": 1 }
             }
-        ]) 
+        ]);
+        console.log(bookingCount)
         return bookingCount;
     } catch (error) {
         console.log(error);

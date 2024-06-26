@@ -2,9 +2,14 @@ import { IServerResponse } from "../../../infrastructure/types/IResponse";
 import { PaymentStatus, WorkStatus } from "../../../infrastructure/types/booking";
 import { IBookingRepository } from "../../interface/repository/IBookingRepository";
 
-export const viewSalesReport = async(bookingRepository:IBookingRepository):Promise<IServerResponse> => {
+export const viewSalesReport = async(startDate:string, endDate:string, page:number, pageSize:number, bookingRepository:IBookingRepository):Promise<IServerResponse> => {
     try {
-        const salesGenerator =  bookingRepository.findAllBooking(1,4,{workStatus:WorkStatus.COMPLETED, paymentStatus:PaymentStatus.COMPLETED},false);
+        console.log(startDate,endDate)
+        const query :Record<string,any>= {workStatus:WorkStatus.COMPLETED, paymentStatus:PaymentStatus.COMPLETED};
+        if (startDate && endDate) {
+            query.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
+        }
+        const salesGenerator =  bookingRepository.findAllBooking(page,pageSize,query,false);
         const sales = await salesGenerator.next();
         return {
             statusCode:200,

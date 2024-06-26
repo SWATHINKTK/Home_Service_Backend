@@ -8,6 +8,8 @@ export const viewWorkerSpecificBooking = async (
     workerId: string,
     workStatus:{[key:string]:any},
     paymentStatus:{[key:string]:any},
+    page:number,
+    pageSize:number,
     workerRepository: IWorkerRepository,
     bookingRepository: IBookingRepository
 ):Promise<IServerResponse> => { 
@@ -22,13 +24,14 @@ export const viewWorkerSpecificBooking = async (
             paymentStatus:paymentStatus,
             serviceId:worker.service
         }
-        const bookings = await bookingRepository.findAllBooking(1,4,query,false);
+        const bookingGenerator = bookingRepository.findAllBooking(page,pageSize,query,false);
+        const bookings = await bookingGenerator.next();
         console.log("hello, Bookings",bookings)
         return {
             statusCode:200,
             success:true,
             message:'Booking Data Retrieved Successful.',
-            data:bookings
+            data:bookings.value
         }
     } catch (error) {
         throw error

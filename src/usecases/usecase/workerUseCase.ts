@@ -11,6 +11,7 @@ import { registerWorker } from "./worker/registerWorker";
 import { verifyWorker } from "./worker/verifyWorker";
 import { logoutWorker } from "./worker/workerLogout";
 import { getWorkerProfile } from "./worker/getWorkerProfile";
+import { findWorkerExtraInformation } from "./worker/fetchingWorkerExtraInfromation";
 
 export class WorkerUseCase{
     private readonly _workerRepository:IWorkerRepository;
@@ -50,6 +51,10 @@ export class WorkerUseCase{
 
     async retrieveAllWorker(pageNumber:number ,status:boolean){
         return retrieveWorkerAllDetails(pageNumber, status, this._workerRepository)
+    }
+
+    async retrieveWorkerExtraInformation(workerId:string){
+        return findWorkerExtraInformation(workerId, this._workerRepository)
     }
 
     async verifyWorker(workerId:string){

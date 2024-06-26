@@ -12,7 +12,8 @@ export const findAllWorkers = async ( pageNumber:number, pageSize:number, query:
         const AllWorkers = await workerModelInstance.find(query)
                                         .populate({path:'service', select:'serviceName'})
                                         .skip(skip)
-                                        .limit(pageSize);
+                                        .limit(pageSize)
+                                        .sort({createdAt:-1});
         return {
             currentPage:pageNumber,
             totalDocuments,

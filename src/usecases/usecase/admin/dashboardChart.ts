@@ -9,6 +9,7 @@ export const dashboardChartData = async(bookingRepository:IBookingRepository, us
             bookingRepository.findDateBasedBookingCount(),
             userRepository.findDateBasedUserLoginCount(),
         ]);
+        console.log("hellllllllll",{usersCount, bookingCount, servicePercentage})
         return {
             statusCode:200,
             success:true,

@@ -120,7 +120,26 @@ export class AdminAdapter {
 
     async viewSalesReport(req:Req, res:Res, next:Next) {
         try {
-            const sales = await this._adminUsecase.viewSalesReport();
+            const startDate = req.query.startDate as string || '';
+            const endDate = req.query.endDate as string || '';
+            const page = parseInt(req.query.page as string) || 1;
+            const pageSize = 4;
+            const sales = await this._adminUsecase.viewSalesReport(startDate, endDate, page, pageSize);
+            res.status(sales.statusCode).json(sales);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async downloadSalesReport(req:Req, res:Res, next:Next) {
+        try {
+            const startDate = req.query.startDate as string || '';
+            const endDate = req.query.endDate as string || '';
+            const page = parseInt(req.query.page as string) || 1;
+            const pageSize = Number.MAX_VALUE;
+            const sales = await this._adminUsecase.viewSalesReport(startDate, endDate, page, pageSize);
+            console.log(sales);
+            
             res.status(sales.statusCode).json(sales);
         } catch (error) {
             next(error);

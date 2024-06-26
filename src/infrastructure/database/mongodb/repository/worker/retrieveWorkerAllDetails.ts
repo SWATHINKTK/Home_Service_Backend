@@ -45,6 +45,7 @@ export const retrieveWorkerAllDetails = async (
                     _isVerified: 1,
                     createdAt: 1,
                     updatedAt: 1,
+                    profile:1,
                     qualification: "$workerInfo.qualification",
                     experience: "$workerInfo.experience",
                     certificate: "$workerInfo.certificate",

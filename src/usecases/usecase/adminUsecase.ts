@@ -79,8 +79,8 @@ export class AdminUseCase{
         )
     }
 
-    async viewSalesReport(){
-        return viewSalesReport(this._bookingRepository)
+    async viewSalesReport(startDate:string, endDate:string, page:number, pageSize:number){
+        return viewSalesReport(startDate, endDate, page, pageSize, this._bookingRepository)
     }
 
     async viewBookings(page:number) {

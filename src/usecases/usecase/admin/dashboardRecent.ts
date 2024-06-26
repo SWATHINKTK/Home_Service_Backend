@@ -11,7 +11,10 @@ export const dashboardRecent = async(bookingRepository:IBookingRepository, worke
             statusCode:200,
             success:true,
             message:'Dashboard Recent Data Retrieved Successfully.',
-            data:{bookings,workers}
+            data:{
+                bookingsRecent:bookings.value,
+                workersRecent:workers
+            }
         }
     } catch (error) {
         throw error;

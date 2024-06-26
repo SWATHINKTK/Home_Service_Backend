@@ -13,6 +13,7 @@ import { IUpdateWorkerData, updateWorkerData } from "./worker/editWorker";
 import { walletUpdate } from "./worker/walletUpdate";
 import { totalWorkersCount } from "./worker/retrieveWorkersCount";
 import { findAllWorkers } from "./worker/findAllWorkers";
+import { findWorkerExtraInformation } from "./worker/findWorkerExtraInfo";
 
 export class WorkerRepository implements IWorkerRepository {
 
@@ -23,7 +24,6 @@ export class WorkerRepository implements IWorkerRepository {
         this._workerExtraInfoModelInstance = workerExtraInfoModel;
     }
    
-
     registerWorker(workerData: IWorker, workerExtraInfo: IWorkerExtraInfo): Promise<boolean> {
         return workerRegister(workerData, workerExtraInfo, this._workerModelInstance, this._workerExtraInfoModelInstance)
     }
@@ -34,6 +34,10 @@ export class WorkerRepository implements IWorkerRepository {
 
     findAllWorker(pageNumber:number, pageSize:number, query:Record<string,any>): Promise<IWorkerResponse> {
         return findAllWorkers(pageNumber, pageSize, query,this._workerModelInstance)
+    }
+
+    findWorkerExtraInformation(workerId: string): Promise<IWorkerExtraInfo | null> {
+        return findWorkerExtraInformation(workerId, this._workerExtraInfoModelInstance)
     }
 
     retrieveWorkerAllDetails(workerId:string): Promise<(IWorker & Document)[] | []> {

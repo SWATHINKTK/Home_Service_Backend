@@ -98,7 +98,6 @@ router.post('/service/add', upload.fields([{name:'icon',maxCount:1},{name:'image
  */
 router.get(
     "/service",
-    authentication.protectAdmin,
     (req: Request, res: Response, next: NextFunction) => {
         serviceAdapter.findAllServices(req, res, next);
     });
@@ -141,6 +140,13 @@ router.get(
         workerAdapter.retrieveAllWorker(req, res, next);
     });
 
+router.get(
+    "/worker/extraInformation/:workerId",
+    authentication.protectAdmin,
+    (req: Request, res: Response, next: NextFunction) => {
+        workerAdapter.retrieveWorkerExtraInformation(req, res, next);
+    });
+
 /**
 * @route Patch api/admin/worker/:workerId/verify
 * @desc  Verifying New Registered Worker.
@@ -173,6 +179,13 @@ router.get(
     });
 
 router.get(
+    '/salesReport/download',
+    authentication.protectAdmin,
+    (req: Request, res: Response, next: NextFunction) => {
+        adminAdapter.downloadSalesReport(req, res, next);
+    });
+
+router.get(
     '/viewBookings',
     authentication.protectAdmin,
     (req: Request, res: Response, next: NextFunction) => {
@@ -195,7 +208,7 @@ router.get(
 
 router.get(
     '/dashboard/chart',
-    // authentication.protectAdmin,
+    authentication.protectAdmin,
     (req: Request, res: Response, next: NextFunction) => {
         adminAdapter.dashboardChart(req, res, next);
     });

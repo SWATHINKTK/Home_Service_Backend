@@ -8,6 +8,7 @@ export interface IWorkerRepository{
     findWorker(query: { [key: string]: any }): Promise<IWorker & Document | null>;
     findAllWorker(pageNumber:number, pageSize:number, query:Record<string,any>):Promise<IWorkerResponse>;
     retrieveWorkerAllDetails(workerId:string): Promise<(IWorker & Document)[] | []>;
+    findWorkerExtraInformation(workerId:string):Promise<IWorkerExtraInfo | null>;
     verifyWorker(workerId: string): Promise<boolean>;
     blockWorker(workerId: string): Promise<boolean>;
     updateWorkerData(workerPhoneNumber:string, updatedData:IUpdateWorkerData):Promise<boolean>; 

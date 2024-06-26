@@ -1,4 +1,5 @@
 import { InternalServerError } from "../../../../../usecases/handler/internalServerError";
+import { WorkStatus } from "../../../../types/booking";
 import { bookingModel } from "../../models/bookingModel";
 
 export const findAverageOfServiceBooking = async(bookingModelInstance:typeof bookingModel) => {
@@ -7,14 +8,14 @@ export const findAverageOfServiceBooking = async(bookingModelInstance:typeof boo
             {
                 $group:{
                     _id:'$serviceId',
-                    count:{$sum:1}
+                    totalSum:{$sum:'$totalAmount'}
                 }
             },
             {
                 $group:{
                     _id:null,
-                    totalBookings:{$sum:'$count'},
-                    services:{$push:{serviceId:'$_id', count:'$count'}}
+                    totalBookings:{$sum:'$totalSum'},
+                    services:{$push:{serviceId:'$_id', sum:'$totalSum'}}
                 }
             },
             {
@@ -32,11 +33,11 @@ export const findAverageOfServiceBooking = async(bookingModelInstance:typeof boo
                 $project:{
                     _id:0,
                     serviceId:'$services.serviceId',
-                    count:'$services.count',
+                    count:'$services.totalSum',
                     serviceName:'$service.serviceName',
                     percentage:{
                         $multiply:[
-                            {$divide:['$services.count','$totalBookings']},100
+                            {$divide:['$services.sum','$totalBookings']},100
                         ]
                     }
                 }
@@ -45,6 +46,7 @@ export const findAverageOfServiceBooking = async(bookingModelInstance:typeof boo
                 $unwind:'$serviceName'
             }
         ])
+        console.log(averageOfServices)
         return averageOfServices;
     } catch (error) {
         console.log(error)

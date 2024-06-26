@@ -14,7 +14,8 @@ export const findAllBooking = async function* (page:number, pageLength:number, q
                                                        .populate({path:'userId', select:'_id firstname lastname phonenumber email'})
                                                        .sort({ createdAt: -1 })
                                                        .skip(skip)
-                                                       .limit(pageSize);
+                                                       .limit(pageSize)
+                                                       .sort({createdAt:-1});
         yield {
             bookings,
             currentPage:page,
