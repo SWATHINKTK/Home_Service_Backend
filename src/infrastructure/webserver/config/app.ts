@@ -16,7 +16,7 @@ const app:Express = express();
 
 // CORS setup
 const corsOptions = {
-    origin: ["http://localhost:5173","http://10.4.2.182:5173"],
+    origin: ["http://localhost:5173","https://heavencrew.vercel.app/"],
     methods: ["GET", "PATCH", "PUT", "POST"],
     optionsSuccessStatus: 204,
     credentials: true 

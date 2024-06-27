@@ -136,7 +136,7 @@ router.get(
 */
 router.get(
     '/service/details/:serviceId',
-    authentication.protectUser,
+    // authentication.protectUser,
     (req: Request, res: Response, next: NextFunction) => {
         serviceAdapter.findService(req, res, next);
     })

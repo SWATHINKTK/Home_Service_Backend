@@ -183,4 +183,13 @@ export class AdminAdapter {
             next(error);
         }
     }
+
+    async performingWorkersAndUsers(req:Req, res:Res, next:Next) {
+        try {
+            const performersData = await this._adminUsecase.performingWorkersAndUsers();
+            res.status(performersData.statusCode).json(performersData);
+        } catch (error) {
+            next(error);
+        }
+    }
 }

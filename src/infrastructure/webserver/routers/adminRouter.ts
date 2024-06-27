@@ -213,5 +213,12 @@ router.get(
         adminAdapter.dashboardChart(req, res, next);
     });
 
+router.get(
+    '/dashboard/performingWorkersAndUsers',
+    // authentication.protectAdmin,
+    (req: Request, res: Response, next: NextFunction) => {
+        adminAdapter.performingWorkersAndUsers(req, res, next);
+    });
+
 
 export default router;

@@ -11,4 +11,6 @@ export interface IBookingRepository{
     fetchTotalSalesAndRevenue():Promise<any>;
     findAverageOfServiceBooking():Promise<any>;
     findDateBasedBookingCount():Promise<any>;
+    findTopPerformingWorkers():Promise<any>;
+    findTopPerformingUsers():Promise<any>;
 }

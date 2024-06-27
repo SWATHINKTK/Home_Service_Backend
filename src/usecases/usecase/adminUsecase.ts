@@ -10,6 +10,7 @@ import { adminLogout } from "./admin/adminLogout";
 import { dashboardChartData } from "./admin/dashboardChart";
 import { dashboardRecent } from "./admin/dashboardRecent";
 import { totalDashboardData } from "./admin/dashboardTotalData";
+import { performingWorkersAndUsers } from "./admin/performingWorkersAndUsers";
 import { refreshToken } from "./admin/refreshToken";
 import { viewAllBookings } from "./admin/viewBooking";
 import { viewSalesReport } from "./admin/viewSalesReport";
@@ -97,5 +98,9 @@ export class AdminUseCase{
 
     async dashboardChartData(){
         return dashboardChartData(this._bookingRepository, this._userRepository)
+    }
+
+    async performingWorkersAndUsers(){
+        return performingWorkersAndUsers(this._bookingRepository);
     }
 }

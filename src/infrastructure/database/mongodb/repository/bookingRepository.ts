@@ -11,6 +11,8 @@ import { fetchTotalSalesAndRevenue } from "./booking/fetchTotalSalesAndRevenue";
 import { IBookingsResponse } from "../../../types/booking";
 import { findAverageOfServiceBooking } from "./booking/findAverageOfServiceBooking";
 import { findDateBasedBookingCount } from "./booking/findDateBasedBookingCount";
+import { findTopPerformingWorkers } from "./booking/findTopPerfomingWorkers";
+import { findTopPerformingUsers } from "./booking/findTopPerformingUsers";
 
 export class BookingRepository implements IBookingRepository{
     
@@ -46,4 +48,13 @@ export class BookingRepository implements IBookingRepository{
     findDateBasedBookingCount(): Promise<any> {
         return findDateBasedBookingCount(this._bookingModelInstance);
     }
+
+    findTopPerformingWorkers(): Promise<any> {
+        return findTopPerformingWorkers(this._bookingModelInstance)
+    }
+
+    findTopPerformingUsers(): Promise<any> {
+        return findTopPerformingUsers(this._bookingModelInstance);
+    }
+    
 }
