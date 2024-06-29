@@ -19,11 +19,13 @@ export class WorkerAdapter {
                     httpOnly: true,       //! Prevent XSS Attack
                     sameSite: "strict",  //! Prevent CSRF Attack          
                     maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
+                    secure:true     //! Ensure cookie is sent over HTTPS only
                 });
                 res.cookie("workerATkn",worker.token?.accessToken, {
                     httpOnly: true,       //! Prevent XSS Attack
                     sameSite: "strict",  //! Prevent CSRF Attack          
-                    maxAge: 4 * 60 * 1000,    //! 4m validity
+                    maxAge: 4 * 60 * 1000,    //! 4m validity,
+                    secure:true     //! Ensure cookie is sent over HTTPS only
                 });
             res.status(worker.statusCode).json({
                 success: worker.success,
@@ -38,18 +40,20 @@ export class WorkerAdapter {
 
     async refreshToken(req:Req, res:Res, next:Next){
         try {
-            console.log(req.cookies)
+            console.log("hello Cookies",req.cookies)
             const worker = await this._workerUseCase.refreshToken(req.cookies.workerRTkn);
             worker &&
                 res.cookie("workerRTkn", worker.token?.refreshToken, {
                     httpOnly: true,       //! Prevent XSS Attack
-                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
+                    secure:true     //! Ensure cookie is sent over HTTPS only
                 });
                 res.cookie("workerATkn",worker.token?.accessToken, {
                     httpOnly: true,       //! Prevent XSS Attack
-                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 4 * 60 * 1000,    //! 4m validity
+                    secure:true     //! Ensure cookie is sent over HTTPS only
                 });
             res.status(worker.statusCode).json({
                 success: worker.success,

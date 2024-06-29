@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    # Define the image name and tag
+    image: heavencrew:latest
+    
+    # Build the Docker image from the Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    # Define environment variables
+    env_file:
+      - .env
+    
+    # Map host port to container port
+    ports:
+      - "3000:3000"
+    
+    # Optional: Define volumes for persisting data
+    volumes:
+      - .:/app
+    
+    # Optional: Configure restart policies
+    restart: unless-stopped

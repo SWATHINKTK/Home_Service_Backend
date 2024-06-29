@@ -6,6 +6,7 @@ import { IJWT } from "../../interface/services/Ijwt";
 
 export const refreshToken = async(userRToken:string, userRepository:IUserRepository, jwtService:IJWT):Promise<IServerResponse> => {
     try {
+        console.log("userToken",userRToken)
         const credential = jwtService.verifyJWT(userRToken);
         if(!credential){
             throw new UnauthorizedRequestError('Unauthorized Request.');

@@ -36,6 +36,7 @@ export class Authentication{
 
     async protectUser( req:Req, res:Res, next:Next ){
         try {
+            console.log("cookies---------------",req.cookies)
             const token = req.cookies.userATkn;
             if(!token){
                 throw new UnauthorizedRequestError('Unauthorized Request.');

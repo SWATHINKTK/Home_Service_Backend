@@ -64,13 +64,15 @@ export class UserAdapter {
             user &&
                 res.cookie("userRTkn", user.token?.refreshToken, {
                     httpOnly: true,       //! Prevent XSS Attack
-                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
+                    secure: true    //! Ensure cookie is sent over HTTPS only
                 });
                 res.cookie("userATkn", user.token?.accessToken, {
                     httpOnly: true,       //! Prevent XSS Attack
-                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 4 * 60 * 1000,    //! 4m validity
+                    secure: true     //! Ensure cookie is sent over HTTPS only
                 });
             res.status(user.statusCode).json({
                 success: user.success,
@@ -89,13 +91,15 @@ export class UserAdapter {
             response &&
                 res.cookie("userRTkn", response.token?.refreshToken, {
                     httpOnly: true,       //! Prevent XSS Attack
-                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
+                    secure: true    //! Ensure cookie is sent over HTTPS only
                 });
                 res.cookie("userATkn",response.token?.accessToken, {
                     httpOnly: true,       //! Prevent XSS Attack
-                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 4 * 60 * 1000,    //! 4m validity
+                    secure: true    //! Ensure cookie is sent over HTTPS only
                 });
 
             res.status(response.statusCode).json({
