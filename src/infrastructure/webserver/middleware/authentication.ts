@@ -36,13 +36,11 @@ export class Authentication{
 
     async protectUser( req:Req, res:Res, next:Next ){
         try {
-            console.log("cookies---------------",req.cookies)
             const token = req.cookies.userATkn;
             if(!token){
                 throw new UnauthorizedRequestError('Unauthorized Request.');
             }
             const decodedToken = this._jwtService.verifyJWT(token);
-            // console.log(decodedToken)
             if(decodedToken.role != 'user' || !decodedToken){
                 throw new ForbiddenError();
             }
@@ -65,10 +63,7 @@ export class Authentication{
 
     async protectWorker( req:Req, res:Res, next:Next ){
         try {
-            console.log('protectedWorker')
             const token = req.cookies.workerATkn;
-            console.log('-----------------------------------------------')
-            console.log(token)
             if(!token){
                 throw new UnauthorizedRequestError('Unauthorized Request.');
             }
@@ -80,7 +75,6 @@ export class Authentication{
             
             req.worker = decodedToken?.phoneNumber;
             req.workerId = decodedToken?._id;
-            console.log('-----------------------------------------------')
             next();
         } catch (error) {
             next(error);
@@ -89,10 +83,7 @@ export class Authentication{
 
     async protectAdmin( req:Req, res:Res, next:Next ){
         try {
-            console.log('protectedAdmin')
             const token = req.cookies.adminATkn;
-            console.log('-----------------------------------------------')
-            console.log(token)
             if(!token){
                 throw new UnauthorizedRequestError('Unauthorized Request.');
             }

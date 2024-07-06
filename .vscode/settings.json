@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "Cancelbooking",
         "fieldname",
         "firstname",
         "Hasher",
@@ -9,6 +10,7 @@
         "Kyhf",
         "lastname",
         "manageprofile",
+        "mensfocus",
         "phonenumber",
         "salesreport",
         "secrect",
@@ -17,5 +19,10 @@
         "Usecase",
         "usecases",
         "workerextrainfos"
-    ]
+    ],
+    "Codegeex.Chat.LanguagePreference": "English",
+    "Codegeex.Comment.LanguagePreference": "English",
+    "Codegeex.SidebarUI.LanguagePreference": "English",
+    "Codegeex.GenerationPreference": "automatic",
+    "Codegeex.EnableExtension": false
 }

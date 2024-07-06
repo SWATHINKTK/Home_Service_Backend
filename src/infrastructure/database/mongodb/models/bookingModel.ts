@@ -84,6 +84,9 @@ const bookingSchema = new Schema({
     transactionId:{
         type:String
     },
+    cancelReason:{
+        type:String
+    },
     additionalCharges:[{
         description:{
             type:String

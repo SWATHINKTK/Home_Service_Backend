@@ -49,6 +49,7 @@ export class StripePaymentIntegration implements IStripe {
             const event = this.stripe.webhooks.constructEvent(payload, signature, endpointSecret);
             return event
         } catch (error) {
+            console.log('Stripe Error', error)
             throw error
         }
     }

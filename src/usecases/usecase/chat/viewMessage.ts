@@ -9,10 +9,7 @@ export const viewMessage = async (
     requestValidator: IRequestValidator
 ):Promise<IServerResponse> => {
     try {
-        const requestValidation = requestValidator.validateRequiredFields(
-            { conversationId },
-            ["conversationId"]
-        );
+        const requestValidation = requestValidator.validateRequiredFields({ conversationId }, ["conversationId"]);
         if (!requestValidation.success) {
             console.log(requestValidation);
             throw new BadRequestError(requestValidation.message);

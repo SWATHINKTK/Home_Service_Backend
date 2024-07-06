@@ -3,15 +3,14 @@ import { upload } from "../middleware/multerConfig";
 import { Authentication } from "../middleware/authentication";
 import { workerAdapter } from "./injectons/workerInjection";
 import { workerRouteProtect } from "../middleware/workerAuthMiddleware";
-import { BookingAdapter } from "../../../controllers/bookingAdapter";
 import { BookingAdapters } from "./injectons/bookingInjection";
 const authentication = new Authentication();
 
 const router = express.Router();
 
 /**
- * @route POST api/worker/register
- * @desc Worker Data to Create New User.
+ * @route  POST api/worker/register
+ * @desc   Route used to Creating New worker.
  * @access Public
  */
 router.post(
@@ -23,8 +22,8 @@ router.post(
 
 
 /**
- * @route POST api/worker/login
- * @desc Worker Credential to Login
+ * @route  POST api/worker/login
+ * @desc   Route to provide the Access of Worker in our system based on credentials.
  * @access Public
  */
 router.post(
@@ -35,8 +34,8 @@ router.post(
 
 
 /**
- * @route POST api/worker/refreshToken
- * @desc Worker Refresh token is used to provide the access toke.
+ * @route  POST api/worker/refreshToken
+ * @desc   Worker Refresh token is used to provide the access token.
  * @access Public
  */
 router.post(
@@ -47,8 +46,8 @@ router.post(
 
 
 /**
- * @route POST api/worker/logout
- * @desc Worker is going to logout.
+ * @route  POST api/worker/logout
+ * @desc   Route is used to logout Worker and clearing cookies.
  * @access Public
  */
 router.post(
@@ -58,15 +57,12 @@ router.post(
     });    
 
 
-
-
-
-
 /**
-* @route GET api/worker/profile
-* @desc Retrieve Worker Data.
-* @access Private
-*/
+ * @route POST api/worker/profile
+ * @desc  Route handler for Retrieve Worker information based on workerId.
+ * @param {Function} workerRouteProtect - Middleware function to protect the route for worker access.
+ * @access Private
+ */
 router.get(
     '/profile',
     workerRouteProtect,
@@ -76,10 +72,11 @@ router.get(
 
 
 /**
-* @route PUT api/worker/editProfile
-* @desc Retrieve User Data.
-* @access Public
-*/
+ * @route PUT api/worker/editProfile
+ * @desc  Route handler for Update Worker information and Update Profile based on workerId.
+ * @param {Function} workerRouteProtect - Middleware function to protect the route for worker access.
+ * @access Private
+ */
 router.put(
     '/editProfile',
     workerRouteProtect,
@@ -89,6 +86,12 @@ router.put(
     });
 
 
+/**
+ * @route GET api/worker/booking
+ * @desc  Route handler for Retrieving Booked Service Based on Worker Service.
+ * @param {Function} workerRouteProtect - Middleware function to protect the route for worker access.
+ * @access Private
+ */
 router.get(
     '/booking',
     workerRouteProtect,
@@ -97,6 +100,12 @@ router.get(
     });
 
 
+/**
+ * @route PATCH api/worker/booking/acceptWork
+ * @desc  Route handler for Updating Status of Booking to Accept.
+ * @param {Function} workerRouteProtect - Middleware function to protect the route for worker access.
+ * @access Private
+ */
 router.patch(
     '/booking/acceptWork',
     workerRouteProtect,
@@ -104,6 +113,25 @@ router.patch(
         BookingAdapters.acceptWork(req, res, next);
     });
 
+/**
+ * @route PATCH api/worker/booking
+ * @desc  Route handler for Canceling a booking.
+ * @param {Function} workerRouteProtect - Middleware function to protect the route for worker access.
+ * @access Private
+ */
+router.patch(
+    '/booking/cancelWork',
+    workerRouteProtect,
+    (req: Request, res: Response, next: NextFunction) => {
+        BookingAdapters.cancelWork(req, res, next);
+    });
+
+/**
+ * @route GET api/worker/booking
+ * @desc  Route handler for Retrieving Accepted Bookings Based on Worker Service.
+ * @param {Function} workerRouteProtect - Middleware function to protect the route for worker access.
+ * @access Private
+ */
 router.get(
     '/booking/viewAcceptWork',
     workerRouteProtect,
@@ -112,7 +140,12 @@ router.get(
     });
 
 
-// bookingId, userEmail
+/**
+ * @route PATCH api/worker/booking
+ * @desc  Route handler for Update Status of Booking to Start.
+ * @param {Function} workerRouteProtect - Middleware function to protect the route for worker access.
+ * @access Private
+ */
 router.patch(
     '/booking/startWork',
     workerRouteProtect,
@@ -120,7 +153,13 @@ router.patch(
         BookingAdapters.startWork(req, res, next);
     });
 
-// bookingId, otp, workerId
+
+/**
+ * @route POST api/worker/booking/startWork/verification
+ * @desc  Route handler for Verify Worker and Start to Work using OTP Data.
+ * @param {Function} workerRouteProtect - Middleware function to protect the route for worker access.
+ * @access Private
+ */
 router.post(
     '/booking/startWork/verification',
     workerRouteProtect,
@@ -128,7 +167,12 @@ router.post(
         BookingAdapters.workVerification(req, res, next);
     });
 
-// bookingId, additional Information, workerId
+/**
+ * @route GET api/worker/booking/completeWork
+ * @desc  Route handler for Complete the Booking.
+ * @param {Function} workerRouteProtect - Middleware function to protect the route for worker access.
+ * @access Private
+ */
 router.patch(
     '/booking/completeWork',
     workerRouteProtect,
@@ -136,7 +180,12 @@ router.patch(
         BookingAdapters.completeWork(req, res, next);
     });
 
-
+/**
+ * @route GET api/worker/history
+ * @desc  Route handler for Retrieve all Completed the Booking Based on WorkerId.
+ * @param {Function} workerRouteProtect - Middleware function to protect the route for worker access.
+ * @access Private
+ */
 router.get(
     '/history',
     workerRouteProtect,

@@ -1,10 +1,3 @@
-/**
- * Handles user routes .
- *
- * Routes:
- * - POST  /api/user/login     Existing Admin Login.
- */
-
 import express, { NextFunction, Request, Response } from "express";
 import { adminAdapter } from "./injectons/adminInjection";
 import { upload } from "../middleware/multerConfig";
@@ -12,15 +5,11 @@ import { serviceAdapter } from "./injectons/serviceInjection";
 import { workerAdapter } from "./injectons/workerInjection";
 import { Authentication } from "../middleware/authentication";
 const authentication = new Authentication();
-
-
-
-
 const router = express.Router();
 
 /**
  * @route POST api/admin/login
- * @desc Register New User
+ * @desc Admin Login Credential to Provide Access to The System.
  * @access Public
  */
 router.post(
@@ -42,11 +31,9 @@ router.post(
     });
 
 
-
-
 /**
  * @route POST api/admin/logout
- * @desc Register New User
+ * @desc Logout the admin and clearing cookies.
  * @access Public
  */
 router.post(
@@ -55,10 +42,11 @@ router.post(
         adminAdapter.adminLogout(req, res, next);
     });
 
+
 /**
- * @route GET api/admin/user
- * @desc  Retrieve all users data
- * @access Public
+ * @route GET api/admin/users
+ * @desc  Retrieve All Users Data.
+ * @access Private
  */
 router.get(
     "/users",
@@ -69,9 +57,9 @@ router.get(
 
 
 /**
- * @route PATCH api/admin/user
- * @desc  Blocking Users.
- * @access Public
+ * @route PATCH api/admin/:userId/block
+ * @desc  Params UsedId based to block the user.
+ * @access Private
  */
 router.patch(
     "/:userId/block",
@@ -83,12 +71,15 @@ router.patch(
 
 /**
  * @route  POST api/admin/service/add
- * @desc   Creating New Service
- * @access Public
+ * @desc   Service Data and Multer image upload Data based to create new Service.
+ * @access Private
  */ 
-router.post('/service/add', upload.fields([{name:'icon',maxCount:1},{name:'image',maxCount:1}]),(req: Request, res: Response, next: NextFunction) => {
-    serviceAdapter.createService(req, res, next)
-});
+router.post(
+    '/service/add', 
+    upload.fields([{name:'icon',maxCount:1},{name:'image',maxCount:1}]),
+    (req: Request, res: Response, next: NextFunction) => {
+        serviceAdapter.createService(req, res, next)
+    });
 
 
 /**
@@ -103,9 +94,11 @@ router.get(
     });
 
 
+
 /**
  * @route PUT api/admin/service/edit
  * @desc  Modifying The Existing Service Data.
+ * @param {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
  * @access Private
  */
 router.put(
@@ -115,10 +108,12 @@ router.put(
         serviceAdapter.editService(req, res, next);
     });
 
+
 /**
-* @route Patch api/admin/service/block
-* @desc  Modifying The Existing Service Data.
-* @access Private
+ * @route Patch api/admin/:serviceId/block
+ * @desc   Incoming Params ServiceId to Block the Services.
+ * @param {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
+ * @access Private
 */
 router.patch(
     "/service/:serviceId/blockService",
@@ -129,10 +124,11 @@ router.patch(
 
 
 /**
-* @route GET api/admin/worker
-* @desc  Retrieve all Worker data
-* @access Private
-*/
+ * @route GET api/admin/worker/:status
+ * @desc  Route handler for retrieving all workers based on their status.
+ * @param {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
+ * @access Private
+ */
 router.get(
     "/worker/:status",
     authentication.protectAdmin,
@@ -140,6 +136,14 @@ router.get(
         workerAdapter.retrieveAllWorker(req, res, next);
     });
 
+
+
+/**
+ * @route GET api/worker/extraInformation/:workerId
+ * @desc  Route to retrieve extra information about a worker with a specific workerId.
+ * @param {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
+ * @access Private
+ */
 router.get(
     "/worker/extraInformation/:workerId",
     authentication.protectAdmin,
@@ -147,11 +151,14 @@ router.get(
         workerAdapter.retrieveWorkerExtraInformation(req, res, next);
     });
 
+
+
 /**
-* @route Patch api/admin/worker/:workerId/verify
-* @desc  Verifying New Registered Worker.
-* @access Private
-*/
+ * @route PATCH api/worker/:workerId/verify
+ * @desc  PATCH endpoint to verify a worker with the specified workerId.
+ * @param {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
+ * @access Private
+ */
 router.patch(
     "/worker/:workerId/verify",
     authentication.protectAdmin,
@@ -159,11 +166,14 @@ router.patch(
         workerAdapter.verifyWorker(req, res, next);
     });
 
+
+
 /**
-* @route Patch api/admin/worker/:workerId/block
-* @desc  Block Registered Worker.
-* @access Private
-*/
+ * @route PATCH api/admin/worker/:status
+ * @desc  PATCH endpoint to block a worker with the specified workerId.
+ * @param {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
+ * @access Private
+ */
 router.patch(
     "/worker/:workerId/block",
     authentication.protectAdmin,
@@ -171,6 +181,14 @@ router.patch(
         workerAdapter.blockWorker(req, res, next);
     });
 
+
+
+/**
+ * @route GET api/salesReport
+ * @desc   Route to get the sales report.
+ * @param {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
+ * @access Private
+ */
 router.get(
     '/salesReport',
     authentication.protectAdmin,
@@ -178,6 +196,14 @@ router.get(
         adminAdapter.viewSalesReport(req, res, next);
     });
 
+
+
+/**
+ * @route  GET api/salesReport/download
+ * @desc   Route to download the sales report.
+ * @param  {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
+ * @access Private
+ */
 router.get(
     '/salesReport/download',
     authentication.protectAdmin,
@@ -185,6 +211,14 @@ router.get(
         adminAdapter.downloadSalesReport(req, res, next);
     });
 
+
+
+/**
+ * @route  GET api/viewBookings
+ * @desc   The route path for viewing bookings.
+ * @param  {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
+ * @access Private
+ */
 router.get(
     '/viewBookings',
     authentication.protectAdmin,
@@ -192,6 +226,14 @@ router.get(
         adminAdapter.viewBookings(req, res, next);
     });
 
+
+
+/**
+ * @route  GET api/dashboard/totalData
+ * @desc   Route to get total data for the dashboard.
+ * @param  {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
+ * @access Private
+ */
 router.get(
     '/dashboard/totalData',
     authentication.protectAdmin,
@@ -199,6 +241,13 @@ router.get(
         adminAdapter.dashboardTotalData(req, res, next);
     });
 
+
+/**
+ * @route  GET api/dashboard/recentData
+ * @desc   Route to get recent data for the dashboard.
+ * @param  {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
+ * @access Private
+ */
 router.get(
     '/dashboard/recentData',
     authentication.protectAdmin,
@@ -206,6 +255,13 @@ router.get(
         adminAdapter.dashboardRecentData(req, res, next);
     });
 
+
+/**
+ * @route  GET api/dashboard/chart
+ * @desc   Route to get Chart data for the dashboard.
+ * @param  {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
+ * @access Private
+ */
 router.get(
     '/dashboard/chart',
     authentication.protectAdmin,
@@ -213,9 +269,16 @@ router.get(
         adminAdapter.dashboardChart(req, res, next);
     });
 
+
+/**
+ * @route  GET api/dashboard/performingWorkersAndUsers
+ * @desc   Route to get Top Performing Workers and User data for the dashboard.
+ * @param  {Function} authentication.protectAdmin - Middleware function to protect the route for admin access.
+ * @access Private
+ */
 router.get(
     '/dashboard/performingWorkersAndUsers',
-    // authentication.protectAdmin,
+    authentication.protectAdmin,
     (req: Request, res: Response, next: NextFunction) => {
         adminAdapter.performingWorkersAndUsers(req, res, next);
     });

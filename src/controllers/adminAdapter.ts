@@ -20,13 +20,15 @@ export class AdminAdapter {
             admin &&
                 res.cookie("adminRTkn", admin.token?.refreshToken, {
                     httpOnly: true,       //! Prevent XSS Attack
-                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
+                    secure: true,    //! Ensure cookie is sent over HTTPS only
                 });
                 res.cookie("adminATkn",admin.token?.accessToken, {
                     httpOnly: true,       //! Prevent XSS Attack
-                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 4 * 60 * 1000,    //! 4m validity
+                    secure: true,    //! Ensure cookie is sent over HTTPS only
                 });
 
             res.status(admin.statusCode).json({
@@ -42,19 +44,19 @@ export class AdminAdapter {
 
     async refreshToken(req:Req, res:Res, next:Next){
         try {
-            console.log("++++++++++++++++")
-            console.log(req.cookies)
             const admin = await this._adminUsecase.refreshToken(req.cookies.adminRTkn);
             admin &&
                 res.cookie("adminRTkn", admin.token?.refreshToken, {
-                    httpOnly: true,      
-                    sameSite: "strict",        
-                    maxAge: 15 * 24 * 60 * 60 * 1000,  
+                    httpOnly: true,       //! Prevent XSS Attack
+                    sameSite: "none",  //! Prevent CSRF Attack          
+                    maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
+                    secure: true,    //! Ensure cookie is sent over HTTPS only
                 });
                 res.cookie("adminATkn",admin.token?.accessToken, {
                     httpOnly: true,       //! Prevent XSS Attack
-                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 4 * 60 * 1000,    //! 4m validity
+                    secure: true,    //! Ensure cookie is sent over HTTPS only
                 });
             res.status(admin.statusCode).json({
                 success: admin.success,
@@ -66,12 +68,6 @@ export class AdminAdapter {
         }
     }
 
-
-    /**(
-     * Admin logging out.
-     * @desc POST  /api/admin/login
-     * @desc Response: 200 Admin Logout Successful or appropriate error code
-     */
     async adminLogout(req: Req, res: Res, next: Next) {
         try {
             return this._adminUsecase.adminLogout();
@@ -81,11 +77,6 @@ export class AdminAdapter {
     }
 
 
-    /**
-     * All User Data Retrieval.
-     * @desc GET  /api/admin/user
-     * @desc Response: 200 Return all User Data or appropriate error code
-     */
     async retrieveAllUsers(req: Req, res: Res, next: Next) {
         try {
             const users = await this._adminUsecase.findAllUsers();
@@ -100,11 +91,6 @@ export class AdminAdapter {
     }
 
 
-    /**
-     * Blocking the userId mentioned user.
-     * @desc PATCH  /api/admin/users/:userId/block
-     * @desc Response: 200  or appropriate error code
-     */
     async blockUser(req: Req, res: Res, next: Next) {
         try {
             const userId: string = req.params.userId;
@@ -123,7 +109,7 @@ export class AdminAdapter {
             const startDate = req.query.startDate as string || '';
             const endDate = req.query.endDate as string || '';
             const page = parseInt(req.query.page as string) || 1;
-            const pageSize = 4;
+            const pageSize = Number.MAX_SAFE_INTEGER;
             const sales = await this._adminUsecase.viewSalesReport(startDate, endDate, page, pageSize);
             res.status(sales.statusCode).json(sales);
         } catch (error) {

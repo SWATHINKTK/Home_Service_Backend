@@ -18,14 +18,12 @@ import { serviceAdapter } from "./injectons/serviceInjection";
 import { Authentication } from "../middleware/authentication";
 import { BookingAdapters } from "./injectons/bookingInjection";
 
-
 const authentication = new Authentication();
-
 const router = express.Router();
 
 /**
- * @route POST api/user/signup
- * @desc Register New User
+ * @route  POST api/user/signup
+ * @desc   Route to Create New User Based on User Entered Data.
  * @access Public
  */
 router.post(
@@ -37,8 +35,8 @@ router.post(
 
 
 /**
- * @route POST api/user/googleSignin
- * @desc Register New User
+ * @route  POST api/user/googleSignIn
+ * @desc   Route to Create New User Based on Google Authentication.
  * @access Public
  */
 router.post(
@@ -49,13 +47,9 @@ router.post(
     }) 
 
 
-
-
-
-
 /**
- * @route POST api/user/sendOTP
- * @desc Sending Email for OTP Verification
+ * @route  POST api/user/sendOTP
+ * @desc   Route to Sending OTP For Verification.
  * @access Public
  */
 router.post(
@@ -64,10 +58,9 @@ router.post(
        UserAdapters.sendOTP(req,res,next)
     })
 
-
 /**
- * @route POST api/user/login
- * @desc User Credential to Login
+ * @route  POST api/user/login
+ * @desc   Route to Verify Credential and Provide Access our System.
  * @access Public
  */
 router.post(
@@ -78,8 +71,8 @@ router.post(
 
     
 /**
- * @route POST api/user/logout
- * @desc User Credential to Login
+ * @route  POST api/user/googleSignIn
+ * @desc   Route to Logout User and Clearing Cookies.
  * @access Public
  */
 router.post(
@@ -90,10 +83,24 @@ router.post(
 
 
 /**
-* @route GET api/user/profile
-* @desc Retrieve User Data.
-* @access Private
-*/
+ * @route  POST api/user/refresh
+ * @desc   Route to Refresh token to provide the Access token.
+ * @access Public
+ */
+router.post(
+    '/refresh',
+    (req:Request, res:Response, next:NextFunction) => {
+        UserAdapters.refreshToken(req, res, next)
+    })
+    
+
+
+/**
+ * @route GET api/user/profile
+ * @desc  Route handler for retrieving user details based on the userId.
+ * @param {Function} authentication.protectUser - Middleware function to protect the route for user access.
+ * @access Private
+ */
 router.get(
     '/profile',
     authentication.protectUser,
@@ -104,25 +111,26 @@ router.get(
 
 
 /**
-* @route PUT api/user/editProfile
-* @desc Retrieve User Data.
-* @access Public
-*/
+ * @route PUT api/user/editProfile
+ * @desc  Route handler for Update user details based on the user changing Data and also Updating Images.
+ * @param {Function} authentication.protectUser - Middleware function to protect the route for user access.
+ * @access Private
+ */
 router.put(
     '/editProfile',
     authentication.protectUser,
-    upload.fields([{ name: "profile", maxCount: 1 }]),
+    upload.fields([{ name:'profile', maxCount: 1 }]),
     (req: Request, res: Response, next: NextFunction) => {
         UserAdapters.editUserProfile(req, res, next);
     })
 
 
-
 /**
-* @route GET api/user/service
-* @desc Retrieve User Data.
-* @access Public
-*/
+ * @route GET api/user/service
+ * @desc  Route handler for retrieving All Services.
+ * @param {Function} authentication.protectUser - Middleware function to protect the route for user access.
+ * @access Private
+ */
 router.get(
     '/service',
     (req: Request, res: Response, next: NextFunction) => {
@@ -130,10 +138,11 @@ router.get(
     })
 
 /**
-* @route GET api/service/details
-* @desc Retrieve User Data.
-* @access Private
-*/
+ * @route POST api/user/service/details/:serviceId
+ * @desc  Route handler for retrieving service details based on serviceId.
+ * @param {Function} authentication.protectUser - Middleware function to protect the route for user access.
+ * @access Private
+ */
 router.get(
     '/service/details/:serviceId',
     // authentication.protectUser,
@@ -141,14 +150,29 @@ router.get(
         serviceAdapter.findService(req, res, next);
     })
 
+
+/**
+ * @route POST api/user/address
+ * @desc  Route handler for create a new Address.
+ * @param {Function} authentication.protectUser - Middleware function to protect the route for user access.
+ * @access Private
+ */
 router.post(
-    '/refresh',
+    '/createAddress',
+    authentication.protectUser,
     (req:Request, res:Response, next:NextFunction) => {
-        UserAdapters.refreshToken(req, res, next)
+        UserAdapters.createNewAddress(req, res, next)
     }
-)
+);
 
 
+
+/**
+ * @route POST api/user/booking
+ * @desc  Route handler for create a new booking.
+ * @param {Function} authentication.protectUser - Middleware function to protect the route for user access.
+ * @access Private
+ */
 router.post(
     '/booking',
     authentication.protectUser,
@@ -157,23 +181,38 @@ router.post(
     }
 );
 
+/**
+ * @route POST api/user/webhook
+ * @desc  Route handler for Webhook stipe service and Event completion.
+ * @access Private
+ */
 router.post(
     '/webhook',
     express.raw({type: 'application/json'}),
     (req:Request, res:Response, next:NextFunction) => {
        BookingAdapters.webhook(req, res, next);
-    }
-);
+    });
 
 
+/**
+ * @route GET api/user/booking
+ * @desc  Route handler for retrieving all booking details based on specific userId based.
+ * @param {Function} authentication.protectUser - Middleware function to protect the route for user access.
+ * @access Private
+ */
 router.get(
     '/booking',
     authentication.protectUser,
     (req:Request, res:Response, next:NextFunction) => {
         BookingAdapters.userSpecificBookings(req, res, next)
-    }
-)
+    })
 
+/**
+ * @route PATCH api/user/booking/cancel
+ * @desc  Route handler for cancel a booking details based on bookingId.
+ * @param {Function} authentication.protectUser - Middleware function to protect the route for user access.
+ * @access Private
+ */
 router.patch(
     '/booking/cancel',
     authentication.protectUser,
@@ -182,7 +221,12 @@ router.patch(
     }
 )
 
-// bookingId
+/**
+ * @route POST api/user/payment
+ * @desc  Route handler for Completion of Booking payment.
+ * @param {Function} authentication.protectUser - Middleware function to protect the route for user access.
+ * @access Private
+ */
 router.post(
     '/payment',
     authentication.protectUser,

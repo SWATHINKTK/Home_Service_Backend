@@ -19,7 +19,7 @@ export const advanceBookingPayment = async(
     }
 
     const success_url = process.env.PAYMENT_SUCCESS_URL || 'http://localhost:5173/success';
-    const cancel_url = process.env.PAYMENT_CANCEL_URL || 'http://localhost:5173/failed'
+    const cancel_url = process.env.PAYMENT_CANCEL_URL || 'http://localhost:5173/failed';
     const payingAmount = service.minimumAmount / 5 ;
     const metadata = {
         bookingData: JSON.stringify(bookingData),

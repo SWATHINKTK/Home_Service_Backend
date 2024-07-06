@@ -8,8 +8,6 @@ export const createService = async(
   serviceRepository: IServiceRepository
 ):Promise<IServerResponse> => {
     try {
-        console.log('serviceData', serviceData);
-
         const regex = new RegExp(`^${serviceData.serviceName}$`, 'i');
         const query = { serviceName: { $regex: regex } }
         const existingService = await serviceRepository.findService(query);

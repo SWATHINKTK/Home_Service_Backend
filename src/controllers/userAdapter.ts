@@ -61,18 +61,19 @@ export class UserAdapter {
     async loginUser(req: Req, res: Res, next: Next) {
         try {
             const user = await this._userUsecase.loginUser(req.body);
+            console.log("user logged in",user)
             user &&
                 res.cookie("userRTkn", user.token?.refreshToken, {
                     httpOnly: true,       //! Prevent XSS Attack
                     sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
-                    secure: true    //! Ensure cookie is sent over HTTPS only
+                    secure: true,    //! Ensure cookie is sent over HTTPS only
                 });
                 res.cookie("userATkn", user.token?.accessToken, {
                     httpOnly: true,       //! Prevent XSS Attack
                     sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 4 * 60 * 1000,    //! 4m validity
-                    secure: true     //! Ensure cookie is sent over HTTPS only
+                    secure: true,     //! Ensure cookie is sent over HTTPS only
                 });
             res.status(user.statusCode).json({
                 success: user.success,
@@ -93,13 +94,13 @@ export class UserAdapter {
                     httpOnly: true,       //! Prevent XSS Attack
                     sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
-                    secure: true    //! Ensure cookie is sent over HTTPS only
+                    secure: true,    //! Ensure cookie is sent over HTTPS only
                 });
                 res.cookie("userATkn",response.token?.accessToken, {
                     httpOnly: true,       //! Prevent XSS Attack
                     sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 4 * 60 * 1000,    //! 4m validity
-                    secure: true    //! Ensure cookie is sent over HTTPS only
+                    secure: true,    //! Ensure cookie is sent over HTTPS only
                 });
 
             res.status(response.statusCode).json({
@@ -153,7 +154,6 @@ export class UserAdapter {
         try {
             const userEmail = req.user;
             const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-            console.log(files)
             const userData = await this._userUsecase.editUserProfile(userEmail!, req.body, files);
             res.status(userData.statusCode).json({
                 success: userData.success,
@@ -161,6 +161,16 @@ export class UserAdapter {
             });
         } catch (error) {
             next(error)
+        }
+    }
+
+    async createNewAddress(req:Req, res:Res, next:Next){
+        try {
+            const userId = req.userId;
+            const newAddress = await this._userUsecase.createNewAddress(req.body, userId!);
+            res.status(newAddress.statusCode).json({...newAddress})
+        } catch (error) {
+            next(error);
         }
     }
  

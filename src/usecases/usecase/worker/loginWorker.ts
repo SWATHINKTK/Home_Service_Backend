@@ -33,6 +33,11 @@ export const loginWorker = async (
         const existingWorker = await workerRepository.findWorker(query);
 
         // If user does not exist, throw a BadRequestError
+        if (!existingWorker?._isVerified) {
+            throw new BadRequestError('Worker is not Verified on Admin')
+        }
+
+        // If user does not exist, throw a BadRequestError
         if (!existingWorker) {
             throw new BadRequestError('Invalid user data')
         }

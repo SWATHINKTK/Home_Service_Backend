@@ -130,6 +130,15 @@ export class BookingAdapter{
         }
     }
 
+    async cancelWork(req:Req, res:Res, next:Next){
+        try {
+            const workerId = req.workerId
+            const cancelWork = await this._bookingUseCase.workerCancelBooking(workerId!, req.body);
+            res.status(cancelWork.statusCode).json({...cancelWork})
+        } catch (error) {
+            next(error)
+        }
+    }
 
     async startWork(req:Req, res:Res, next:Next){
         try {

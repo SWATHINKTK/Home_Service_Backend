@@ -15,7 +15,7 @@ export class SocketManager{
         this.users = [];
         this.io = new Server(httpServer,{
             cors:{
-                origin: ["http://localhost:5173","http://10.4.2.182:5173"],
+                origin: ["http://localhost:5173","https://heavencrew.vercel.app"],
             }
         })
         this.io.on('connection',this.handleConnection)

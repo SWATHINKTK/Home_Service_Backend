@@ -19,6 +19,7 @@ import { completeWork } from "./booking/completeWork";
 import { completionPayment } from "./booking/payment";
 import { paymentStatusUpdate } from "./booking/paymentStatusUpdate";
 import { viewWorkerBookingHistory } from "./booking/workerBookingHistory";
+import { workerCancelBooking } from "./booking/workerCancelbooking";
 
 
 export class BookingUseCase {
@@ -66,9 +67,14 @@ export class BookingUseCase {
 
     async webhook(signature: string, payload: Buffer) {
         try {
+            console.log("<<<<<<-----------------Webhook----------------------->>>>>>>>>")
+            // console.log(signature)
+            // console.log(payload)
             const event = await this._stripeService.stripeEventConstruction(signature, payload);
+            console.log(event)
             const data = event.data.object as any;
             const eventType = event.type;
+            console.log(eventType, data)
             if(eventType == 'checkout.session.completed'){
                 if(data.metadata?.completion){
                      return this.paymentStatusUpdate(data.metadata?.bookingId, data.id, data.metadata?.workerId, data.metadata?.totalAmount)
@@ -103,6 +109,10 @@ export class BookingUseCase {
 
     async cancelBooking(userId:string, {status, bookingId}:{status:string, bookingId:string}){
         return cancelBooking(userId,status, bookingId, this._bookingRepository)
+    }
+
+    async workerCancelBooking(workerId:string, {bookingId, reason}:{bookingId:string, reason:string}){
+        return workerCancelBooking(workerId, bookingId, reason, this._bookingRepository)
     }
 
     async acceptWork(workerId:string, { bookingId}:{bookingId:string}){

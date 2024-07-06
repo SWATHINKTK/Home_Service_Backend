@@ -19,7 +19,8 @@ const corsOptions = {
     origin: ["http://localhost:5173","https://heavencrew.vercel.app"],
     methods: ["GET", "PATCH", "PUT", "POST"],
     optionsSuccessStatus: 204,
-    credentials: true 
+    credentials: true ,
+    allowedHeaders: ['Content-Type', 'stripe-signature']
 };
 app.use(cors(corsOptions));
 
@@ -27,18 +28,15 @@ app.use(cors(corsOptions));
 
 // URL Encoding
 app.use(
-    (
-      req: express.Request,
-      res: express.Response,
-      next: express.NextFunction
-    ): void => {
+    (req: express.Request, res: express.Response, next: express.NextFunction): void => {
       if (req.originalUrl === '/api/user/webhook') {
+        console.log(req.originalUrl,"URL")
         next();
       } else {
         express.json()(req, res, next);
       }
     }
-  );
+);
 app.use(express.urlencoded({extended:true}));
 
 

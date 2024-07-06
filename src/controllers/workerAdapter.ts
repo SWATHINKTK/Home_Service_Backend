@@ -17,15 +17,15 @@ export class WorkerAdapter {
             worker &&
                 res.cookie("workerRTkn", worker.token?.refreshToken, {
                     httpOnly: true,       //! Prevent XSS Attack
-                    sameSite: "strict",  //! Prevent CSRF Attack          
+                    sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
-                    secure:true     //! Ensure cookie is sent over HTTPS only
+                    secure: true,    //! Ensure cookie is sent over HTTPS only
                 });
                 res.cookie("workerATkn",worker.token?.accessToken, {
                     httpOnly: true,       //! Prevent XSS Attack
-                    sameSite: "strict",  //! Prevent CSRF Attack          
-                    maxAge: 4 * 60 * 1000,    //! 4m validity,
-                    secure:true     //! Ensure cookie is sent over HTTPS only
+                    sameSite: "none",  //! Prevent CSRF Attack          
+                    maxAge: 4 * 60 * 1000,    //! 4m validity
+                    secure: true,     //! Ensure cookie is sent over HTTPS only
                 });
             res.status(worker.statusCode).json({
                 success: worker.success,
@@ -47,13 +47,13 @@ export class WorkerAdapter {
                     httpOnly: true,       //! Prevent XSS Attack
                     sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 15 * 24 * 60 * 60 * 1000,    //! 15d validity
-                    secure:true     //! Ensure cookie is sent over HTTPS only
+                    secure: true,    //! Ensure cookie is sent over HTTPS only
                 });
                 res.cookie("workerATkn",worker.token?.accessToken, {
                     httpOnly: true,       //! Prevent XSS Attack
                     sameSite: "none",  //! Prevent CSRF Attack          
                     maxAge: 4 * 60 * 1000,    //! 4m validity
-                    secure:true     //! Ensure cookie is sent over HTTPS only
+                    secure: true,     //! Ensure cookie is sent over HTTPS only
                 });
             res.status(worker.statusCode).json({
                 success: worker.success,
@@ -66,6 +66,13 @@ export class WorkerAdapter {
     }
 
 
+    /**
+     * Logs out a worker by calling the logoutWorker method from the WorkerUseCase.
+     * @param {Req} req - The request object.
+     * @param {Res} res - The response object.
+     * @param {Next} next - The next function to call in the middleware chain.
+     * @returns None
+     */
     async logoutWorker(req:Req, res:Res, next:Next){
         try {
             const logout = await this._workerUseCase.logoutWorker();
@@ -79,13 +86,7 @@ export class WorkerAdapter {
     }
 
 
-    /**
-     ** Service Data to Create New Service.
-     * @Request POST  /api/admin/service/add
-     * @Data Body: { username, email, phoneNumber, district, location, qualification, experience, password}
-     * @Data File: { certificate, idProof }
-     * @Response Response: 200  New Worker Registration Successful or appropriate error code
-     */
+    
     async createWorker(req: Req, res: Res, next: Next) {
         try {
             const files = req.files as { [fieldname: string]: Express.Multer.File[] };
