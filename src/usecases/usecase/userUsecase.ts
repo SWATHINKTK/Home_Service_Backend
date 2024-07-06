@@ -9,6 +9,7 @@ import { IRequestValidator } from "../interface/services/IRequestValidator";
 import { ISecretHasher } from "../interface/services/ISecretHasher";
 import { IJWT } from "../interface/services/Ijwt";
 import { createNewAddress } from "./address/createNewAddress";
+import { findAllAddress } from "./address/findAllAddress";
 import { createUser } from "./user/createUser";
 import { editUserProfile } from "./user/editUser";
 import { getUser } from "./user/getUser";
@@ -126,6 +127,10 @@ export class UserUseCase {
 
     async createNewAddress(newAddress: IAddress, userId:string) {
         return createNewAddress(newAddress, userId, this._addressRepository, this._requestValidator)
+    }
+
+    async retrieveAllAddress(userId:string){
+        return findAllAddress(userId,this._addressRepository)
     }
 
 }

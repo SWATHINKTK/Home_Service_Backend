@@ -152,7 +152,7 @@ router.get(
 
 
 /**
- * @route POST api/user/address
+ * @route POST api/user/createAddress
  * @desc  Route handler for create a new Address.
  * @param {Function} authentication.protectUser - Middleware function to protect the route for user access.
  * @access Private
@@ -162,6 +162,21 @@ router.post(
     authentication.protectUser,
     (req:Request, res:Response, next:NextFunction) => {
         UserAdapters.createNewAddress(req, res, next)
+    }
+);
+
+
+/**
+ * @route GET api/user/address
+ * @desc  Route handler for Retrieving for all Address.
+ * @param {Function} authentication.protectUser - Middleware function to protect the route for user access.
+ * @access Private
+ */
+router.get(
+    '/address',
+    authentication.protectUser,
+    (req:Request, res:Response, next:NextFunction) => {
+        UserAdapters.viewAllAddress(req, res, next)
     }
 );
 

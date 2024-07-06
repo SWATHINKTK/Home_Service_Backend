@@ -173,5 +173,15 @@ export class UserAdapter {
             next(error);
         }
     }
+
+    async viewAllAddress(req:Req, res:Res, next:Next){
+        try {
+            const userId = req.userId;
+            const newAddress = await this._userUsecase.retrieveAllAddress(userId!);
+            res.status(newAddress.statusCode).json({...newAddress})
+        } catch (error) {
+            next(error);
+        }
+    }
  
 }
