@@ -9,6 +9,8 @@ export const editService = async (
     minimumAmount: number,
     hourlyAmount: number,
     serviceDescription: string,
+    icon: string,
+    image: string,
     serviceRepository: IServiceRepository
 ):Promise<IServerResponse> => {
 
@@ -34,7 +36,9 @@ export const editService = async (
             serviceName,
             minimumAmount,
             hourlyAmount,
-            serviceDescription
+            serviceDescription,
+            icon,
+            image
         };
 
         const editedService = await serviceRepository.editService(serviceId, editServiceData);

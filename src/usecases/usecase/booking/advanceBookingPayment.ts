@@ -17,7 +17,7 @@ export const advanceBookingPayment = async(
     if(!service){
         throw new NotFoundError('Service is not found.try again');
     }
-
+    console.log("Booking Data", {bookingData,service})
     const success_url = process.env.PAYMENT_SUCCESS_URL || 'http://localhost:5173/success';
     const cancel_url = process.env.PAYMENT_CANCEL_URL || 'http://localhost:5173/failed';
     const payingAmount = service.minimumAmount / 5 ;

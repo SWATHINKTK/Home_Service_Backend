@@ -20,6 +20,8 @@ import { completionPayment } from "./booking/payment";
 import { paymentStatusUpdate } from "./booking/paymentStatusUpdate";
 import { viewWorkerBookingHistory } from "./booking/workerBookingHistory";
 import { workerCancelBooking } from "./booking/workerCancelbooking";
+import { IAddressRepository } from "../interface/repository/IAddressRepositry";
+import { getNearbyBookings } from "./booking/getNearbyBookings";
 
 
 export class BookingUseCase {
@@ -27,6 +29,7 @@ export class BookingUseCase {
     private readonly _workerRepository: IWorkerRepository;
     private readonly _serviceRepository: IServiceRepository;
     private readonly _bookingRepository: IBookingRepository;
+    private readonly _addressRepository: IAddressRepository;
     private readonly _emailService: IEmailService;
     private readonly _stripeService: IStripe;
     private readonly _otpService: IOTPService;
@@ -36,14 +39,16 @@ export class BookingUseCase {
         workerRepository: IWorkerRepository,
         serviceRepository: IServiceRepository,
         bookingRepository: IBookingRepository,
+        addressRepository: IAddressRepository,
         emailService: IEmailService,
         stripeService: IStripe,
-        otpService:IOTPService
+        otpService:IOTPService,
     ) {
         this._userRepository = userRepository;
         this._workerRepository = workerRepository;
         this._serviceRepository = serviceRepository;
         this._bookingRepository = bookingRepository;
+        this._addressRepository = addressRepository;
         this._emailService = emailService;
         this._stripeService = stripeService;
         this._otpService = otpService;
@@ -67,18 +72,18 @@ export class BookingUseCase {
 
     async webhook(signature: string, payload: Buffer) {
         try {
-            console.log("<<<<<<-----------------Webhook----------------------->>>>>>>>>")
-            // console.log(signature)
-            // console.log(payload)
             const event = await this._stripeService.stripeEventConstruction(signature, payload);
-            console.log(event)
             const data = event.data.object as any;
             const eventType = event.type;
-            console.log(eventType, data)
+            console.log("Webhook received:", eventType);
             if(eventType == 'checkout.session.completed'){
+                // After Work Completion Amount Settlement - Wallet Update and Booking Status Update
                 if(data.metadata?.completion){
                      return this.paymentStatusUpdate(data.metadata?.bookingId, data.id, data.metadata?.workerId, data.metadata?.totalAmount)
                 }
+
+                console.log("<<<<<<-----------------Advance Booking Payment----------------------->>>>>>>>>")
+                // Advance Booking Payment - Booking Creation
                 const userId = data.metadata.userId;
                 const advancePaymentAmount = parseFloat(data.metadata.amount);
                 const bookingData: IBookingRequestData = JSON.parse(data.metadata.bookingData);
@@ -96,11 +101,15 @@ export class BookingUseCase {
 
 
     async createBooking(userId:string, advancePaymentAmount:number, bookingData:IBookingRequestData){
-        return createBooking(userId, advancePaymentAmount, bookingData, this._bookingRepository, this._serviceRepository);
+        return createBooking(userId, advancePaymentAmount, bookingData, this._bookingRepository,this._addressRepository, this._serviceRepository);
     }
 
     async viewUserBooking(userId:string,history:boolean, page:number){
         return viewUserBooking(userId, page,  history, this._bookingRepository)
+    }
+
+    async getNearbyBookings(workerId:string, workStatus:{[key:string]:any}, paymentStatus:{[key:string]:any}, latitude:number, longitude:number, page:number, pageSize:number){
+        return getNearbyBookings(workerId, workStatus, paymentStatus, latitude, longitude, page, pageSize, this._workerRepository, this._bookingRepository);
     }
 
     async viewWorkerSpecificBooking(workerId:string, workStatus:{[key:string]:any}, paymentStatus:{[key:string]:any}, page:number, pageSize:number){

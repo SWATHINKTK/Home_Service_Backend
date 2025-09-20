@@ -2,108 +2,122 @@ import mongoose, { Document, Model, Schema, model } from "mongoose";
 import { IBooking } from "../../../../domain/booking";
 
 const bookingSchema = new Schema({
-    userId:{
-        type:mongoose.Types.ObjectId,
-        required:true,
-        ref:'users'
+    userId: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'users'
     },
-    bookingId:{
-        type:String,
-        required:true
+    bookingId: {
+        type: String,
+        required: true
     },
-    workerId:{
-        type:mongoose.Types.ObjectId,
-        ref:'workers'
+    workerId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'workers'
     },
-    serviceId:{
-        type:mongoose.Types.ObjectId,
-        required:true,
-        ref:'services'
+    serviceId: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'services'
     },
-    serviceMinimumAmount:{
-        type:Number,
-        required:true
+    serviceMinimumAmount: {
+        type: Number,
+        required: true
     },
-    serviceHourlyCharge:{
-        type:Number,
-        required:true
+    serviceHourlyCharge: {
+        type: Number,
+        required: true
     },
-    buildingName:{
-        type:String,
-        required:true
-    },
-    date:{
-        type:String,
-        required:true
-    },
-    startTime:{
-        type:String,
-        required:true
-    },
-    endTime:{
-        type:String,
-        required:true
-    },
-    description:{
-        type:String,
-        required:true
-    },
-    location:{
-        latitude:{
-            type:Number,
-            required:true
+    address: {
+        buildingName: {
+            type: String,
+            required: true
         },
-        longitude:{
-            type:Number,
-            required:true
+        phoneNumber: {
+            type: String,
+            required: true
+        },
+        location: {
+            type: {
+                type: String,
+                enum: ["Point"],
+                default: "Point",
+                required: true
+            },
+            coordinates: {
+                type: [Number], // [longitude, latitude]
+                required: true
+            }
+        },
+        locationDetails: {
+            type: String,
+            required: true
         }
     },
-    advancePaymentStatus:{
-        type:String,
-        enum:['Pending', 'Completed'],
-        default:'Pending'
+    date: {
+        type: Date,
+        required: true
     },
-    advancePaymentAmount:{
-        type:Number,
-        required:true
+    startTime: {
+        type: String,
+        required: true
     },
-    totalAmount:{
-        type:Number,
-        required:true
+    endTime: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    advancePaymentStatus: {
+        type: String,
+        enum: ['Pending', 'Completed'],
+        default: 'Pending'
+    },
+    advancePaymentAmount: {
+        type: Number,
+        required: true
+    },
+    totalAmount: {
+        type: Number,
+        required: true
     },
     workStatus: {
         type: String,
-        enum: ['Pending', 'Accepted', 'InProgress','Started' , 'Completed', 'Cancelled'],
+        enum: ['Pending', 'Accepted', 'InProgress', 'Started', 'Completed', 'Cancelled'],
         default: 'Pending'
     },
-    paymentStatus:{
-        type:String,
-        enum:['Pending', 'Completed','Cancelled'],
-        default:'Pending'
+    paymentStatus: {
+        type: String,
+        enum: ['Pending', 'Completed', 'Cancelled'],
+        default: 'Pending'
     },
-    transactionId:{
-        type:String
+    transactionId: {
+        type: String
     },
-    cancelReason:{
-        type:String
+    cancelReason: {
+        type: String
     },
-    additionalCharges:[{
-        description:{
-            type:String
+    additionalCharges: [{
+        description: {
+            type: String
         },
-        qty:{
-            type:Number
+        qty: {
+            type: Number
         },
-        amount:{
-            type:Number
+        amount: {
+            type: Number
         }
     }],
-    otp:{
-        type:String
+    otp: {
+        type: String
     },
-    otpTime:{
-        type:Date
+    otpTime: {
+        type: Date
     }
-},{timestamps:true});
+}, { timestamps: true });
+
+bookingSchema.index({ "address.location": "2dsphere" });
 
 export const bookingModel: Model<IBooking & Document> = model<IBooking & Document>('booking', bookingSchema);

@@ -1,4 +1,5 @@
 export interface IAddress{
+    _id?:string;
     buildingName:string;
     phoneNumber:string;
     location:{
@@ -7,4 +8,5 @@ export interface IAddress{
     };
     locationDetails:string;
     userId?:string;
+    __v?:number;
 }

@@ -8,6 +8,7 @@ export interface IBookingRequestData {
     endTime: string;
     description: string;
     serviceId: string;
+    locationId: string;
     location:{
         longitude:number,
         latitude:number

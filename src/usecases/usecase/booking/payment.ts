@@ -17,8 +17,8 @@ export const completionPayment = async (
             throw new NotFoundError('booking is invalid.')
         }
         
-        const success_url = process.env.PAYMENT_SUCCESS_URL+`?completed=${true}` || `http://localhost:5173/success?completed=${true}`;
-        const cancel_url = process.env.PAYMENT_CANCEL_URL+`?completed=${true}` || `http://localhost:5173/failed?completed=${true}`;
+        const success_url = (process.env.PAYMENT_SUCCESS_URL || 'http://localhost:5173/success') + '?completed=true';
+        const cancel_url = (process.env.PAYMENT_CANCEL_URL || 'http://localhost:5173/failed') + '?completed=true';
         const metadata = {
             bookingId,
             workerId:booking.workerId?.toString(),
@@ -34,6 +34,7 @@ export const completionPayment = async (
         }
 
     } catch (error) {
+        console.log("Error in completionPayment usecase:", error);
         throw error;
     }
 };

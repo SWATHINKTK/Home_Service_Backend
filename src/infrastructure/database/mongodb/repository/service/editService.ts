@@ -7,6 +7,7 @@ export const editService = async (serviceId: string, editServiceData: IService, 
         const editedService = await serviceModelInstance.updateOne({ _id: serviceId }, { $set: editServiceData });
         return !!editedService
     } catch (error) {
+        console.log("Edit Service Repository Error", error)
         throw new DBConnectionError();
     }
 }

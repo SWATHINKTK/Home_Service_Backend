@@ -16,31 +16,35 @@ export class StripePaymentIntegration implements IStripe {
         });
         return customer
     }
-    async stripeCheckoutSession(serviceName: string, metadata:{[key:string]:any}, amount: number, customerId: string, success_url: string, cancel_url: string): Promise<Stripe.Checkout.Session> {
-        console.log("---------------------------------------------------------")
-        console.log(metadata)
-        const session = await this.stripe.checkout.sessions.create({
-            line_items: [
-                {
-                    price_data: {
-                        currency: 'inr',
-                        product_data: {
-                            name: serviceName
+    async stripeCheckoutSession(serviceName: string, metadata: { [key: string]: any }, amount: number, customerId: string, success_url: string, cancel_url: string): Promise<Stripe.Checkout.Session> {
+        console.log("Creating Stripe Checkout Session with amount:", { amount, customerId, success_url, cancel_url, metadata, serviceName });
+        try {
+            const session = await this.stripe.checkout.sessions.create({
+                line_items: [
+                    {
+                        price_data: {
+                            currency: 'inr',
+                            product_data: {
+                                name: serviceName
+                            },
+                            unit_amount: amount * 100,
                         },
-                        unit_amount: amount * 100,
+                        quantity: 1
                     },
-                    quantity: 1
-                },
 
-            ],
-            mode: 'payment',
-            payment_method_types: ['card'],
-            //   customer: customerId,
-            success_url: success_url,
-            cancel_url: cancel_url,
-            metadata
-        });
-        return session;
+                ],
+                mode: 'payment',
+                payment_method_types: ['card'],
+                customer: customerId,
+                success_url: success_url,
+                cancel_url: cancel_url,
+                metadata
+            });
+            return session;
+        } catch (error) {
+            console.log('Stripe Error', error)
+            throw error
+        }
     }
 
     async stripeEventConstruction(signature: string, payload: Buffer): Promise<Stripe.Event> {

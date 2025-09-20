@@ -15,7 +15,7 @@ const s3Client = new S3Client({
 export const upload = multer({
     storage: multerS3({
         s3: s3Client,
-        bucket: 'home-service-bucket',
+        bucket: 'heaven-crew-bucket',
         metadata: function (req, file, cb) {
             cb(null, { fieldName: file.fieldname });
         },

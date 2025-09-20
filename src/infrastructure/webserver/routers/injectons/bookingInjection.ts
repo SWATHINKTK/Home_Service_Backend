@@ -1,10 +1,12 @@
 import { BookingAdapter } from "../../../../controllers/bookingAdapter";
 import { BookingUseCase } from "../../../../usecases/usecase/bookingUseCase";
+import { addressModel } from "../../../database/mongodb/models/addressModel";
 import { bookingModel } from "../../../database/mongodb/models/bookingModel";
 import { serviceModel } from "../../../database/mongodb/models/serviceModel";
 import { userModel } from "../../../database/mongodb/models/userModel";
 import { workerExtraInfoModel } from "../../../database/mongodb/models/workerExtraInfoModel";
 import { workerModel } from "../../../database/mongodb/models/workerModel";
+import { AddressRepository } from "../../../database/mongodb/repository/addessRepository";
 import { BookingRepository } from "../../../database/mongodb/repository/bookingRepository";
 import { ServiceRepository } from "../../../database/mongodb/repository/serviceRepository";
 import { UserRepository } from "../../../database/mongodb/repository/userRepository";
@@ -17,9 +19,10 @@ const userRepository = new UserRepository(userModel);
 const serviceRepository = new ServiceRepository(serviceModel);
 const bookingRepository = new BookingRepository(bookingModel);
 const workerRepository = new WorkerRepository(workerModel,workerExtraInfoModel);
+const addressRepository = new AddressRepository(addressModel);
 const emailService = new EmailService();
 const stripePayment = new StripePaymentIntegration();
 const otpService = new OTPService();
-const bookingUseCase = new BookingUseCase(userRepository, workerRepository, serviceRepository, bookingRepository, emailService, stripePayment, otpService);
+const bookingUseCase = new BookingUseCase(userRepository, workerRepository, serviceRepository, bookingRepository,addressRepository, emailService, stripePayment, otpService);
 
 export const BookingAdapters = new BookingAdapter(bookingUseCase); 

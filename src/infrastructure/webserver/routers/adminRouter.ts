@@ -104,6 +104,7 @@ router.get(
 router.put(
     "/service/edit",
     authentication.protectAdmin,
+    upload.fields([{name:'icon',maxCount:1},{name:'image',maxCount:1}]),
     (req: Request, res: Response, next: NextFunction) => {
         serviceAdapter.editService(req, res, next);
     });

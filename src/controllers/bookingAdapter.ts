@@ -85,8 +85,10 @@ export class BookingAdapter{
             const workStatus:{[key:string]:any} = {$in:['Pending']};
             const paymentStatus:{[key:string]:any} = {$in:['Pending']};
             const page = parseInt(req.query.page as string) || 1;
+            const latitude = parseFloat(req.query.lat as string);
+            const longitude = parseFloat(req.query.lon as string);
             const pageSize = parseInt(req.query.pageSize as string) || Number.MAX_VALUE
-            const bookings = await this._bookingUseCase.viewWorkerSpecificBooking(workerId!,workStatus, paymentStatus, page, pageSize);
+            const bookings = await this._bookingUseCase.getNearbyBookings(workerId!,workStatus, paymentStatus, latitude, longitude, page, pageSize);
             res.status(bookings.statusCode).json({
                 success:bookings.success,
                 message:bookings.message,

@@ -246,6 +246,7 @@ router.post(
     '/payment',
     authentication.protectUser,
     (req:Request, res:Response, next:NextFunction) => {
+        console.log("Payment Route Reached")
         BookingAdapters.payment(req, res, next)
     }
 );

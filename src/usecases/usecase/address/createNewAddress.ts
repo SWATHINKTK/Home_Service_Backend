@@ -16,7 +16,7 @@ export const createNewAddress = async(newAddress:IAddress, userId:string, addres
         return {
             statusCode:200,
             success:true,
-            message:addNew
+            data:addNew
         }
     } catch (error) {
         throw error;

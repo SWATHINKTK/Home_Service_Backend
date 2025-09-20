@@ -23,7 +23,7 @@ export const findAllBooking = async function* (page:number, pageLength:number, q
             totalDocuments:totalBookings
         };
     } catch (error) {
-        console.log(error)
+        console.log("findBooking Error",error)
         throw new DBConnectionError();
     }
 }

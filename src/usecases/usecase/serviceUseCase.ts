@@ -61,8 +61,11 @@ export class ServiceUseCase {
      * 
      * @returns A promise resolving to Modifying the service data.
      */
-    async editService({ _id, serviceName, minimumAmount, hourlyAmount, serviceDescription }: IService & { _id:string}) {
-       return editService(_id, serviceName, minimumAmount, hourlyAmount, serviceDescription, this._serviceRepository);
+    async editService({ _id, serviceName, minimumAmount, hourlyAmount, serviceDescription, icon, image }: IService & { _id:string}, files: { [fieldname: string]: Express.Multer.File[]; }) {
+        const serviceIcon = (files?.['icon']?.[0] as any)?.location ?? icon;
+        const serviceImage = (files?.['image']?.[0] as any)?.location ?? image;
+        console.log("Service Usecase Files",serviceIcon, serviceImage)
+       return editService(_id, serviceName, minimumAmount, hourlyAmount, serviceDescription, serviceIcon, serviceImage, this._serviceRepository);
     }
 
 

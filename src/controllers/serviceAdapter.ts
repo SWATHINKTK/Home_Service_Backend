@@ -85,7 +85,9 @@ export class ServiceAdapter{
      */
     async editService(req: Req, res: Res, next: Next) {
         try {
-            const services = await this._serviceUseCase.editService(req.body);
+            const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+            console.log("service Edit files", files)
+            const services = await this._serviceUseCase.editService(req.body, files);
             res.status(services.statusCode).json({
                 success: services.success,
                 message: services.message,
